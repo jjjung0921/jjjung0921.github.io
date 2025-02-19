@@ -1,7 +1,7 @@
 ---
-title: Javascript
+title: JavaScript
 date: 2025-01-01
-categories: [Language, Javascript]
+categories: [Language, Javascript, 멋사 부록]
 tags: [javascript, interpreter, 인터프리터]
 ---
 
@@ -21,8 +21,12 @@ tags: [javascript, interpreter, 인터프리터]
 
 위의 과정에서 브라우징의 중요한 특징이 등장한다.
 
-1. **어떤 대상과 상호작용하는 지 알 수 없다.**
+1. **어떤 대상과 상호작용하는지 알 수 없다.**
 2. **즉각적인 상호작용이 가능해야 한다.**
+3. **객체(DOM, CSSOM)를 효율적으로 다룰 수 있어야 한다.**
+4. **비교적 성능이 좋지 않은 브라우저 환경에서 원활하게 동작할 수 있어야 한다.**
+
+아래 등장하는 두 개념들은 위 4가지 문제들을 해결하는 좋은 해결책이 되었다.
 
 ## 프로토타입
 <hr>
@@ -32,11 +36,12 @@ MDN에서 Javascript는 프로토타입 기반의 언어[^1]라고 한다. 그�
 
 <script src="https://gist.github.com/jjjung0921/40f56dd791eae92ee59c72842a0da1b6.js"></script>
 
-위 코드를 확인하면 두 객체 모두 **같은 HTMLHeadingElement 프로토타입 객체**를 참조하고 있음을 알 수 있다.
+위 코드를 확인하면 두 객체 모두 **같은 HTMLHeadingElement 프로토타입**을 참조하고 있음을 알 수 있다.<br/>
+이제 Javascript에서 f_proto의 disable 속성만 변경시켜보자.
 
 <script src="https://gist.github.com/jjjung0921/c40d7d3560102c13df710dc89064de27.js"></script>
 
-두 button 요소는 같은 프로토타입 객체를 참조하기에 하나의 프로토타입의 속성만 변경해도 둘 모두의 속성이 변경된다.
+두 button 요소는 **같은 프로토타입을 참조**하기에 하나의 프로토타입의 속성만 변경해도 둘 모두의 속성이 변경된다.
 
 
 ## 인터프리터
