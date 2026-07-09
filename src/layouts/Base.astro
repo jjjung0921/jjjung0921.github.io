@@ -1,0 +1,51 @@
+---
+import '../styles/global.css';
+import '../styles/shell.css';
+import Sidebar from '../components/layout/Sidebar.astro';
+
+interface Props {
+  title: string;
+  description?: string;
+  page: 'home' | 'about' | 'notes' | 'projects' | 'lab' | 'cv';
+  lang?: 'ko' | 'en';
+  alternatePath?: string;
+}
+
+const {
+  title,
+  description = 'A quiet lab-log portfolio for AI, games, optimization, and computational systems.',
+  page,
+  lang = 'ko',
+  alternatePath,
+} = Astro.props;
+
+const siteTitle = lang === 'ko' ? 'Bit City Lab' : 'Bit City Lab';
+const documentTitle = title === siteTitle ? siteTitle : `${title} | ${siteTitle}`;
+---
+
+<!doctype html>
+<html lang={lang}>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content={description} />
+    <script is:inline>
+      (() => {
+        const stored = localStorage.getItem('portfolio-theme');
+        const theme = stored || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+        document.documentElement.dataset.theme = theme;
+      })();
+    </script>
+    <title>{documentTitle}</title>
+  </head>
+  <body>
+    <div class="app-shell">
+      <Sidebar page={page} lang={lang} alternatePath={alternatePath} />
+      <main class="main">
+        <div class="content-frame">
+          <slot />
+        </div>
+      </main>
+    </div>
+  </body>
+</html>

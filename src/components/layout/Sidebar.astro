@@ -1,0 +1,67 @@
+---
+import { siteConfig } from '../../siteConfig';
+import Icon from '../ui/Icon.astro';
+import ThemeToggle from '../ui/ThemeToggle.astro';
+
+interface Props {
+  page: 'home' | 'about' | 'notes' | 'projects' | 'lab' | 'cv';
+  lang: 'ko' | 'en';
+  alternatePath?: string;
+}
+
+const { page, lang, alternatePath } = Astro.props;
+
+const prefix = lang === 'en' ? '/en' : '';
+const labels = {
+  home: lang === 'ko' ? '홈' : 'Home',
+  about: lang === 'ko' ? '소개' : 'About',
+  notes: lang === 'ko' ? '노트' : 'Notes',
+  projects: lang === 'ko' ? '프로젝트' : 'Projects',
+  lab: lang === 'ko' ? '실험실' : 'Lab',
+  cv: 'CV',
+};
+
+const navItems = [
+  { id: 'home', href: `${prefix}/`, icon: 'terminal' },
+  { id: 'about', href: `${prefix}/about/`, icon: 'map' },
+  { id: 'notes', href: `${prefix}/notes/`, icon: 'book' },
+  { id: 'projects', href: `${prefix}/projects/`, icon: 'layers' },
+  { id: 'lab', href: `${prefix}/lab/`, icon: 'flask' },
+  { id: 'cv', href: `${prefix}/cv/`, icon: 'file' },
+] as const;
+
+const koPath = lang === 'ko' ? Astro.url.pathname : (alternatePath ?? '/');
+const enPath = lang === 'en' ? Astro.url.pathname : (alternatePath ?? '/en/');
+---
+
+<aside class="sidebar">
+  <a class="brand" href={prefix || '/'}>
+    <span class="brand-mark" aria-hidden="true"></span>
+    <span>Bit City Lab</span>
+  </a>
+
+  <nav aria-label={lang === 'ko' ? '주요 탐색' : 'Primary navigation'}>
+    <ul class="nav-list">
+      {navItems.map((item) => (
+        <li>
+          <a class="nav-item" href={item.href} aria-current={page === item.id ? 'page' : undefined}>
+            <Icon name={item.icon} />
+            <span>{labels[item.id]}</span>
+          </a>
+        </li>
+      ))}
+    </ul>
+  </nav>
+
+  <div class="sidebar-footer">
+    <div class="language-links" aria-label={lang === 'ko' ? '언어 선택' : 'Language selection'}>
+      <a href={koPath} aria-current={lang === 'ko' ? 'true' : undefined}>KO</a>
+      <a href={enPath} aria-current={lang === 'en' ? 'true' : undefined}>EN</a>
+    </div>
+    <div class="utility-row">
+      <a class="icon-button" href={siteConfig.githubUrl} aria-label="GitHub"><Icon name="github" /></a>
+      <a class="icon-button" href={`mailto:${siteConfig.email}`} aria-label="Email"><Icon name="mail" /></a>
+      <ThemeToggle lang={lang} />
+    </div>
+  </div>
+</aside>

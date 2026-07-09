@@ -1,0 +1,18 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import PageHeader from '../../components/ui/PageHeader.astro';
+import ProjectCard from '../../components/project/ProjectCard.astro';
+import { filterByLang } from '../../lib/content/collections';
+
+const projects = filterByLang(await getCollection('projects'), 'ko');
+---
+
+<Base title="프로젝트" page="projects" lang="ko" alternatePath="/en/projects/">
+  <div class="page-stack">
+    <PageHeader eyebrow="Projects" title="프로젝트" lede="구조적 실험 및 시스템 설계." />
+    <section class="card-list">
+      {projects.map((project) => <ProjectCard project={project} />)}
+    </section>
+  </div>
+</Base>

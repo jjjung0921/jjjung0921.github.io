@@ -1,0 +1,32 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import CVActions from '../../components/cv/CVActions.astro';
+
+const cv = (await getCollection('cv')).find((entry) => entry.data.lang === 'en');
+if (!cv) {
+  throw new Error('Missing English CV content entry');
+}
+const { Content } = await cv.render();
+---
+
+<Base title="CV" page="cv" lang="en" alternatePath="/cv/">
+  <article class="page-stack">
+    <header class="page-header cv-header">
+      <div>
+        <p class="eyebrow">CV</p>
+        <h1 class="page-title">{cv.data.title}</h1>
+        <p class="lede">{cv.data.summary}</p>
+        <div class="metadata">
+          <span>Updated {cv.data.updated.toISOString().slice(0, 10)}</span>
+        </div>
+      </div>
+      <CVActions lang="en" />
+    </header>
+    <div class="card">
+      <div class="prose">
+        <Content />
+      </div>
+    </div>
+  </article>
+</Base>

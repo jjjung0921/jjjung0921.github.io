@@ -1,0 +1,30 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import PageHeader from '../../components/ui/PageHeader.astro';
+import BadgeList from '../../components/ui/BadgeList.astro';
+import ContentCard from '../../components/ui/ContentCard.astro';
+import { filterByLang, getEntryPath } from '../../lib/content/collections';
+
+const labEntries = filterByLang(await getCollection('lab'), 'ko');
+---
+
+<Base title="실험실" page="lab" lang="ko" alternatePath="/en/lab/">
+  <div class="page-stack">
+    <PageHeader eyebrow="Lab" title="실험실" lede="상호작용형 장난감 실험 및 시각화." />
+    <section class="card-list">
+      {labEntries.map((entry) => (
+        <ContentCard href={getEntryPath('lab', entry)}>
+          <div class="metadata">
+            <span>{entry.data.tier}</span>
+            <span>{entry.data.status}</span>
+            <span>{entry.data.runtime}</span>
+          </div>
+          <h2>{entry.data.title}</h2>
+          <p>{entry.data.question}</p>
+          <BadgeList items={entry.data.tags} />
+        </ContentCard>
+      ))}
+    </section>
+  </div>
+</Base>

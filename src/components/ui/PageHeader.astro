@@ -1,0 +1,16 @@
+---
+interface Props {
+  eyebrow?: string;
+  title: string;
+  lede?: string;
+  variant?: 'page' | 'hero';
+}
+
+const { eyebrow, title, lede, variant = 'page' } = Astro.props;
+---
+
+<header class="page-header">
+  {eyebrow && <p class="eyebrow">{eyebrow}</p>}
+  <h1 class={variant === 'hero' ? 'hero-title' : 'page-title'}>{title}</h1>
+  {lede && <p class="lede">{lede}</p>}
+</header>

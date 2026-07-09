@@ -1,0 +1,90 @@
+---
+const lang = Astro.props.lang ?? 'ko';
+const labels = {
+  title: lang === 'ko' ? 'Upper lambda' : 'Upper lambda',
+  difficulty: lang === 'ko' ? '난이도' : 'Difficulty',
+  response: lang === 'ko' ? 'Lower level response x*(lambda)' : 'Lower level response x*(lambda)',
+  idle: lang === 'ko' ? '대기' : 'Idle',
+  max: lang === 'ko' ? '최대 노력' : 'Max effort',
+  question: lang === 'ko' ? '질문' : 'Question',
+  output: lang === 'ko' ? '출력' : 'Output',
+  interpretation: lang === 'ko' ? '해석' : 'Interpretation',
+  questionText:
+    lang === 'ko'
+      ? '난이도 파라미터를 설정하는 것이 합리적인 에이전트의 응답을 어떻게 제약할까요?'
+      : "How does setting a difficulty parameter constrain a rational agent's response?",
+  interpretationText:
+    lang === 'ko'
+      ? 'lambda를 너무 높게 밀어붙이면 하위 레벨에서 더 많은 노력을 끌어내지만, 상위 목표에는 2차 비용이 발생합니다.'
+      : 'Pushing lambda too high extracts more effort from the lower level, but adds a quadratic cost to the upper objective.',
+};
+---
+
+<div class="lab-layout" data-bilevel-demo>
+  <div class="lab-demo-frame">
+    <div class="lab-control-stack">
+      <label class="lab-control-label">
+        <span>{labels.title} ({labels.difficulty})</span>
+        <span class="metric-pill" data-lambda-value>0.50</span>
+      </label>
+      <input class="lab-range" data-lambda-input type="range" min="0" max="1" step="0.01" value="0.5" />
+
+      <div class="signal-line" aria-hidden="true"></div>
+
+      <div class="response-card">
+        <div class="eyebrow">{labels.response}</div>
+        <div class="response-track" aria-hidden="true">
+          <span class="response-fill" data-response-fill></span>
+        </div>
+        <div class="metadata">
+          <span>{labels.idle}</span>
+          <span>{labels.max}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <aside class="lab-side-panel">
+    <section class="card">
+      <p class="eyebrow">{labels.question}</p>
+      <p>{labels.questionText}</p>
+    </section>
+    <section class="card">
+      <p class="eyebrow">{labels.output}</p>
+      <p>F: <span class="metric-pill" data-upper-objective>-1.88</span></p>
+      <p>x*: <span class="metric-pill" data-lower-optimum>5.00</span></p>
+    </section>
+    <section class="card">
+      <p class="eyebrow">{labels.interpretation}</p>
+      <p>{labels.interpretationText}</p>
+    </section>
+  </aside>
+</div>
+
+<script>
+  const evaluateToy = (lambda) => {
+    const lowerOptimum = lambda * 10;
+    const upperObjective = -lowerOptimum + 0.5 * (lambda * 5) ** 2;
+    return { lowerOptimum, upperObjective };
+  };
+
+  document.querySelectorAll('[data-bilevel-demo]').forEach((demo) => {
+    const input = demo.querySelector('[data-lambda-input]');
+    const lambdaValue = demo.querySelector('[data-lambda-value]');
+    const fill = demo.querySelector('[data-response-fill]');
+    const lower = demo.querySelector('[data-lower-optimum]');
+    const upper = demo.querySelector('[data-upper-objective]');
+
+    const render = () => {
+      const lambda = Number(input.value);
+      const result = evaluateToy(lambda);
+      lambdaValue.textContent = lambda.toFixed(2);
+      lower.textContent = result.lowerOptimum.toFixed(2);
+      upper.textContent = result.upperObjective.toFixed(2);
+      fill.style.width = `${result.lowerOptimum * 10}%`;
+    };
+
+    input.addEventListener('input', render);
+    render();
+  });
+</script>

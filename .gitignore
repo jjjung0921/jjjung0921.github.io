@@ -1,0 +1,26 @@
+node_modules/
+build/
+dist/
+.astro/
+coverage/
+.DS_Store
+*.log
+.env*
+!.env.example
+
+# Prototype/reference app artifacts
+prototype/
+src/prototype/
+dist-prototype/
+index.html
+metadata.json
+vite.config.ts
+src/App.tsx
+src/main.tsx
+src/index.css
+src/data.ts
+src/types.ts
+src/vite-env.d.ts
+src/components/Layout.tsx
+src/components/MarkdownContent.tsx
+src/context/

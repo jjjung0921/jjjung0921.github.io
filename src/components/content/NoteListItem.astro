@@ -1,0 +1,25 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import BadgeList from '../ui/BadgeList.astro';
+import { getEntryPath } from '../../lib/content/collections';
+
+interface Props {
+  note: CollectionEntry<'notes'>;
+}
+
+const { note } = Astro.props;
+---
+
+<a class="card interactive-card note-list-item" href={getEntryPath('notes', note)}>
+  <div>
+    <div class="metadata">
+      <span>{note.data.date.toISOString().slice(0, 10)}</span>
+      <span>{note.data.category}</span>
+      <span>{note.data.status}</span>
+    </div>
+    <h2>{note.data.title}</h2>
+    <p>{note.data.summary}</p>
+    <BadgeList items={note.data.tags} />
+  </div>
+  <span class="arrow-affordance" aria-hidden="true">→</span>
+</a>

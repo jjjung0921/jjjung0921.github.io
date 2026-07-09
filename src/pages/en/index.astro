@@ -1,0 +1,56 @@
+---
+import Base from '../../layouts/Base.astro';
+import PageHeader from '../../components/ui/PageHeader.astro';
+import Icon from '../../components/ui/Icon.astro';
+---
+
+<Base
+  title="Bit City Lab"
+  page="home"
+  lang="en"
+  alternatePath="/"
+  description="A personal research interface for AI, games, optimization, and computational systems."
+>
+  <div class="page-stack">
+    <PageHeader
+      eyebrow="Portfolio"
+      title="Bit City Lab"
+      lede="A personal research interface for AI, games, optimization, and computational systems."
+      variant="hero"
+    />
+
+    <section class="quote-panel">
+      <p class="lede">
+        I view computation as a city built on memory and bits. I study how data, models,
+        agents, players, and systems interact through objectives, constraints, and feedback loops.
+      </p>
+      <div class="button-row">
+        <a class="button primary" href="/en/cv/">View CV</a>
+        <a class="button secondary" href="/en/projects/">Explore Projects</a>
+        <a class="button secondary" href="/en/lab/">Enter Lab</a>
+        <a class="button secondary" href="/en/notes/">Read Notes</a>
+      </div>
+    </section>
+
+    <section class="identity-grid" aria-label="Identity snapshot">
+      <article class="identity-item">
+        <span class="icon-tile"><Icon name="network" size={22} /></span>
+        <p class="eyebrow">Structure</p>
+        <h2>Structural Thinking</h2>
+        <p>I connect implementation to research questions and understand systems through objectives and constraints.</p>
+      </article>
+      <article class="identity-item">
+        <span class="icon-tile"><Icon name="cpu" size={22} /></span>
+        <p class="eyebrow">Optimization</p>
+        <h2>Optimization-Minded</h2>
+        <p>I care about how objectives, constraints, and feedback shape intelligent behavior.</p>
+      </article>
+      <article class="identity-item">
+        <span class="icon-tile"><Icon name="box" size={22} /></span>
+        <p class="eyebrow">Experiment</p>
+        <h2>Experimental Design</h2>
+        <p>I aim to turn paper ideas into runnable artifacts and measurable evaluation plans.</p>
+      </article>
+    </section>
+  </div>
+</Base>

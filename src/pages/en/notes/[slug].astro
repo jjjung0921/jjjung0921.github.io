@@ -1,0 +1,36 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../../../layouts/Base.astro';
+import BadgeList from '../../../components/ui/BadgeList.astro';
+import { getSlugWithoutLangPrefix } from '../../../lib/content/collections';
+
+export async function getStaticPaths() {
+  const notes = (await getCollection('notes')).filter((note) => note.data.lang === 'en');
+  return notes.map((note) => ({
+    params: { slug: getSlugWithoutLangPrefix(note.slug) },
+    props: { note },
+  }));
+}
+
+const { note } = Astro.props;
+const { Content } = await note.render();
+const slug = getSlugWithoutLangPrefix(note.slug);
+---
+
+<Base title={note.data.title} page="notes" lang="en" alternatePath={`/notes/${slug}/`}>
+  <article class="page-stack">
+    <header class="page-header">
+      <div class="metadata">
+        <span>{note.data.date.toISOString().slice(0, 10)}</span>
+        <span>{note.data.category}</span>
+        <span>{note.data.status}</span>
+      </div>
+      <h1 class="page-title">{note.data.title}</h1>
+      <p class="lede">{note.data.summary}</p>
+      <BadgeList items={note.data.tags} />
+    </header>
+    <div class="prose">
+      <Content />
+    </div>
+  </article>
+</Base>

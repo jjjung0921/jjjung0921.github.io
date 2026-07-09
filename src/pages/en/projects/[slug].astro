@@ -1,0 +1,64 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../../../layouts/Base.astro';
+import BadgeList from '../../../components/ui/BadgeList.astro';
+import { getSlugWithoutLangPrefix } from '../../../lib/content/collections';
+
+export async function getStaticPaths() {
+  const projects = (await getCollection('projects')).filter((project) => project.data.lang === 'en');
+  return projects.map((project) => ({
+    params: { slug: getSlugWithoutLangPrefix(project.slug) },
+    props: { project },
+  }));
+}
+
+const { project } = Astro.props;
+const { Content } = await project.render();
+const slug = getSlugWithoutLangPrefix(project.slug);
+---
+
+<Base title={project.data.title} page="projects" lang="en" alternatePath={`/projects/${slug}/`}>
+  <article class="page-stack">
+    <header class="page-header">
+      <div class="metadata">
+        <span>{project.data.status}</span>
+        <span>{project.data.role}</span>
+        {project.data.timeRange && <span>{project.data.timeRange}</span>}
+      </div>
+      <h1 class="page-title">{project.data.title}</h1>
+      <p class="lede">{project.data.problem}</p>
+      <BadgeList items={[...project.data.tags, ...project.data.stack]} />
+    </header>
+
+    <section class="card project-card">
+      <div class="project-detail-grid">
+        <div class="metadata-block">
+          <h3>Constraint</h3>
+          <p>{project.data.constraint}</p>
+        </div>
+        <div class="metadata-block">
+          <h3>Architecture</h3>
+          <p>{project.data.architecture}</p>
+        </div>
+        <div class="metadata-block">
+          <h3>Experiment</h3>
+          <p>{project.data.experiment}</p>
+        </div>
+        <div class="metadata-block">
+          <h3>Technical Core</h3>
+          <ul>
+            {project.data.technicalCore.map((item) => <li>{item}</li>)}
+          </ul>
+        </div>
+      </div>
+      <div class="metadata-block">
+        <h3>Research Relevance</h3>
+        <p>{project.data.researchRelevance}</p>
+      </div>
+    </section>
+
+    <div class="prose">
+      <Content />
+    </div>
+  </article>
+</Base>

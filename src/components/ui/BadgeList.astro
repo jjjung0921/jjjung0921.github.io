@@ -1,0 +1,13 @@
+---
+interface Props {
+  items: string[];
+}
+
+const { items } = Astro.props;
+---
+
+{items.length > 0 && (
+  <div class="badge-list">
+    {items.map((item) => <span class="badge">{item}</span>)}
+  </div>
+)}

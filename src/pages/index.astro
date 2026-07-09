@@ -1,0 +1,71 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHeader from '../components/ui/PageHeader.astro';
+import Icon from '../components/ui/Icon.astro';
+---
+
+<Base
+  title="Bit City Lab"
+  page="home"
+  lang="ko"
+  alternatePath="/en/"
+  description="AI, 게임, 최적화 및 컴퓨팅 시스템을 위한 개인 연구 인터페이스입니다."
+>
+  <div class="page-stack">
+    <PageHeader
+      eyebrow="Portfolio"
+      title="Bit City Lab"
+      lede="AI, 게임, 최적화 및 컴퓨팅 시스템을 위한 개인 연구 인터페이스입니다."
+      variant="hero"
+    />
+
+    <section class="quote-panel">
+      <p class="lede">
+        저는 컴퓨팅을 메모리와 비트 위에 지어진 도시로 봅니다. 데이터, 모델, 에이전트,
+        플레이어, 그리고 시스템이 목표, 제약, 피드백 루프를 통해 어떻게 상호작용하는지 연구합니다.
+      </p>
+      <div class="button-row">
+        <a class="button primary" href="/cv/">이력서 보기</a>
+        <a class="button secondary" href="/projects/">프로젝트 탐색</a>
+        <a class="button secondary" href="/lab/">실험실 입장</a>
+        <a class="button secondary" href="/notes/">노트 읽기</a>
+      </div>
+    </section>
+
+    <section class="identity-grid" aria-label="Identity snapshot">
+      <article class="identity-item">
+        <span class="icon-tile"><Icon name="network" size={22} /></span>
+        <p class="eyebrow">Structure</p>
+        <h2>구조적 사고</h2>
+        <p>구현을 연구 질문과 직접 연결하며, 시스템을 목표와 제약의 구조로 이해합니다.</p>
+      </article>
+      <article class="identity-item">
+        <span class="icon-tile"><Icon name="cpu" size={22} /></span>
+        <p class="eyebrow">Optimization</p>
+        <h2>최적화 관점</h2>
+        <p>모델 사용을 넘어 목표, 제약, 피드백이 행동을 어떻게 형성하는지에 관심을 둡니다.</p>
+      </article>
+      <article class="identity-item">
+        <span class="icon-tile"><Icon name="box" size={22} /></span>
+        <p class="eyebrow">Experiment</p>
+        <h2>실험 설계</h2>
+        <p>논문 아이디어를 구현 가능한 실험과 평가 지표로 바꾸는 것을 목표로 합니다.</p>
+      </article>
+    </section>
+
+    <section class="card">
+      <p class="eyebrow">Current research direction</p>
+      <h2 class="section-title">이중 최적화로서의 동적 난이도 조절</h2>
+      <p>
+        상위 레벨에서는 시스템이 난이도 파라미터, 보상 가중치, 환경 설정 또는 상대 정책을 선택하고,
+        하위 레벨에서는 플레이어나 에이전트가 행동 적응으로 반응합니다.
+      </p>
+      <div class="equation-card" aria-label="Bi-level objective">
+        <div class="equation-label">minimize over <span class="symbol-accent">lambda in Lambda</span>:</div>
+        <div class="equation-line">F(<span class="symbol-accent">lambda</span>, <span class="symbol-warm">x*(lambda)</span>)</div>
+        <div class="equation-label">subject to:</div>
+        <div class="equation-line"><span class="symbol-warm">x*(lambda)</span> in argmin over x in X f(x, <span class="symbol-accent">lambda</span>)</div>
+      </div>
+    </section>
+  </div>
+</Base>

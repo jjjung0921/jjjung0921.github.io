@@ -1,0 +1,62 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import BadgeList from '../ui/BadgeList.astro';
+import { getEntryPath } from '../../lib/content/collections';
+
+interface Props {
+  project: CollectionEntry<'projects'>;
+}
+
+const { project } = Astro.props;
+const links = [
+  project.data.repository && { label: 'GitHub', url: project.data.repository },
+  project.data.demoUrl && { label: 'Demo', url: project.data.demoUrl },
+  project.data.reportUrl && { label: 'Report', url: project.data.reportUrl },
+  ...(project.data.links ?? []),
+].filter(Boolean) as { label: string; url: string }[];
+---
+
+<article class="card interactive-card project-card">
+  <BadgeList items={project.data.tags} />
+  <div>
+    <div class="metadata">
+      <span>{project.data.status}</span>
+      <span>{project.data.role}</span>
+      {project.data.timeRange && <span>{project.data.timeRange}</span>}
+    </div>
+    <h2><a href={getEntryPath('projects', project)}>{project.data.title}</a></h2>
+    <p class="lede">{project.data.problem}</p>
+  </div>
+
+  <div class="project-detail-grid">
+    <div class="metadata-block">
+      <h3>{project.data.lang === 'ko' ? '제약 사항' : 'Constraint'}</h3>
+      <p>{project.data.constraint}</p>
+    </div>
+    <div class="metadata-block">
+      <h3>{project.data.lang === 'ko' ? '아키텍처' : 'Architecture'}</h3>
+      <p>{project.data.architecture}</p>
+    </div>
+    <div class="metadata-block">
+      <h3>{project.data.lang === 'ko' ? '실험' : 'Experiment'}</h3>
+      <p>{project.data.experiment}</p>
+    </div>
+    <div class="metadata-block">
+      <h3>{project.data.lang === 'ko' ? '기술적 핵심' : 'Technical Core'}</h3>
+      <ul>
+        {project.data.technicalCore.map((item) => <li>{item}</li>)}
+      </ul>
+    </div>
+  </div>
+
+  <div class="metadata-block">
+    <h3>{project.data.lang === 'ko' ? '연구 관련성' : 'Research Relevance'}</h3>
+    <p>{project.data.researchRelevance}</p>
+  </div>
+
+  {links.length > 0 && (
+    <div class="link-cluster">
+      {links.map((link) => <a href={link.url}>{link.label} →</a>)}
+    </div>
+  )}
+</article>

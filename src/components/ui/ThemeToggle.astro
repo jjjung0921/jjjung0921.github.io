@@ -1,0 +1,39 @@
+---
+import Icon from './Icon.astro';
+
+const label = Astro.props.lang === 'en' ? 'Toggle theme' : '테마 전환';
+---
+
+<button class="icon-button" type="button" data-theme-toggle aria-label={label} title={label}>
+  <span data-theme-icon="moon"><Icon name="moon" /></span>
+  <span data-theme-icon="sun" hidden><Icon name="sun" /></span>
+</button>
+
+<script>
+  const root = document.documentElement;
+  const storageKey = 'portfolio-theme';
+  const getPreferredTheme = () => {
+    const stored = localStorage.getItem(storageKey);
+    if (stored === 'dark' || stored === 'light') return stored;
+    return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+  };
+  const applyTheme = (theme) => {
+    root.dataset.theme = theme;
+    document.querySelectorAll('[data-theme-icon="moon"]').forEach((icon) => {
+      icon.hidden = theme === 'dark';
+    });
+    document.querySelectorAll('[data-theme-icon="sun"]').forEach((icon) => {
+      icon.hidden = theme !== 'dark';
+    });
+  };
+
+  applyTheme(getPreferredTheme());
+
+  document.querySelectorAll('[data-theme-toggle]').forEach((button) => {
+    button.addEventListener('click', () => {
+      const next = root.dataset.theme === 'dark' ? 'light' : 'dark';
+      localStorage.setItem(storageKey, next);
+      applyTheme(next);
+    });
+  });
+</script>

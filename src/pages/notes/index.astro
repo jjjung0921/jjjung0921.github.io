@@ -1,0 +1,18 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import PageHeader from '../../components/ui/PageHeader.astro';
+import NoteListItem from '../../components/content/NoteListItem.astro';
+import { filterByLang, sortByDateDesc } from '../../lib/content/collections';
+
+const notes = sortByDateDesc(filterByLang(await getCollection('notes'), 'ko'));
+---
+
+<Base title="노트" page="notes" lang="ko" alternatePath="/en/notes/">
+  <div class="page-stack">
+    <PageHeader eyebrow="Notes" title="노트 및 지식 맵" lede="주제 요약보다 문제 정의를 강조합니다." />
+    <section class="card-list">
+      {notes.map((note) => <NoteListItem note={note} />)}
+    </section>
+  </div>
+</Base>

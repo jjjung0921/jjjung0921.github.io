@@ -1,0 +1,40 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import BadgeList from '../../components/ui/BadgeList.astro';
+import { getSlugWithoutLangPrefix } from '../../lib/content/collections';
+import BilevelToyDemo from '../../components/lab/BilevelToyDemo.astro';
+
+export async function getStaticPaths() {
+  const labEntries = (await getCollection('lab')).filter((entry) => entry.data.lang === 'ko');
+  return labEntries.map((entry) => ({
+    params: { slug: getSlugWithoutLangPrefix(entry.slug) },
+    props: { entry },
+  }));
+}
+
+const { entry } = Astro.props;
+const { Content } = await entry.render();
+const slug = getSlugWithoutLangPrefix(entry.slug);
+---
+
+<Base title={entry.data.title} page="lab" lang="ko" alternatePath={`/en/lab/${slug}/`}>
+  <article class="page-stack lab-detail-stack">
+    <header class="page-header">
+      <div class="metadata">
+        <span>{entry.data.tier}</span>
+        <span>{entry.data.status}</span>
+        <span>{entry.data.runtime}</span>
+      </div>
+      <h1 class="page-title">{entry.data.title}</h1>
+      <p class="lede">{entry.data.question}</p>
+      <BadgeList items={entry.data.tags} />
+    </header>
+
+    <BilevelToyDemo lang="ko" />
+
+    <div class="prose">
+      <Content />
+    </div>
+  </article>
+</Base>

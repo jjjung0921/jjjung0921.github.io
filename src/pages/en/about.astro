@@ -1,0 +1,43 @@
+---
+import Base from '../../layouts/Base.astro';
+import PageHeader from '../../components/ui/PageHeader.astro';
+---
+
+<Base title="About" page="about" lang="en" alternatePath="/about/">
+  <div class="page-stack">
+    <PageHeader eyebrow="About" title="About" lede="Identity, philosophy, and direction." />
+    <section class="article-section">
+      <h2>Identity</h2>
+      <p>
+        I am a Computer Science and Engineering student focused on optimization-minded AI systems.
+        I care about memory, representation, optimization, interaction, and feedback beneath applications.
+      </p>
+    </section>
+    <section class="article-section">
+      <h2>Philosophy of Computing</h2>
+      <blockquote class="quote-panel">
+        Everything that happens inside a computer can be understood as building a city on the land called memory,
+        using bits as bricks, where data communicates with other data.
+      </blockquote>
+      <p>
+        The Bit City metaphor helps me reason about data structures, APIs, agents, and policies as a city.
+        It is useful for explaining how upper-level decisions shape lower-level processes.
+      </p>
+    </section>
+    <section class="article-section">
+      <h2>Why Bi-level Optimization Matters</h2>
+      <p>
+        Many real-world systems are hierarchical. In games, a designer sets rules while the player searches for
+        a strategy. In NAS, architecture choice and weight optimization are nested. Understanding this structure
+        matters for adaptive intelligent systems.
+      </p>
+    </section>
+    <section class="article-section">
+      <h2>Connecting AI, Games, and Web Systems</h2>
+      <p>
+        Web systems provide interaction and deployment architecture, games provide stateful environments for
+        adaptation, and AI provides optimization engines and agents that inhabit those systems.
+      </p>
+    </section>
+  </div>
+</Base>

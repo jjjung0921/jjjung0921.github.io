@@ -1,0 +1,43 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHeader from '../components/ui/PageHeader.astro';
+---
+
+<Base title="소개" page="about" lang="ko" alternatePath="/en/about/">
+  <div class="page-stack">
+    <PageHeader eyebrow="About" title="소개" lede="정체성, 철학, 그리고 방향성." />
+    <section class="article-section">
+      <h2>정체성</h2>
+      <p>
+        저는 최적화 기반 AI 시스템 구축에 중점을 두는 컴퓨터공학도입니다. 단순히 애플리케이션을
+        만드는 것에 그치지 않고, 메모리, 표현, 최적화, 상호작용, 피드백의 구조에 관심이 있습니다.
+      </p>
+    </section>
+    <section class="article-section">
+      <h2>컴퓨팅 철학</h2>
+      <blockquote class="quote-panel">
+        컴퓨터 내부에서 일어나는 모든 일은 메모리라는 땅 위에 비트를 벽돌 삼아 데이터가 다른 데이터와
+        소통하는 도시를 건설하는 것으로 이해할 수 있습니다.
+      </blockquote>
+      <p>
+        Bit City 메타포는 데이터 구조, API, 에이전트, 정책을 하나의 도시처럼 이해하도록 돕습니다.
+        이 관점은 상위 레벨 결정이 하위 레벨 과정을 어떻게 형성하는지 설명하는 데 유용합니다.
+      </p>
+    </section>
+    <section class="article-section">
+      <h2>이중 최적화가 중요한 이유</h2>
+      <p>
+        현실 세계의 많은 시스템은 계층적입니다. 게임에서 디자이너는 규칙을 설정하고, 플레이어는
+        최적의 전략을 찾습니다. NAS에서도 구조 선택과 가중치 학습이 중첩됩니다. 이런 구조를 이해하는
+        것은 적응형 지능형 시스템을 설계하는 데 중요합니다.
+      </p>
+    </section>
+    <section class="article-section">
+      <h2>AI, 게임, 웹 시스템의 연결</h2>
+      <p>
+        웹 시스템은 상호작용 인터페이스와 배포 아키텍처를 제공하고, 게임은 적응과 몰입을 테스트하는
+        상태 공간을 제공합니다. AI는 그 안에서 작동하는 최적화 엔진과 에이전트를 제공합니다.
+      </p>
+    </section>
+  </div>
+</Base>
