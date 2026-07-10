@@ -3,15 +3,35 @@ import { getCollection } from 'astro:content';
 import Base from '../../../layouts/Base.astro';
 import PageHeader from '../../../components/ui/PageHeader.astro';
 import ProjectCard from '../../../components/project/ProjectCard.astro';
+import FilterControls from '../../../components/ui/FilterControls.astro';
 import { filterByLang } from '../../../lib/content/collections';
+import { makeFilterOptions } from '../../../lib/content/filters';
+import { makeStatusFilterOptions } from '../../../lib/content/status';
 
 const projects = filterByLang(await getCollection('projects'), 'en');
+const projectStatusOptions = makeStatusFilterOptions(
+  projects.map((project) => project.data.status),
+  'en',
+  ['active', 'concept', 'paused', 'done'],
+);
+const projectTagOptions = makeFilterOptions(projects.flatMap((project) => project.data.tags));
 ---
 
 <Base title="Projects" page="projects" lang="en" alternatePath="/projects/">
   <div class="page-stack">
     <PageHeader eyebrow="Projects" title="Projects" lede="Structured experiments and system designs." />
-    <section class="card-list">
+    <FilterControls
+      label="Projects filters"
+      scope="projects-index"
+      resultLabel="items"
+      resetLabel="Reset"
+      emptyText="No projects match the selected filters."
+      groups={[
+        { key: 'status', label: 'Status', allLabel: 'All', options: projectStatusOptions },
+        { key: 'tags', label: '#Tags', allLabel: 'All', options: projectTagOptions },
+      ]}
+    />
+    <section class="card-list" data-filter-list="projects-index">
       {projects.map((project) => <ProjectCard project={project} />)}
     </section>
   </div>

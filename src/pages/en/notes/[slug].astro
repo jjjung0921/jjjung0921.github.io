@@ -2,14 +2,11 @@
 import { getCollection } from 'astro:content';
 import Base from '../../../layouts/Base.astro';
 import BadgeList from '../../../components/ui/BadgeList.astro';
-import { getSlugWithoutLangPrefix } from '../../../lib/content/collections';
+import { getLocalizedStaticPaths, getSlugWithoutLangPrefix } from '../../../lib/content/collections';
+import { getStatusLabel, getStatusTone } from '../../../lib/content/status';
 
 export async function getStaticPaths() {
-  const notes = (await getCollection('notes')).filter((note) => note.data.lang === 'en');
-  return notes.map((note) => ({
-    params: { slug: getSlugWithoutLangPrefix(note.slug) },
-    props: { note },
-  }));
+  return getLocalizedStaticPaths(await getCollection('notes'), 'en', 'note');
 }
 
 const { note } = Astro.props;
@@ -23,7 +20,7 @@ const slug = getSlugWithoutLangPrefix(note.slug);
       <div class="metadata">
         <span>{note.data.date.toISOString().slice(0, 10)}</span>
         <span>{note.data.category}</span>
-        <span>{note.data.status}</span>
+        <span data-tone={getStatusTone(note.data.status)}>{getStatusLabel(note.data.status, note.data.lang)}</span>
       </div>
       <h1 class="page-title">{note.data.title}</h1>
       <p class="lede">{note.data.summary}</p>

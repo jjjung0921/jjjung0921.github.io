@@ -2,15 +2,12 @@
 import { getCollection } from 'astro:content';
 import Base from '../../layouts/Base.astro';
 import BadgeList from '../../components/ui/BadgeList.astro';
-import { getSlugWithoutLangPrefix } from '../../lib/content/collections';
+import { getLocalizedStaticPaths, getSlugWithoutLangPrefix } from '../../lib/content/collections';
 import BilevelToyDemo from '../../components/lab/BilevelToyDemo.astro';
+import { getStatusLabel, getStatusTone } from '../../lib/content/status';
 
 export async function getStaticPaths() {
-  const labEntries = (await getCollection('lab')).filter((entry) => entry.data.lang === 'ko');
-  return labEntries.map((entry) => ({
-    params: { slug: getSlugWithoutLangPrefix(entry.slug) },
-    props: { entry },
-  }));
+  return getLocalizedStaticPaths(await getCollection('lab'), 'ko', 'entry');
 }
 
 const { entry } = Astro.props;
@@ -23,7 +20,7 @@ const slug = getSlugWithoutLangPrefix(entry.slug);
     <header class="page-header">
       <div class="metadata">
         <span>{entry.data.tier}</span>
-        <span>{entry.data.status}</span>
+        <span data-tone={getStatusTone(entry.data.status)}>{getStatusLabel(entry.data.status, entry.data.lang)}</span>
         <span>{entry.data.runtime}</span>
       </div>
       <h1 class="page-title">{entry.data.title}</h1>

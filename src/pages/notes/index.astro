@@ -3,15 +3,35 @@ import { getCollection } from 'astro:content';
 import Base from '../../layouts/Base.astro';
 import PageHeader from '../../components/ui/PageHeader.astro';
 import NoteListItem from '../../components/content/NoteListItem.astro';
+import FilterControls from '../../components/ui/FilterControls.astro';
 import { filterByLang, sortByDateDesc } from '../../lib/content/collections';
+import { makeFilterOptions } from '../../lib/content/filters';
 
 const notes = sortByDateDesc(filterByLang(await getCollection('notes'), 'ko'));
+const noteTagOptions = makeFilterOptions(notes.flatMap((note) => note.data.tags));
 ---
 
 <Base title="노트" page="notes" lang="ko" alternatePath="/en/notes/">
   <div class="page-stack">
     <PageHeader eyebrow="Notes" title="노트 및 지식 맵" lede="주제 요약보다 문제 정의를 강조합니다." />
-    <section class="card-list">
+    <FilterControls
+      label="노트 필터"
+      scope="notes-index"
+      resultLabel="개"
+      resetLabel="초기화"
+      emptyText="조건에 맞는 노트가 없습니다."
+      groups={[
+        { key: 'tags', label: '#태그', allLabel: '전체', options: noteTagOptions },
+      ]}
+      sort={{
+        label: '날짜순',
+        options: [
+          { value: 'date:desc', label: '최신순' },
+          { value: 'date:asc', label: '오래된순' },
+        ],
+      }}
+    />
+    <section class="card-list" data-filter-list="notes-index">
       {notes.map((note) => <NoteListItem note={note} />)}
     </section>
   </div>

@@ -1,0 +1,210 @@
+---
+import type { FilterOption } from '../../lib/content/filters';
+
+interface FilterGroup {
+  key: string;
+  label: string;
+  allLabel: string;
+  options: FilterOption[];
+}
+
+interface SortOption {
+  value: string;
+  label: string;
+}
+
+interface Props {
+  label: string;
+  scope: string;
+  groups: FilterGroup[];
+  resultLabel: string;
+  resetLabel: string;
+  emptyText: string;
+  sort?: {
+    label: string;
+    options: SortOption[];
+  };
+}
+
+const { label, scope, groups, resultLabel, resetLabel, emptyText, sort } = Astro.props;
+---
+
+<section
+  class="filter-panel"
+  data-filter-controls
+  data-filter-scope={scope}
+  data-filter-result-label={resultLabel}
+  aria-label={label}
+>
+  <div class="filter-panel-toolbar">
+    <p class="filter-summary" data-filter-result aria-live="polite"></p>
+    <button class="filter-reset" type="button" data-filter-reset disabled>{resetLabel}</button>
+  </div>
+
+  <div class="filter-panel-main">
+    {groups.map((group) => (
+      <div class="filter-group" role="group" aria-label={group.label} data-filter-group={group.key}>
+        <span class="filter-label">{group.label}</span>
+        <div class="filter-options">
+          <button class="filter-chip" type="button" data-filter-key={group.key} data-filter-value="all" aria-pressed="true">
+            {group.allLabel}
+          </button>
+          {group.options.map((option) => (
+            <button
+              class="filter-chip"
+              type="button"
+              data-filter-key={group.key}
+              data-filter-value={option.value}
+              data-tone={option.tone}
+              aria-pressed="false"
+            >
+              {option.label}
+            </button>
+          ))}
+        </div>
+      </div>
+    ))}
+
+    {sort && (
+      <div class="filter-group filter-sort" data-filter-sort-group>
+        <span class="filter-label">{sort.label}</span>
+        <div class="filter-options filter-sort-options" role="group" aria-label={sort.label}>
+          {sort.options.map((option, index) => (
+            <button
+              class="filter-chip"
+              type="button"
+              data-filter-sort-option
+              data-filter-sort-value={option.value}
+              aria-pressed={String(index === 0)}
+            >
+              {option.label}
+            </button>
+          ))}
+        </div>
+      </div>
+    )}
+  </div>
+
+  <p class="filter-empty" data-filter-empty-message hidden>{emptyText}</p>
+</section>
+
+<script>
+  function setupFilterControls(root) {
+    const scope = root.dataset.filterScope;
+    const list = document.querySelector(`[data-filter-list="${scope}"]`);
+
+    if (!scope || !list) return;
+
+    const cards = Array.from(list.querySelectorAll('[data-filter-card]'));
+    const result = root.querySelector('[data-filter-result]');
+    const emptyMessage = root.querySelector('[data-filter-empty-message]');
+    const sortControls = Array.from(root.querySelectorAll('[data-filter-sort-option]'));
+    const resetControl = root.querySelector('[data-filter-reset]');
+    const resultLabel = root.dataset.filterResultLabel || 'Items';
+    const initialSortValue = sortControls.find((button) => button.getAttribute('aria-pressed') === 'true')?.dataset.filterSortValue;
+
+    const getSelectedFilters = () => {
+      const selected = {};
+      root.querySelectorAll('[data-filter-group]').forEach((group) => {
+        const active = group.querySelector('[aria-pressed="true"][data-filter-key]');
+        if (active) {
+          selected[active.dataset.filterKey] = active.dataset.filterValue;
+        }
+      });
+      return selected;
+    };
+
+    const cardMatches = (card, selected) => {
+      return Object.entries(selected).every(([key, value]) => {
+        if (!value || value === 'all') return true;
+
+        if (key === 'tags') {
+          return (card.dataset.tags || '').split(' ').includes(value);
+        }
+
+        return card.dataset[key] === value;
+      });
+    };
+
+    const sortCards = () => {
+      if (sortControls.length === 0) return cards;
+
+      const sortValue = sortControls.find((button) => button.getAttribute('aria-pressed') === 'true')?.dataset.filterSortValue;
+      if (!sortValue) return cards;
+
+      const [key, direction] = sortValue.split(':');
+      const multiplier = direction === 'asc' ? 1 : -1;
+
+      return [...cards].sort((a, b) => {
+        if (key === 'date') {
+          return (Date.parse(a.dataset.date || '') - Date.parse(b.dataset.date || '')) * multiplier;
+        }
+
+        return 0;
+      });
+    };
+
+    const update = () => {
+      const selected = getSelectedFilters();
+      const sortedCards = sortCards();
+      let visibleCount = 0;
+      const hasActiveFilter = Object.values(selected).some((value) => value && value !== 'all');
+      const currentSortValue = sortControls.find((button) => button.getAttribute('aria-pressed') === 'true')?.dataset.filterSortValue;
+      const hasActiveSort = Boolean(sortControls.length > 0 && currentSortValue !== initialSortValue);
+
+      sortedCards.forEach((card) => {
+        list.append(card);
+        const isVisible = cardMatches(card, selected);
+        card.hidden = !isVisible;
+        if (isVisible) visibleCount += 1;
+      });
+
+      if (result) {
+        result.textContent = `${visibleCount} / ${cards.length} ${resultLabel}`;
+      }
+
+      if (emptyMessage) {
+        emptyMessage.hidden = visibleCount > 0;
+      }
+
+      if (resetControl) {
+        resetControl.disabled = !hasActiveFilter && !hasActiveSort;
+      }
+    };
+
+    root.querySelectorAll('[data-filter-key]').forEach((button) => {
+      button.addEventListener('click', () => {
+        root
+          .querySelectorAll(`[data-filter-key="${button.dataset.filterKey}"]`)
+          .forEach((item) => item.setAttribute('aria-pressed', String(item === button)));
+        update();
+      });
+    });
+
+    sortControls.forEach((button) => {
+      button.addEventListener('click', () => {
+        sortControls.forEach((item) => item.setAttribute('aria-pressed', String(item === button)));
+        update();
+      });
+    });
+
+    resetControl?.addEventListener('click', () => {
+      root.querySelectorAll('[data-filter-group]').forEach((group) => {
+        group.querySelectorAll('[data-filter-key]').forEach((button) => {
+          button.setAttribute('aria-pressed', String(button.dataset.filterValue === 'all'));
+        });
+      });
+
+      if (sortControls.length > 0 && initialSortValue) {
+        sortControls.forEach((button) => {
+          button.setAttribute('aria-pressed', String(button.dataset.filterSortValue === initialSortValue));
+        });
+      }
+
+      update();
+    });
+    update();
+  }
+
+  document.querySelectorAll('[data-filter-controls]').forEach(setupFilterControls);
+</script>

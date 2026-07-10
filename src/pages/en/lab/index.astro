@@ -4,20 +4,38 @@ import Base from '../../../layouts/Base.astro';
 import PageHeader from '../../../components/ui/PageHeader.astro';
 import BadgeList from '../../../components/ui/BadgeList.astro';
 import ContentCard from '../../../components/ui/ContentCard.astro';
+import FilterControls from '../../../components/ui/FilterControls.astro';
 import { filterByLang, getEntryPath } from '../../../lib/content/collections';
+import { toFilterKey } from '../../../lib/content/filters';
+import { getStatusLabel, getStatusTone, makeStatusFilterOptions } from '../../../lib/content/status';
 
 const labEntries = filterByLang(await getCollection('lab'), 'en');
+const labStatusOptions = makeStatusFilterOptions(
+  labEntries.map((entry) => entry.data.status),
+  'en',
+  ['prototype', 'concept', 'stable'],
+);
 ---
 
 <Base title="Lab" page="lab" lang="en" alternatePath="/lab/">
   <div class="page-stack">
     <PageHeader eyebrow="Lab" title="Lab" lede="Interactive toy experiments and visualizations." />
-    <section class="card-list">
+    <FilterControls
+      label="Lab filters"
+      scope="lab-index"
+      resultLabel="items"
+      resetLabel="Reset"
+      emptyText="No lab entries match the selected filters."
+      groups={[
+        { key: 'status', label: 'Status', allLabel: 'All', options: labStatusOptions },
+      ]}
+    />
+    <section class="card-list" data-filter-list="lab-index">
       {labEntries.map((entry) => (
-        <ContentCard href={getEntryPath('lab', entry)}>
+        <ContentCard href={getEntryPath('lab', entry)} data-filter-card data-status={toFilterKey(entry.data.status)}>
           <div class="metadata">
             <span>{entry.data.tier}</span>
-            <span>{entry.data.status}</span>
+            <span data-tone={getStatusTone(entry.data.status)}>{getStatusLabel(entry.data.status, entry.data.lang)}</span>
             <span>{entry.data.runtime}</span>
           </div>
           <h2>{entry.data.title}</h2>

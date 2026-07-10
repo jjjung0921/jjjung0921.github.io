@@ -2,12 +2,18 @@
 import type { CollectionEntry } from 'astro:content';
 import BadgeList from '../ui/BadgeList.astro';
 import { getEntryPath } from '../../lib/content/collections';
+import { toFilterKey } from '../../lib/content/filters';
+import { getStatusLabel, getStatusTone } from '../../lib/content/status';
 
 interface Props {
   project: CollectionEntry<'projects'>;
 }
 
 const { project } = Astro.props;
+const statusKey = toFilterKey(project.data.status);
+const statusLabel = getStatusLabel(project.data.status, project.data.lang);
+const statusTone = getStatusTone(project.data.status);
+const tagKeys = project.data.tags.map(toFilterKey).join(' ');
 const links = [
   project.data.repository && { label: 'GitHub', url: project.data.repository },
   project.data.demoUrl && { label: 'Demo', url: project.data.demoUrl },
@@ -16,16 +22,16 @@ const links = [
 ].filter(Boolean) as { label: string; url: string }[];
 ---
 
-<article class="card interactive-card project-card">
-  <BadgeList items={project.data.tags} />
-  <div>
+<article class="card interactive-card project-card" data-filter-card data-status={statusKey} data-tags={tagKeys}>
+  <div class="project-card-summary">
     <div class="metadata">
-      <span>{project.data.status}</span>
+      <span data-tone={statusTone}>{statusLabel}</span>
       <span>{project.data.role}</span>
       {project.data.timeRange && <span>{project.data.timeRange}</span>}
     </div>
     <h2><a href={getEntryPath('projects', project)}>{project.data.title}</a></h2>
     <p class="lede">{project.data.problem}</p>
+    <BadgeList items={project.data.tags} />
   </div>
 
   <div class="project-detail-grid">

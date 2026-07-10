@@ -2,14 +2,11 @@
 import { getCollection } from 'astro:content';
 import Base from '../../../layouts/Base.astro';
 import BadgeList from '../../../components/ui/BadgeList.astro';
-import { getSlugWithoutLangPrefix } from '../../../lib/content/collections';
+import { getLocalizedStaticPaths, getSlugWithoutLangPrefix } from '../../../lib/content/collections';
+import { getStatusLabel, getStatusTone } from '../../../lib/content/status';
 
 export async function getStaticPaths() {
-  const projects = (await getCollection('projects')).filter((project) => project.data.lang === 'en');
-  return projects.map((project) => ({
-    params: { slug: getSlugWithoutLangPrefix(project.slug) },
-    props: { project },
-  }));
+  return getLocalizedStaticPaths(await getCollection('projects'), 'en', 'project');
 }
 
 const { project } = Astro.props;
@@ -21,7 +18,7 @@ const slug = getSlugWithoutLangPrefix(project.slug);
   <article class="page-stack">
     <header class="page-header">
       <div class="metadata">
-        <span>{project.data.status}</span>
+        <span data-tone={getStatusTone(project.data.status)}>{getStatusLabel(project.data.status, project.data.lang)}</span>
         <span>{project.data.role}</span>
         {project.data.timeRange && <span>{project.data.timeRange}</span>}
       </div>

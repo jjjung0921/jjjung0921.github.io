@@ -4,20 +4,38 @@ import Base from '../../layouts/Base.astro';
 import PageHeader from '../../components/ui/PageHeader.astro';
 import BadgeList from '../../components/ui/BadgeList.astro';
 import ContentCard from '../../components/ui/ContentCard.astro';
+import FilterControls from '../../components/ui/FilterControls.astro';
 import { filterByLang, getEntryPath } from '../../lib/content/collections';
+import { toFilterKey } from '../../lib/content/filters';
+import { getStatusLabel, getStatusTone, makeStatusFilterOptions } from '../../lib/content/status';
 
 const labEntries = filterByLang(await getCollection('lab'), 'ko');
+const labStatusOptions = makeStatusFilterOptions(
+  labEntries.map((entry) => entry.data.status),
+  'ko',
+  ['prototype', 'concept', 'stable'],
+);
 ---
 
 <Base title="실험실" page="lab" lang="ko" alternatePath="/en/lab/">
   <div class="page-stack">
     <PageHeader eyebrow="Lab" title="실험실" lede="상호작용형 장난감 실험 및 시각화." />
-    <section class="card-list">
+    <FilterControls
+      label="실험실 필터"
+      scope="lab-index"
+      resultLabel="개"
+      resetLabel="초기화"
+      emptyText="조건에 맞는 실험이 없습니다."
+      groups={[
+        { key: 'status', label: '상태', allLabel: '전체', options: labStatusOptions },
+      ]}
+    />
+    <section class="card-list" data-filter-list="lab-index">
       {labEntries.map((entry) => (
-        <ContentCard href={getEntryPath('lab', entry)}>
+        <ContentCard href={getEntryPath('lab', entry)} data-filter-card data-status={toFilterKey(entry.data.status)}>
           <div class="metadata">
             <span>{entry.data.tier}</span>
-            <span>{entry.data.status}</span>
+            <span data-tone={getStatusTone(entry.data.status)}>{getStatusLabel(entry.data.status, entry.data.lang)}</span>
             <span>{entry.data.runtime}</span>
           </div>
           <h2>{entry.data.title}</h2>

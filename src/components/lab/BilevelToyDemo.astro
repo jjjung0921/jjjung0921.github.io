@@ -62,11 +62,7 @@ const labels = {
 </div>
 
 <script>
-  const evaluateToy = (lambda) => {
-    const lowerOptimum = lambda * 10;
-    const upperObjective = -lowerOptimum + 0.5 * (lambda * 5) ** 2;
-    return { lowerOptimum, upperObjective };
-  };
+  import { evaluateBilevelToy } from '../../lib/lab/bilevelToy';
 
   document.querySelectorAll('[data-bilevel-demo]').forEach((demo) => {
     const input = demo.querySelector('[data-lambda-input]');
@@ -77,7 +73,7 @@ const labels = {
 
     const render = () => {
       const lambda = Number(input.value);
-      const result = evaluateToy(lambda);
+      const result = evaluateBilevelToy(lambda);
       lambdaValue.textContent = lambda.toFixed(2);
       lower.textContent = result.lowerOptimum.toFixed(2);
       upper.textContent = result.upperObjective.toFixed(2);

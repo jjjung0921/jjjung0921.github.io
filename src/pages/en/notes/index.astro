@@ -3,15 +3,35 @@ import { getCollection } from 'astro:content';
 import Base from '../../../layouts/Base.astro';
 import PageHeader from '../../../components/ui/PageHeader.astro';
 import NoteListItem from '../../../components/content/NoteListItem.astro';
+import FilterControls from '../../../components/ui/FilterControls.astro';
 import { filterByLang, sortByDateDesc } from '../../../lib/content/collections';
+import { makeFilterOptions } from '../../../lib/content/filters';
 
 const notes = sortByDateDesc(filterByLang(await getCollection('notes'), 'en'));
+const noteTagOptions = makeFilterOptions(notes.flatMap((note) => note.data.tags));
 ---
 
 <Base title="Notes" page="notes" lang="en" alternatePath="/notes/">
   <div class="page-stack">
     <PageHeader eyebrow="Notes" title="Notes & Knowledge Map" lede="Emphasizing problem definition over topic summary." />
-    <section class="card-list">
+    <FilterControls
+      label="Notes filters"
+      scope="notes-index"
+      resultLabel="items"
+      resetLabel="Reset"
+      emptyText="No notes match the selected filters."
+      groups={[
+        { key: 'tags', label: '#Tags', allLabel: 'All', options: noteTagOptions },
+      ]}
+      sort={{
+        label: 'Date',
+        options: [
+          { value: 'date:desc', label: 'Newest first' },
+          { value: 'date:asc', label: 'Oldest first' },
+        ],
+      }}
+    />
+    <section class="card-list" data-filter-list="notes-index">
       {notes.map((note) => <NoteListItem note={note} />)}
     </section>
   </div>

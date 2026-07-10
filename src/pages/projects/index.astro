@@ -3,15 +3,35 @@ import { getCollection } from 'astro:content';
 import Base from '../../layouts/Base.astro';
 import PageHeader from '../../components/ui/PageHeader.astro';
 import ProjectCard from '../../components/project/ProjectCard.astro';
+import FilterControls from '../../components/ui/FilterControls.astro';
 import { filterByLang } from '../../lib/content/collections';
+import { makeFilterOptions } from '../../lib/content/filters';
+import { makeStatusFilterOptions } from '../../lib/content/status';
 
 const projects = filterByLang(await getCollection('projects'), 'ko');
+const projectStatusOptions = makeStatusFilterOptions(
+  projects.map((project) => project.data.status),
+  'ko',
+  ['active', 'concept', 'paused', 'done'],
+);
+const projectTagOptions = makeFilterOptions(projects.flatMap((project) => project.data.tags));
 ---
 
 <Base title="프로젝트" page="projects" lang="ko" alternatePath="/en/projects/">
   <div class="page-stack">
     <PageHeader eyebrow="Projects" title="프로젝트" lede="구조적 실험 및 시스템 설계." />
-    <section class="card-list">
+    <FilterControls
+      label="프로젝트 필터"
+      scope="projects-index"
+      resultLabel="개"
+      resetLabel="초기화"
+      emptyText="조건에 맞는 프로젝트가 없습니다."
+      groups={[
+        { key: 'status', label: '진행사항', allLabel: '전체', options: projectStatusOptions },
+        { key: 'tags', label: '#태그', allLabel: '전체', options: projectTagOptions },
+      ]}
+    />
+    <section class="card-list" data-filter-list="projects-index">
       {projects.map((project) => <ProjectCard project={project} />)}
     </section>
   </div>

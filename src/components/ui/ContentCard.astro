@@ -1,12 +1,13 @@
 ---
 interface Props {
   href?: string;
+  [key: string]: unknown;
 }
 
-const { href } = Astro.props;
+const { href, ...attrs } = Astro.props;
 const Tag = href ? 'a' : 'article';
 ---
 
-<Tag class="card" href={href}>
+<Tag class="card" href={href} {...attrs}>
   <slot />
 </Tag>

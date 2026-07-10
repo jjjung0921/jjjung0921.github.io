@@ -2,20 +2,26 @@
 import type { CollectionEntry } from 'astro:content';
 import BadgeList from '../ui/BadgeList.astro';
 import { getEntryPath } from '../../lib/content/collections';
+import { toFilterKey } from '../../lib/content/filters';
+import { getStatusLabel, getStatusTone } from '../../lib/content/status';
 
 interface Props {
   note: CollectionEntry<'notes'>;
 }
 
 const { note } = Astro.props;
+const statusLabel = getStatusLabel(note.data.status, note.data.lang);
+const statusTone = getStatusTone(note.data.status);
+const tagKeys = note.data.tags.map(toFilterKey).join(' ');
+const dateKey = note.data.date.toISOString();
 ---
 
-<a class="card interactive-card note-list-item" href={getEntryPath('notes', note)}>
-  <div>
+<a class="card interactive-card note-list-item" href={getEntryPath('notes', note)} data-filter-card data-tags={tagKeys} data-date={dateKey}>
+  <div class="note-list-summary">
     <div class="metadata">
       <span>{note.data.date.toISOString().slice(0, 10)}</span>
       <span>{note.data.category}</span>
-      <span>{note.data.status}</span>
+      <span data-tone={statusTone}>{statusLabel}</span>
     </div>
     <h2>{note.data.title}</h2>
     <p>{note.data.summary}</p>
