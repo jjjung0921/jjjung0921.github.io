@@ -3,6 +3,7 @@ title: "How does CMA-ES update a search distribution for black-box optimization?
 lang: "en"
 translationKey: "cma-es"
 date: "2026-02-15"
+field: "ai"
 category: "Optimization"
 status: "reading"
 summary: "A compact note on how CMA-ES adapts a multivariate normal search distribution without gradients."

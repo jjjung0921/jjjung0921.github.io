@@ -1,14 +1,14 @@
 # Portfolio Design System
 
 **Status:** Active reference  
-**Source:** `src/prototype/**`, `src/styles/tokens.css`, `src/styles/global.css`, `src/styles/shell.css`  
+**Source:** `src/styles/tokens.css`, `src/styles/global.css`, `src/styles/shell.css`, `src/layouts/Base.astro`  
 **Direction:** Bit City Lab / quiet lab log
 
 ## Purpose
 
 This directory documents the visual system used by the portfolio so future Astro pages, project entries, notes, CV sections, and lab demos can remain visually consistent.
 
-The React prototype in `src/prototype/**` is treated as the visual reference. The production Astro site expresses that reference through semantic CSS tokens and classes rather than Tailwind utility strings.
+The removed React prototype is historical reference only. The production Astro site expresses the visual system through semantic CSS tokens and classes rather than Tailwind utility strings.
 
 ## Current Direction
 
@@ -21,7 +21,7 @@ The React prototype in `src/prototype/**` is treated as the visual reference. Th
 
 ## Documents
 
-- [Foundations](./foundations.md): typography, colors, spacing, radius, shadows, responsive rules.
+- [Foundations](./foundations.md): typography, colors, spacing, mobile size tokens, radius, shadows, responsive rules.
 - [Components](./components.md): atoms, molecules, organisms, page templates, and Astro implementation mapping.
 
 ## Production Styling Rule
@@ -46,18 +46,9 @@ Avoid this in production Astro pages:
 </article>
 ```
 
-Tailwind remains useful as a prototype language in `src/prototype/**`, but the production design system should stay token-driven and semantic.
+Tailwind may still be useful for throwaway experiments, but production Astro pages should stay token-driven and semantic.
 
 ## Reference Files
-
-Prototype visual source:
-
-- `src/components/Layout.tsx`
-- `src/prototype/pages/Home.tsx`
-- `src/prototype/pages/Projects.tsx`
-- `src/prototype/pages/Notes.tsx`
-- `src/prototype/pages/Lab.tsx`
-- `src/prototype/pages/CV.tsx`
 
 Production Astro source:
 

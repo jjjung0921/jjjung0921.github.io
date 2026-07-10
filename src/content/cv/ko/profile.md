@@ -24,8 +24,3 @@ Computer Science & Engineering student focused on optimization-minded AI systems
 - Player Modeling
 - AI Agents & Systems
 - Optimization-based Machine Learning
-
-## Project Evidence
-
-- GitHub: <https://github.com/jjjung0921>
-- Contact: <2022111931@dgu.ac.kr>

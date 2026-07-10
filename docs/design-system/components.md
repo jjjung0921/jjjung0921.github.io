@@ -1,7 +1,7 @@
 # Design System Components
 
 **Status:** Active reference  
-**Source:** React prototype visual language mapped to production Astro classes.
+**Source:** Production Astro classes mapped to the quiet lab log visual language.
 
 ## Atomic Structure
 
@@ -26,11 +26,9 @@ Production class:
 
 Prototype source:
 
-- `px-3 py-1`
-- `bg-slate-50`
-- `text-xs`
-- `rounded-full`
-- `border border-slate-200/60`
+- compact text tags
+- leading accent `#`
+- muted label text
 
 Usage:
 
@@ -41,8 +39,32 @@ Usage:
 Rules:
 
 - Keep badges small.
-- Use neutral surface and muted text.
+- Render badges as text tags with a leading `#`, not as oval pills.
+- Use muted text with accent only on the `#` marker.
+- In cards, place badge lists after the title and summary content.
 - Do not use solid accent badges for normal tags.
+
+### Filter Controls
+
+Production classes:
+
+- `.filter-panel`
+- `.filter-group`
+- `.filter-chip`
+- `.filter-sort`
+
+Usage:
+
+- project status and tag filtering
+- note tag filtering and date ordering
+
+Rules:
+
+- Keep filters compact and text-first.
+- Use oval chips for controls, but keep content tags as `#` text badges.
+- Use active chip accent only for selected filter state.
+- Place filter panels between the page header and the card list.
+- On mobile, stack filter labels above options.
 
 ### Button
 
@@ -91,7 +113,8 @@ Rules:
 
 - Always include `aria-label`.
 - Use `Icon.astro` where possible.
-- Keep dimensions stable at `2.25rem`.
+- Keep desktop dimensions stable at `2.25rem`.
+- On mobile, use `--mobile-control-size` so icon buttons align with language links.
 
 ### Icon Tile
 
@@ -163,7 +186,9 @@ Usage:
 Rules:
 
 - Metadata should be scannable and secondary.
-- Use muted text.
+- Render each direct `.metadata > span` as a small accent oval label.
+- Keep metadata pill labels compact; reserve filled accent surfaces for active navigation and primary actions.
+- Use metadata above the card title for status/runtime facts.
 - Use mono only for explicit labels, not every metadata value.
 
 ### Metadata Block
@@ -260,6 +285,9 @@ Rules:
 - Active navigation uses background, border, shadow, and accent text.
 - Utility controls remain visible on mobile.
 - Do not add large descriptive text to the sidebar.
+- Below `780px`, the sidebar becomes a sticky top shell with horizontal scrolling navigation.
+- Mobile nav items use `--mobile-nav-item-min`, `--mobile-nav-item-height`, and `--mobile-nav-icon`.
+- Mobile utility controls use `--mobile-control-size` for both language links and icon buttons.
 
 ### Page Header
 
@@ -284,6 +312,7 @@ Rules:
 - Use `.page-title` for all normal routes.
 - Keep page headers compact.
 - Eyebrow is optional and should clarify context, not decorate.
+- Below `780px`, headings use fixed mobile tokens: `--mobile-hero-title`, `--mobile-title`, and `--mobile-section-title`.
 
 ### Card
 
@@ -315,6 +344,32 @@ Rules:
 - Avoid cards inside cards.
 - Do not turn every prose section into a card.
 - Hover state is for clickable cards only.
+- Use `--space-card-gap` for normal direct child spacing and `--space-card-element-gap` for compact groups inside a card.
+- Use `--space-card-gap-loose` only when a card carries several evidence sections, such as project cards.
+- Below `780px`, cards use `--mobile-card-padding` to keep dense content readable without creating horizontal overflow.
+- Below `780px`, cards use `--mobile-card-gap` and `--mobile-card-element-gap` for tighter mobile rhythm.
+
+### CV Actions and Contact
+
+Production classes:
+
+- `.cv-action-row`
+- `.cv-download-button`
+- `.cv-contact`
+- `.contact-row`
+- `.contact-link`
+
+Usage:
+
+- top CV header PDF save action
+- bottom CV email and GitHub contact block
+
+Rules:
+
+- Keep the top CV header focused on one document action.
+- Place email and GitHub at the bottom of the CV page as final reference information.
+- Contact links should show labels and full values, not icon-only controls.
+- On mobile, contact links stack to one column.
 
 ### Note List Item
 

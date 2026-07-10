@@ -147,24 +147,25 @@ const { label, scope, groups, resultLabel, resetLabel, emptyText, sort } = Astro
     const update = () => {
       const selected = getSelectedFilters();
       const sortedCards = sortCards();
-      let visibleCount = 0;
+      const visibleCards = [];
       const hasActiveFilter = Object.values(selected).some((value) => value && value !== 'all');
       const currentSortValue = sortControls.find((button) => button.getAttribute('aria-pressed') === 'true')?.dataset.filterSortValue;
       const hasActiveSort = Boolean(sortControls.length > 0 && currentSortValue !== initialSortValue);
 
       sortedCards.forEach((card) => {
-        list.append(card);
         const isVisible = cardMatches(card, selected);
-        card.hidden = !isVisible;
-        if (isVisible) visibleCount += 1;
+        card.hidden = false;
+        if (isVisible) visibleCards.push(card);
       });
 
+      list.replaceChildren(...visibleCards);
+
       if (result) {
-        result.textContent = `${visibleCount} / ${cards.length} ${resultLabel}`;
+        result.textContent = `${visibleCards.length} / ${cards.length} ${resultLabel}`;
       }
 
       if (emptyMessage) {
-        emptyMessage.hidden = visibleCount > 0;
+        emptyMessage.hidden = visibleCards.length > 0;
       }
 
       if (resetControl) {

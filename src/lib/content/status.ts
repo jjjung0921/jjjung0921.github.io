@@ -2,7 +2,7 @@ import type { Lang } from './collections';
 import type { FilterOption } from './filters';
 import { toFilterKey } from './filters';
 
-type StatusTone = 'success' | 'progress' | 'concept' | 'stable' | 'paused' | 'draft';
+type StatusTone = 'success' | 'progress' | 'concept' | 'stable' | 'paused' | 'draft' | 'experiment';
 
 const statusLabels: Record<Lang, Record<string, string>> = {
   ko: {
@@ -10,6 +10,7 @@ const statusLabels: Record<Lang, Record<string, string>> = {
     concept: '구상',
     done: '완료',
     draft: '초안',
+    experimentable: '실험 가능',
     implemented: '구현됨',
     paused: '보류',
     prototype: '프로토타입',
@@ -21,6 +22,7 @@ const statusLabels: Record<Lang, Record<string, string>> = {
     concept: 'Concept',
     done: 'Done',
     draft: 'Draft',
+    experimentable: 'Experimentable',
     implemented: 'Implemented',
     paused: 'Paused',
     prototype: 'Prototype',
@@ -30,10 +32,11 @@ const statusLabels: Record<Lang, Record<string, string>> = {
 };
 
 const statusTones: Record<string, StatusTone> = {
-  active: 'success',
+  active: 'progress',
   concept: 'concept',
   done: 'stable',
   draft: 'draft',
+  experimentable: 'experiment',
   implemented: 'success',
   paused: 'paused',
   prototype: 'progress',

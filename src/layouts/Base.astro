@@ -29,11 +29,13 @@ const documentTitle = title === siteTitle ? siteTitle : `${title} | ${siteTitle}
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content={description} />
+    <link rel="icon" type="image/png" href="/images/blog-logo.png" />
     <script is:inline>
       (() => {
         const stored = localStorage.getItem('portfolio-theme');
         const theme = stored || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
         document.documentElement.dataset.theme = theme;
+        document.documentElement.dataset.sidebar = localStorage.getItem('portfolio-sidebar') === 'collapsed' ? 'collapsed' : 'expanded';
       })();
     </script>
     <title>{documentTitle}</title>

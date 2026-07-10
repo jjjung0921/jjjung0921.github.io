@@ -10,7 +10,7 @@ import { makeStatusFilterOptions } from '../../lib/content/status';
 
 const projects = filterByLang(await getCollection('projects'), 'ko');
 const projectStatusOptions = makeStatusFilterOptions(
-  projects.map((project) => project.data.status),
+  [...projects.map((project) => project.data.status), 'paused', 'done'],
   'ko',
   ['active', 'concept', 'paused', 'done'],
 );

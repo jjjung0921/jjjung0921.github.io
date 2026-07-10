@@ -2,6 +2,7 @@
 import type { CollectionEntry } from 'astro:content';
 import BadgeList from '../ui/BadgeList.astro';
 import { getEntryPath } from '../../lib/content/collections';
+import { getNoteFieldLabel } from '../../lib/content/fields';
 import { toFilterKey } from '../../lib/content/filters';
 import { getStatusLabel, getStatusTone } from '../../lib/content/status';
 
@@ -12,14 +13,24 @@ interface Props {
 const { note } = Astro.props;
 const statusLabel = getStatusLabel(note.data.status, note.data.lang);
 const statusTone = getStatusTone(note.data.status);
+const fieldLabel = getNoteFieldLabel(note.data.field, note.data.lang);
+const fieldKey = toFilterKey(note.data.field);
 const tagKeys = note.data.tags.map(toFilterKey).join(' ');
 const dateKey = note.data.date.toISOString();
 ---
 
-<a class="card interactive-card note-list-item" href={getEntryPath('notes', note)} data-filter-card data-tags={tagKeys} data-date={dateKey}>
+<a
+  class="card interactive-card note-list-item"
+  href={getEntryPath('notes', note)}
+  data-filter-card
+  data-field={fieldKey}
+  data-tags={tagKeys}
+  data-date={dateKey}
+>
   <div class="note-list-summary">
     <div class="metadata">
       <span>{note.data.date.toISOString().slice(0, 10)}</span>
+      <span>{fieldLabel}</span>
       <span>{note.data.category}</span>
       <span data-tone={statusTone}>{statusLabel}</span>
     </div>

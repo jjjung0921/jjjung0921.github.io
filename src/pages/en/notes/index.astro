@@ -5,9 +5,11 @@ import PageHeader from '../../../components/ui/PageHeader.astro';
 import NoteListItem from '../../../components/content/NoteListItem.astro';
 import FilterControls from '../../../components/ui/FilterControls.astro';
 import { filterByLang, sortByDateDesc } from '../../../lib/content/collections';
+import { makeAllNoteFieldFilterOptions } from '../../../lib/content/fields';
 import { makeFilterOptions } from '../../../lib/content/filters';
 
 const notes = sortByDateDesc(filterByLang(await getCollection('notes'), 'en'));
+const noteFieldOptions = makeAllNoteFieldFilterOptions('en');
 const noteTagOptions = makeFilterOptions(notes.flatMap((note) => note.data.tags));
 ---
 
@@ -21,6 +23,7 @@ const noteTagOptions = makeFilterOptions(notes.flatMap((note) => note.data.tags)
       resetLabel="Reset"
       emptyText="No notes match the selected filters."
       groups={[
+        { key: 'field', label: 'Field', allLabel: 'All', options: noteFieldOptions },
         { key: 'tags', label: '#Tags', allLabel: 'All', options: noteTagOptions },
       ]}
       sort={{

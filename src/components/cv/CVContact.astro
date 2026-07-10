@@ -1,0 +1,32 @@
+---
+import { siteConfig } from '../../siteConfig';
+import Icon from '../ui/Icon.astro';
+
+const lang = Astro.props.lang ?? 'ko';
+const copy = lang === 'ko'
+  ? '연구 질문, 프로젝트 리뷰, 협업 논의는 아래 연락처로 이어갈 수 있습니다.'
+  : 'For research questions, project review, or collaboration, use the contact links below.';
+---
+
+<footer class="cv-contact" aria-labelledby="cv-contact-title">
+  <div class="cv-contact-copy">
+    <p class="eyebrow" id="cv-contact-title">Contact</p>
+    <p>{copy}</p>
+  </div>
+  <div class="contact-row">
+    <a class="contact-link" href={`mailto:${siteConfig.email}`}>
+      <Icon name="mail" size={18} />
+      <span>
+        <span class="contact-label">Email</span>
+        <span class="contact-value">{siteConfig.email}</span>
+      </span>
+    </a>
+    <a class="contact-link" href={siteConfig.githubUrl}>
+      <Icon name="github" size={18} />
+      <span>
+        <span class="contact-label">GitHub</span>
+        <span class="contact-value">github.com/jjjung0921</span>
+      </span>
+    </a>
+  </div>
+</footer>

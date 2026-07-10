@@ -1,14 +1,11 @@
 ---
-import { siteConfig } from '../../siteConfig';
 import Icon from '../ui/Icon.astro';
 
 const lang = Astro.props.lang ?? 'ko';
 ---
 
-<div class="contact-row">
-  <a href={`mailto:${siteConfig.email}`}>Email: {siteConfig.email}</a>
-  <a href={siteConfig.githubUrl}>GitHub: github.com/jjjung0921</a>
-  <button class="button secondary" type="button" data-print-cv>
+<div class="cv-action-row">
+  <button class="button primary cv-download-button" type="button" data-print-cv>
     <Icon name="download" size={16} />
     {lang === 'ko' ? 'PDF로 저장' : 'Save as PDF'}
   </button>

@@ -2,7 +2,7 @@
 
 **Status:** Active reference  
 **Primary implementation:** `src/styles/tokens.css`, `src/styles/global.css`, `src/styles/shell.css`  
-**Prototype reference:** `src/prototype/**`
+**Historical prototype:** Removed from production; use current Astro styles as source of truth.
 
 ## Existing Direction
 
@@ -11,7 +11,7 @@
 - Design tone: calm, technical, notebook-like, evidence-oriented.
 - Reused components: sidebar shell, page headers, cards, metadata labels, badges, note rows, project cards, CV card, lab demo frame.
 
-The prototype uses Tailwind utilities such as `slate`, `teal`, `amber`, `rounded-xl`, `space-y-*`, `p-*`, and `md:*`. The Astro implementation should translate those into named tokens and semantic classes.
+The older prototype used Tailwind utilities such as `slate`, `teal`, `amber`, `rounded-xl`, `space-y-*`, `p-*`, and `md:*`. The Astro implementation should preserve that visual language through named tokens and semantic classes.
 
 ## Color
 
@@ -67,7 +67,7 @@ The prototype uses Tailwind utilities such as `slate`, `teal`, `amber`, `rounded
 | Extra small | `--text-xs` | `0.76rem` | badges, metadata labels |
 | Small | `--text-sm` | `0.9rem` | metadata, card detail text |
 | Body | `--text-body` | `1rem` | normal copy |
-| Lede | `--text-lede` | `clamp(1.05rem, 2vw, 1.32rem)` | page intro, problem statement |
+| Lede | `--text-lede` | `clamp(1rem, 1.6vw, 1.18rem)` | page intro, problem statement |
 | Page title | `--text-page-title` | `clamp(2rem, 3vw, 2.75rem)` | normal route headings |
 | Hero title | `--text-hero-title` | `clamp(2.8rem, 5vw, 4rem)` | home title only |
 
@@ -89,6 +89,9 @@ The prototype uses Tailwind utilities such as `slate`, `teal`, `amber`, `rounded
 | `--space-section` | `3rem` | Standard vertical gap between major sections |
 | `--space-section-compact` | `2.25rem` | Detail pages where artifact should appear sooner |
 | `--space-card` | `2rem` | Card internal padding ceiling |
+| `--space-card-gap` | `0.85rem` | Default gap between direct card elements |
+| `--space-card-gap-loose` | `1.15rem` | Project cards or evidence-heavy cards |
+| `--space-card-element-gap` | `0.55rem` | Compact spacing inside a card content group |
 
 ### Prototype Mapping
 
@@ -111,6 +114,35 @@ The prototype uses Tailwind utilities such as `slate`, `teal`, `amber`, `rounded
   - `padding-bottom: 1.5rem`
 - Use more spacing around major artifacts than around metadata blocks.
 - Do not stack cards with excessive vertical whitespace on project lists.
+
+## Mobile Size System
+
+Mobile uses explicit size tokens instead of shrinking desktop values ad hoc. CSS media queries still use the literal `780px` breakpoint because custom properties cannot be used directly in standard media query conditions.
+
+| Role | Token | Value | Use |
+|---|---|---:|---|
+| Breakpoint | `--mobile-breakpoint` | `780px` | Documentation token for the mobile shell boundary |
+| Shell horizontal padding | `--mobile-shell-padding-x` | `1rem` | Page, top nav, and utility row side padding |
+| Shell vertical padding | `--mobile-shell-padding-y` | `1.5rem` | Main content top padding below sticky mobile nav |
+| Navigation item width | `--mobile-nav-item-min` | `4.5rem` | Minimum tap target width for horizontal mobile nav |
+| Navigation item height | `--mobile-nav-item-height` | `3.85rem` | Stable mobile nav item height with icon and label |
+| Navigation icon | `--mobile-nav-icon` | `1rem` | Icon size inside mobile nav items |
+| Utility control | `--mobile-control-size` | `2.5rem` | Language links and icon buttons in the mobile utility row |
+| Page title | `--mobile-title` | `1.85rem` | Normal route headings below `780px` |
+| Hero title | `--mobile-hero-title` | `2.35rem` | Home hero heading below `780px` |
+| Section title | `--mobile-section-title` | `1.45rem` | Section headings below `780px` |
+| Card padding | `--mobile-card-padding` | `1.15rem` | Cards, lab frame, and compact panels below `780px` |
+| Card gap | `--mobile-card-gap` | `0.75rem` | Gap between direct card elements below `780px` |
+| Card element gap | `--mobile-card-element-gap` | `0.5rem` | Compact spacing inside card content groups below `780px` |
+| Lab frame minimum height | `--mobile-lab-min-height` | `19rem` | Interactive demo frame height below `780px` |
+
+### Mobile Sizing Rules
+
+- Do not use viewport-width font sizing for mobile text. Use fixed mobile title tokens below `780px`.
+- Keep mobile nav items as icon plus label columns with stable width and height.
+- Horizontal mobile navigation may scroll; avoid forcing all routes into the viewport.
+- Language links and utility icon buttons should share the same control size.
+- Cards and lab frames use compact padding, but prose and metadata must still be able to wrap without horizontal overflow.
 
 ## Radius and Shadow
 

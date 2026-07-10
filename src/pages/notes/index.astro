@@ -5,9 +5,11 @@ import PageHeader from '../../components/ui/PageHeader.astro';
 import NoteListItem from '../../components/content/NoteListItem.astro';
 import FilterControls from '../../components/ui/FilterControls.astro';
 import { filterByLang, sortByDateDesc } from '../../lib/content/collections';
+import { makeAllNoteFieldFilterOptions } from '../../lib/content/fields';
 import { makeFilterOptions } from '../../lib/content/filters';
 
 const notes = sortByDateDesc(filterByLang(await getCollection('notes'), 'ko'));
+const noteFieldOptions = makeAllNoteFieldFilterOptions('ko');
 const noteTagOptions = makeFilterOptions(notes.flatMap((note) => note.data.tags));
 ---
 
@@ -21,6 +23,7 @@ const noteTagOptions = makeFilterOptions(notes.flatMap((note) => note.data.tags)
       resetLabel="초기화"
       emptyText="조건에 맞는 노트가 없습니다."
       groups={[
+        { key: 'field', label: '분야', allLabel: '전체', options: noteFieldOptions },
         { key: 'tags', label: '#태그', allLabel: '전체', options: noteTagOptions },
       ]}
       sort={{

@@ -11,9 +11,9 @@ import { getStatusLabel, getStatusTone, makeStatusFilterOptions } from '../../..
 
 const labEntries = filterByLang(await getCollection('lab'), 'en');
 const labStatusOptions = makeStatusFilterOptions(
-  labEntries.map((entry) => entry.data.status),
+  [...labEntries.map((entry) => entry.data.status), 'experimentable', 'concept', 'stable'],
   'en',
-  ['prototype', 'concept', 'stable'],
+  ['prototype', 'experimentable', 'concept', 'stable'],
 );
 ---
 
@@ -27,7 +27,7 @@ const labStatusOptions = makeStatusFilterOptions(
       resetLabel="Reset"
       emptyText="No lab entries match the selected filters."
       groups={[
-        { key: 'status', label: 'Status', allLabel: 'All', options: labStatusOptions },
+        { key: 'status', label: 'Progress', allLabel: 'All', options: labStatusOptions },
       ]}
     />
     <section class="card-list" data-filter-list="lab-index">

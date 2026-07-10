@@ -3,6 +3,7 @@ title: "Why did BERT define bidirectional representation as the central problem?
 lang: "en"
 translationKey: "bert-bidirectional"
 date: "2026-03-06"
+field: "language"
 category: "AI Systems"
 status: "implemented"
 summary: "A short note on why masked language modeling made bidirectional representation a core BERT design choice."
