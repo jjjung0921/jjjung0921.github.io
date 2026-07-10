@@ -97,7 +97,7 @@ const enPath = lang === 'en' ? Astro.url.pathname : (alternatePath ?? '/en/');
 
     if (!(button instanceof HTMLButtonElement)) return;
 
-    const setSidebarState = (collapsed) => {
+    const setSidebarState = (collapsed: boolean) => {
       root.dataset.sidebar = collapsed ? 'collapsed' : 'expanded';
       button.setAttribute('aria-expanded', String(!collapsed));
       button.setAttribute(
