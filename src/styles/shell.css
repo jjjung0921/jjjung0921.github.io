@@ -481,11 +481,16 @@
 
 .filter-options {
   display: flex;
-  /*flex-wrap: wrap;*/
   overflow-x: auto;
   flex-wrap: nowrap;
   gap: 0.45rem;
   min-width: 0;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+}
+
+.filter-options::-webkit-scrollbar {
+  display: none;
 }
 
 .filter-chip {
@@ -496,6 +501,7 @@
   color: var(--color-muted);
   cursor: pointer;
   display: inline-flex;
+  flex: 0 0 auto;
   font-size: var(--text-sm);
   font-weight: 720;
   justify-content: center;
@@ -503,6 +509,7 @@
   min-height: 2.15rem;
   padding: 0.38rem 0.72rem;
   text-align: center;
+  white-space: nowrap;
   transition:
     background 160ms ease,
     border-color 160ms ease,

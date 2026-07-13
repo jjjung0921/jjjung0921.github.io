@@ -1,4 +1,8 @@
 ---
+# Recommended paths:
+# - src/content/notes/ko/<field>/<slug>.md
+# - src/content/notes/<field>/<slug>.md
+# Folder names are authoring-only. The public URL uses the file name.
 title: "노트 제목"
 lang: "ko"
 translationKey: "note-slug"
