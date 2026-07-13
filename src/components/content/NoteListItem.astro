@@ -16,6 +16,7 @@ const statusTone = getStatusTone(note.data.status);
 const fieldLabel = getNoteFieldLabel(note.data.field, note.data.lang);
 const fieldKey = toFilterKey(note.data.field);
 const tagKeys = note.data.tags.map(toFilterKey).join(' ');
+const seriesKey = note.data.series ? toFilterKey(note.data.series) : '';
 const dateKey = note.data.date.toISOString();
 ---
 
@@ -25,12 +26,14 @@ const dateKey = note.data.date.toISOString();
   data-filter-card
   data-field={fieldKey}
   data-tags={tagKeys}
+  data-series={seriesKey}
   data-date={dateKey}
 >
   <div class="note-list-summary">
     <div class="metadata">
       <span>{note.data.date.toISOString().slice(0, 10)}</span>
       <span>{fieldLabel}</span>
+      {note.data.series && <span>{note.data.series}</span>}
       <span>{note.data.category}</span>
       <span data-tone={statusTone}>{statusLabel}</span>
     </div>

@@ -6,11 +6,14 @@ import NoteListItem from '../../../components/content/NoteListItem.astro';
 import FilterControls from '../../../components/ui/FilterControls.astro';
 import { filterByLang, sortByDateDesc } from '../../../lib/content/collections';
 import { makeAllNoteFieldFilterOptions } from '../../../lib/content/fields';
-import { makeFilterOptions } from '../../../lib/content/filters';
+import { makeDependentFilterOptions, makeFilterOptions } from '../../../lib/content/filters';
 
 const notes = sortByDateDesc(filterByLang(await getCollection('notes'), 'en'));
 const noteFieldOptions = makeAllNoteFieldFilterOptions('en');
-const noteTagOptions = makeFilterOptions(notes.flatMap((note) => note.data.tags));
+const noteTagOptions = makeDependentFilterOptions(
+  notes.flatMap((note) => note.data.tags.map((tag) => ({ value: tag, parentValue: note.data.field }))),
+);
+const noteSeriesOptions = makeFilterOptions(notes.flatMap((note) => note.data.series ? [note.data.series] : []));
 ---
 
 <Base title="Notes" page="notes" lang="en" alternatePath="/notes/">
@@ -24,7 +27,8 @@ const noteTagOptions = makeFilterOptions(notes.flatMap((note) => note.data.tags)
       emptyText="No notes match the selected filters."
       groups={[
         { key: 'field', label: 'Field', allLabel: 'All', options: noteFieldOptions },
-        { key: 'tags', label: '#Tags', allLabel: 'All', options: noteTagOptions },
+        ...(noteSeriesOptions.length > 0 ? [{ key: 'series', label: 'Series', allLabel: 'All', options: noteSeriesOptions }] : []),
+        { key: 'tags', label: '#Tags', allLabel: 'All', options: noteTagOptions, dependsOn: 'field' },
       ]}
       sort={{
         label: 'Date',

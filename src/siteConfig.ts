@@ -2,6 +2,9 @@ export const siteConfig = {
   githubUrl: 'https://github.com/jjjung0921',
   email: '2022111931@dgu.ac.kr',
   profileImage: 'https://github.com/jjjung0921.png?size=160',
+  analytics: {
+    googleTagManagerId: 'GTM-KLMFR983',
+  },
   profile: {
     ko: {
       name: '이정진',
