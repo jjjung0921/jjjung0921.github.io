@@ -21,6 +21,7 @@ const slug = getSlugWithoutLangPrefix(note.slug);
       <div class="metadata">
         <span>{note.data.date.toISOString().slice(0, 10)}</span>
         <span>{getNoteFieldLabel(note.data.field, note.data.lang)}</span>
+        {note.data.series && <span>{note.data.series}</span>}
         <span>{note.data.category}</span>
         <span data-tone={getStatusTone(note.data.status)}>{getStatusLabel(note.data.status, note.data.lang)}</span>
       </div>

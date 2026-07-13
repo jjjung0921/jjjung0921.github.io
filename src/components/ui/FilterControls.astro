@@ -6,6 +6,7 @@ interface FilterGroup {
   label: string;
   allLabel: string;
   options: FilterOption[];
+  dependsOn?: string;
 }
 
 interface SortOption {
@@ -43,7 +44,7 @@ const { label, scope, groups, resultLabel, resetLabel, emptyText, sort } = Astro
 
   <div class="filter-panel-main">
     {groups.map((group) => (
-      <div class="filter-group" role="group" aria-label={group.label} data-filter-group={group.key}>
+      <div class="filter-group" role="group" aria-label={group.label} data-filter-group={group.key} data-filter-depends-on={group.dependsOn}>
         <span class="filter-label">{group.label}</span>
         <div class="filter-options">
           <button class="filter-chip" type="button" data-filter-key={group.key} data-filter-value="all" aria-pressed="true">
@@ -55,6 +56,8 @@ const { label, scope, groups, resultLabel, resetLabel, emptyText, sort } = Astro
               type="button"
               data-filter-key={group.key}
               data-filter-value={option.value}
+              data-filter-parent-key={group.dependsOn}
+              data-filter-parent-values={option.parentValues?.join(' ')}
               data-tone={option.tone}
               aria-pressed="false"
             >
@@ -114,6 +117,35 @@ const { label, scope, groups, resultLabel, resetLabel, emptyText, sort } = Astro
       return selected;
     };
 
+    const syncDependentOptions = (selected) => {
+      root.querySelectorAll('[data-filter-depends-on]').forEach((group) => {
+        const parentKey = group.dataset.filterDependsOn;
+        if (!parentKey) return;
+
+        const parentValue = selected[parentKey];
+        let activeOptionVisible = true;
+
+        group.querySelectorAll('[data-filter-key]').forEach((button) => {
+          const isAllOption = button.dataset.filterValue === 'all';
+          const parentValues = (button.dataset.filterParentValues || '').split(' ').filter(Boolean);
+          const isVisible = isAllOption || !parentValue || parentValue === 'all' || parentValues.includes(parentValue);
+
+          button.hidden = !isVisible;
+          button.disabled = !isVisible;
+
+          if (!isVisible && button.getAttribute('aria-pressed') === 'true') {
+            activeOptionVisible = false;
+          }
+        });
+
+        if (!activeOptionVisible) {
+          group.querySelectorAll('[data-filter-key]').forEach((button) => {
+            button.setAttribute('aria-pressed', String(button.dataset.filterValue === 'all'));
+          });
+        }
+      });
+    };
+
     const cardMatches = (card, selected) => {
       return Object.entries(selected).every(([key, value]) => {
         if (!value || value === 'all') return true;
@@ -145,7 +177,9 @@ const { label, scope, groups, resultLabel, resetLabel, emptyText, sort } = Astro
     };
 
     const update = () => {
-      const selected = getSelectedFilters();
+      let selected = getSelectedFilters();
+      syncDependentOptions(selected);
+      selected = getSelectedFilters();
       const sortedCards = sortCards();
       const visibleCards = [];
       const hasActiveFilter = Object.values(selected).some((value) => value && value !== 'all');

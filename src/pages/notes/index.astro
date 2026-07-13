@@ -6,11 +6,14 @@ import NoteListItem from '../../components/content/NoteListItem.astro';
 import FilterControls from '../../components/ui/FilterControls.astro';
 import { filterByLang, sortByDateDesc } from '../../lib/content/collections';
 import { makeAllNoteFieldFilterOptions } from '../../lib/content/fields';
-import { makeFilterOptions } from '../../lib/content/filters';
+import { makeDependentFilterOptions, makeFilterOptions } from '../../lib/content/filters';
 
 const notes = sortByDateDesc(filterByLang(await getCollection('notes'), 'ko'));
 const noteFieldOptions = makeAllNoteFieldFilterOptions('ko');
-const noteTagOptions = makeFilterOptions(notes.flatMap((note) => note.data.tags));
+const noteTagOptions = makeDependentFilterOptions(
+  notes.flatMap((note) => note.data.tags.map((tag) => ({ value: tag, parentValue: note.data.field }))),
+);
+const noteSeriesOptions = makeFilterOptions(notes.flatMap((note) => note.data.series ? [note.data.series] : []));
 ---
 
 <Base title="노트" page="notes" lang="ko" alternatePath="/en/notes/">
@@ -24,7 +27,8 @@ const noteTagOptions = makeFilterOptions(notes.flatMap((note) => note.data.tags)
       emptyText="조건에 맞는 노트가 없습니다."
       groups={[
         { key: 'field', label: '분야', allLabel: '전체', options: noteFieldOptions },
-        { key: 'tags', label: '#태그', allLabel: '전체', options: noteTagOptions },
+        ...(noteSeriesOptions.length > 0 ? [{ key: 'series', label: '시리즈', allLabel: '전체', options: noteSeriesOptions }] : []),
+        { key: 'tags', label: '#태그', allLabel: '전체', options: noteTagOptions, dependsOn: 'field' },
       ]}
       sort={{
         label: '날짜순',
