@@ -88,4 +88,4 @@ a.toUpperCase() //Property 'toUpperCase' does not exist on type '10'.
 
 ## 연결
 
-- 다음에 확인할 질문:
+- 다음에 확인할 질문: TypeScript에서의 basic type

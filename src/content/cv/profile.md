@@ -14,7 +14,7 @@ Computer Science & Engineering student focused on optimization-minded AI systems
 
 | School | Program | Status |
 |---|---|---|
-| Korea University | Computer Science & Engineering | Present |
+| Dongguk University | Computer Science & Engineering | Present |
 
 ## Research Interests
 
