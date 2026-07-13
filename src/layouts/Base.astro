@@ -2,6 +2,7 @@
 import '../styles/global.css';
 import '../styles/shell.css';
 import Sidebar from '../components/layout/Sidebar.astro';
+import { siteConfig } from '../siteConfig';
 
 interface Props {
   title: string;
@@ -21,6 +22,7 @@ const {
 
 const siteTitle = lang === 'ko' ? 'Bit City Lab' : 'Bit City Lab';
 const documentTitle = title === siteTitle ? siteTitle : `${title} | ${siteTitle}`;
+const { googleTagManagerId } = siteConfig.analytics;
 ---
 
 <!doctype html>
@@ -30,6 +32,20 @@ const documentTitle = title === siteTitle ? siteTitle : `${title} | ${siteTitle}
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content={description} />
     <link rel="icon" type="image/png" href="/images/blog-logo.png" />
+    {googleTagManagerId && (
+      <script is:inline define:vars={{ googleTagManagerId }}>
+        ((window, document, tagName, dataLayerName, containerId) => {
+          window[dataLayerName] = window[dataLayerName] || [];
+          window[dataLayerName].push({ 'gtm.start': new Date().getTime(), event: 'gtm.js' });
+          const firstScript = document.getElementsByTagName(tagName)[0];
+          const script = document.createElement(tagName);
+          const dataLayerParam = dataLayerName !== 'dataLayer' ? `&l=${dataLayerName}` : '';
+          script.async = true;
+          script.src = `https://www.googletagmanager.com/gtm.js?id=${containerId}${dataLayerParam}`;
+          firstScript.parentNode.insertBefore(script, firstScript);
+        })(window, document, 'script', 'dataLayer', googleTagManagerId);
+      </script>
+    )}
     <script is:inline>
       (() => {
         const stored = localStorage.getItem('portfolio-theme');
@@ -41,6 +57,16 @@ const documentTitle = title === siteTitle ? siteTitle : `${title} | ${siteTitle}
     <title>{documentTitle}</title>
   </head>
   <body>
+    {googleTagManagerId && (
+      <noscript>
+        <iframe
+          src={`https://www.googletagmanager.com/ns.html?id=${googleTagManagerId}`}
+          height="0"
+          width="0"
+          style="display:none;visibility:hidden"
+        />
+      </noscript>
+    )}
     <div class="app-shell">
       <Sidebar page={page} lang={lang} alternatePath={alternatePath} />
       <main class="main">
