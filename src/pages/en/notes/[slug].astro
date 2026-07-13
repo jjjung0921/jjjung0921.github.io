@@ -2,17 +2,17 @@
 import { getCollection } from 'astro:content';
 import Base from '../../../layouts/Base.astro';
 import BadgeList from '../../../components/ui/BadgeList.astro';
-import { getLocalizedStaticPaths, getSlugWithoutLangPrefix } from '../../../lib/content/collections';
+import { getLocalizedStaticPaths, getPublicEntrySlug } from '../../../lib/content/collections';
 import { getNoteFieldLabel } from '../../../lib/content/fields';
 import { getStatusLabel, getStatusTone } from '../../../lib/content/status';
 
 export async function getStaticPaths() {
-  return getLocalizedStaticPaths(await getCollection('notes'), 'en', 'note');
+  return getLocalizedStaticPaths(await getCollection('notes'), 'en', 'note', 'notes');
 }
 
 const { note } = Astro.props;
 const { Content } = await note.render();
-const slug = getSlugWithoutLangPrefix(note.slug);
+const slug = getPublicEntrySlug('notes', note);
 ---
 
 <Base title={note.data.title} page="notes" lang="en" alternatePath={`/notes/${slug}/`}>

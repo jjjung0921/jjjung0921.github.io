@@ -48,6 +48,7 @@
 - `BERT`, `Black-box Optimization` 같은 표시 문자열을 DOM 비교용 stable key로 바꾸는 규칙
 - `field -> tags`처럼 한 필터가 다른 필터에 종속되는 관계
 - `/en/notes/cma-es/` 같은 라우트 경로 생성
+- notes authoring 폴더는 정리용으로만 보고 공개 URL은 파일명 slug만 사용
 - lab demo처럼 UI와 분리 가능한 수식/계산
 
 기능부에 두지 말아야 하는 것:
@@ -122,7 +123,15 @@
 | Lab detail | `/lab/[slug]/` | `/en/lab/[slug]/` | `lab` collection |
 | CV | `/cv/` | `/en/cv/` | `cv` collection |
 
-동적 상세 라우트는 `getStaticPaths()`로 빌드 시점에 생성된다. `getLocalizedStaticPaths()`는 언어 필터링, slug prefix 제거, props mapping을 공통화한다.
+동적 상세 라우트는 `getStaticPaths()`로 빌드 시점에 생성된다. `getLocalizedStaticPaths()`는 언어 필터링, slug prefix 제거, props mapping을 공통화한다. notes는 field별 또는 series별 폴더를 authoring 구조로 사용할 수 있지만 공개 URL에는 폴더명을 포함하지 않는다.
+
+예를 들어 다음 파일은 각각 파일명 기준의 공개 URL을 만든다.
+
+```txt
+src/content/notes/ko/ai/cma-es.md -> /notes/cma-es/
+src/content/notes/ai/cma-es.md -> /en/notes/cma-es/
+src/content/notes/ko/programming-language/typescript/intro.md -> /notes/intro/
+```
 
 ## 연결 흐름
 
@@ -143,7 +152,7 @@ flowchart LR
 
 notes index를 기준으로 보면 흐름은 더 구체적이다.
 
-1. `src/content/notes/**`의 Markdown frontmatter가 `notes` collection entry가 된다.
+1. `src/content/notes/**`의 Markdown frontmatter가 `notes` collection entry가 된다. notes 하위 폴더는 작성 편의를 위한 구조이며 공개 slug는 파일명만 사용한다.
 2. `src/content/config.ts`가 `field`, `series`, `tags`, `status` 같은 metadata 형태를 검증한다.
 3. `src/pages/notes/index.astro`가 `getCollection('notes')`로 entry를 가져오고 `filterByLang()`과 `sortByDateDesc()`를 적용한다.
 4. 같은 페이지가 `makeAllNoteFieldFilterOptions()`, `makeFilterOptions()`, `makeDependentFilterOptions()`로 필터 옵션을 만든다.
