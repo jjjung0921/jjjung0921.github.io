@@ -219,7 +219,7 @@ $$
 
 ```ts
 const id1: ID = 10;
-const id2: ID = "user-10";f
+const id2: ID = "user-10";
 ```
 
 하지만 `number`와 `string` 모두에 속하지 않는 `object`는 `ID` 타입을 가질 수 없다.
