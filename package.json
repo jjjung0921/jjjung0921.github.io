@@ -11,6 +11,7 @@
     "lint": "tsc --noEmit"
   },
   "dependencies": {
+    "@r4ai/remark-callout": "^0.6.2",
     "astro": "^5.0.0",
     "katex": "^0.17.0",
     "rehype-katex": "^7.0.1",

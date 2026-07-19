@@ -11,7 +11,7 @@ field: "programming-language"
 category: "typescript"
 series: "javascript/typescript"
 # status: "draft" | "reading" | "implemented" | "stable"
-status: "draft"
+status: "implemented"
 summary: "JavaScript의 동적 타입 특성과 TypeScript의 정적 타입 검사 과정을 비교합니다."
 problem: "JavaScript의 타입 관련 문제는 언제 발견되며, TypeScript는 이를 어떻게 실행 전에 진단할까요?"
 coreIdea: "TypeScript는 JavaScript에 정적 타입 검사 층위를 추가하고, 타입 정보를 제거한 JavaScript를 출력한다."
@@ -88,4 +88,4 @@ a.toUpperCase() //Property 'toUpperCase' does not exist on type '10'.
 
 ## 연결
 
-- 다음에 확인할 질문:
+- 다음에 확인할 질문: TypeScript에서의 정적 타입 검사는 JavaScript 위에서 어떻게 동작하는가?
