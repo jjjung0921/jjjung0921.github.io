@@ -1,7 +1,7 @@
 ---
 # Recommended paths:
 # - src/content/notes/ko/<field>/<slug>.md
-# - src/content/notes/<field>/<slug>.md
+# - src/content/notes/en/<field>/<slug>.md
 title: "타입스크립트를 들어가며"
 lang: "ko"
 translationKey: "introduction-to-typescript"
