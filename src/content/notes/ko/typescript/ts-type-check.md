@@ -80,7 +80,7 @@ Potentially invalid operations
 
 TS에서의 type은 js의 runtime에서의 value 혹은 type 그 자체가 아니다.
 
-그보다는 potentially invalid한 operation을 감지하기 위해 특정 표현식이 런타임에 가질 가능성이 있는 값들을 **정적으로 추상화(static abstraction)**한 대상으로 이해해야 한다.
+그보다는 potentially invalid한 operation을 감지하기 위해 특정 표현식이 런타임에 가질 가능성이 있는 값들을 **정적으로 추상화(static abstraction)** 한 대상으로 이해해야 한다.
 
 예를 들어, 다음 변수의 런타임 값은 number type을 가지는 숫자 10이다.
 ```ts
@@ -367,7 +367,7 @@ value: string | number
 `typeof`의 경우, 타입에 따라 호출되는 함수의 호환성이 달라지므로 JS의 runtime에 영향을 미친다. 이런 이유로 `typeof`는 JavaScript에 남아 본인의 역할을 수행한다.
 
 ## 6. Soundness boundaries: TypeScript가 모든 오류를 막지는 않는다
-앞서 언급했듯, TS의 목적은 **"JS의 자유성을 일부 제한하여 Runtime에서 발생할 수 있는 오류들을 미리 찾아내는 것"**이다.
+앞서 언급했듯, TS의 목적은 **JS의 자유성을 일부 제한하여 Runtime에서 발생할 수 있는 오류들을 미리 찾아내는 것**이다.
 
 하지만 타입에 의한 제약이 너무 강해지면 JS가 가지는 자유도에 대한 장점이 사라진다. 즉, 자유도와 제약성 간의 tradeoff를 잘 따져야 한다.
 

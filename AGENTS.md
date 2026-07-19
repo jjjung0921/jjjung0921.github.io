@@ -25,9 +25,14 @@
 ## 지금 신경 쓰는 일 (자주 갱신)
 - 자기소개서 다듬는 중 / 포트폴리오 Stage 2(프로젝트 페이지) 예정.
 
-## 프로젝트 스킬 (`.codex/skills/`)
+## 프로젝트 스킬
 
-이 레포 전용 스킬 5개 (전역 `~/.codex/skills`에서 이전, 2026-07-13). 해당 작업 시 SKILL.md를 Read하여 적용할 것.
+이 레포 전용 스킬 5개가 두 위치에 있음:
+
+- Codex: `.codex/skills/` — 해당 작업 시 SKILL.md를 Read하여 적용할 것 (전역 `~/.codex/skills`에서 이전, 2026-07-13)
+- Claude Code: `.claude/skills/` — 자동 발견되며 Skill 도구로 로드 (`.codex/skills`에서 전환·현행화, 2026-07-19). 라우팅 상세는 레포 `CLAUDE.md` 참조.
+
+두 위치는 동일 내용 유지 (2026-07-19 동기화). 내용 수정 시 반드시 양쪽에 동일하게 반영할 것.
 
 - `astro-frontend-architect` — Astro 페이지·컴포넌트·라우팅·데이터/렌더 분리 구현 기준
 - `web-design-system` — quiet lab log 비주얼 언어(토큰·타이포·레이아웃) 유지·확장
