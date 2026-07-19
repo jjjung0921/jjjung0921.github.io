@@ -12,7 +12,7 @@ Use this skill for Astro implementation, route structure, component boundaries, 
 - `src/layouts/Base.astro` is the live app shell. Props: `page` (`'home' | 'about' | 'notes' | 'projects' | 'lab' | 'cv'`) and `lang` (`'ko' | 'en'`, default `ko`).
 - `src/pages/` owns file-based routes; `src/pages/en/` mirrors core English routes.
 - `src/components/` is organized by domain: `layout/`, `content/`, `cv/`, `lab/`, `project/`, and shared primitives in `ui/` (BadgeList, ContentCard, FilterControls, Icon, PageHeader, ThemeToggle).
-- `src/content/` holds content collections `notes`, `projects`, `lab`, `cv`; schemas live in `src/content/config.ts` (zod). Entries carry `lang` and `translationKey` frontmatter; notes nest under language dirs (e.g. `src/content/notes/ko/typescript/...`).
+- `src/content/` holds content collections `notes`, `projects`, `lab`, `cv`; schemas live in `src/content/config.ts` (zod). Entries carry `lang` and `translationKey` frontmatter and nest under language dirs (`ko/` for Korean, `en/` for English; e.g. `src/content/notes/ko/typescript/...` ↔ `src/content/notes/en/typescript/...`).
 - `src/lib/` is the data layer: `content/` (collections.ts, fields.ts, filters.ts, status.ts) and `lab/` logic modules.
 - `src/siteConfig.ts` holds site-wide config (profile, links, analytics).
 - `src/styles/` contains `tokens.css`, `global.css`, `shell.css`.
@@ -74,7 +74,7 @@ If a transformation is reused or tested independently, keep it outside the `.ast
 
 When committing on the `post` branch, every new or changed Korean entry under `src/content/` must have an English counterpart in the same commit, so the language toggle works:
 
-- Path: drop the `ko/` segment. `notes/ko/<field>/<slug>.md` → `notes/<field>/<slug>.md`; `projects/ko/<slug>.md` → `projects/<slug>.md`; same pattern for `lab/` and `cv/`.
+- Path: replace the `ko/` segment with `en/`. `notes/ko/<field>/<slug>.md` → `notes/en/<field>/<slug>.md`; `projects/ko/<slug>.md` → `projects/en/<slug>.md`; same pattern for `lab/` and `cv/`.
 - Frontmatter: keep the same `translationKey`, set `lang: "en"`, and translate every text field (title, summary, problem, coreIdea, connection, etc.). Keep non-text fields (date, field, category, series, status, tags) aligned with the Korean entry.
 - Body: translate to natural technical English — not literal, sentence-by-sentence conversion. Keep code blocks, math, and links identical.
 - Verify the pair with `npm run build` before committing.

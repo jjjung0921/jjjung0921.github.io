@@ -37,5 +37,6 @@ npm run build    # 정적 빌드 — 변경 후 필수 검증
 | `product-planning` | 페이지/기능이 리뷰어 동선·사이트 목표에 맞는지 판정 |
 | `backend-architect` | 동적 기능(댓글·문의·lab scores) 설계 게이트 |
 | `fullstack-data-flow` | 경계를 넘는 데이터(외부 API·폼·콘텐츠 파이프라인) 계약·진단 |
+| `commit` | 이 레포의 모든 커밋. post 브랜치 콘텐츠 커밋 시 ko→en 번역 동반 강제 |
 
 여러 축에 걸치면 product-planning(무엇을) → web-design-system(어떻게 보일지) → astro-frontend-architect(구현) 순으로.

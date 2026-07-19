@@ -1,7 +1,7 @@
 ---
 # Recommended paths:
 # - src/content/notes/ko/<field>/<slug>.md
-# - src/content/notes/<field>/<slug>.md
+# - src/content/notes/en/<field>/<slug>.md
 title: "TypeScript는 JavaScript를 어떻게 정적으로 모델링하는가"
 lang: "ko"
 translationKey: "type-checking-in-typescript"

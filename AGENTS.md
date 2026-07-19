@@ -27,7 +27,7 @@
 
 ## 프로젝트 스킬
 
-이 레포 전용 스킬 5개가 두 위치에 있음:
+이 레포 전용 스킬 6개가 두 위치에 있음:
 
 - Codex: `.codex/skills/` — 해당 작업 시 SKILL.md를 Read하여 적용할 것 (전역 `~/.codex/skills`에서 이전, 2026-07-13)
 - Claude Code: `.claude/skills/` — 자동 발견되며 Skill 도구로 로드 (`.codex/skills`에서 전환·현행화, 2026-07-19). 라우팅 상세는 레포 `CLAUDE.md` 참조.
@@ -39,3 +39,4 @@
 - `product-planning` — 페이지·기능·리뷰어 동선이 사이트 목표에 맞는지 판정
 - `backend-architect` — 동적 기능(댓글·문의·lab scores 등) 도입 시 설계 게이트. 현행 GitHub Pages, 확장 시 Cloudflare 경로
 - `fullstack-data-flow` — 경계를 넘는 데이터(외부 API·폼·콘텐츠 파이프라인) 계약·추적·진단
+- `commit` — 이 레포의 모든 커밋 절차. post 브랜치 콘텐츠 커밋 시 ko→en 번역 동반 강제
