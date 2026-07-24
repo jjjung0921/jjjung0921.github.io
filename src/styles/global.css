@@ -104,6 +104,16 @@ svg {
   list-style: decimal;
 }
 
+.prose ol > li > ul {
+  list-style: none;
+  margin: 0.35rem 0 0;
+  padding-left: 1rem;
+}
+
+.prose ol > li > ul > li + li {
+  margin-top: 0.2rem;
+}
+
 .prose table {
   border-collapse: collapse;
   display: block;
