@@ -35,7 +35,8 @@ const projectSchema = z.object({
   architecture: z.string(),
   experiment: z.string(),
   technicalCore: z.array(z.string()).default([]),
-  researchRelevance: z.string(),
+  outcome: z.string().optional(),
+  researchRelevance: z.string().optional(),
   links: z.array(z.object({
     label: z.string(),
     url: z.string(),

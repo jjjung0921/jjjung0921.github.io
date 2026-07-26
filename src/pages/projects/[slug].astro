@@ -48,10 +48,18 @@ const slug = getSlugWithoutLangPrefix(project.slug);
           </ul>
         </div>
       </div>
-      <div class="metadata-block">
-        <h3>연구 관련성</h3>
-        <p>{project.data.researchRelevance}</p>
-      </div>
+      {project.data.outcome && (
+        <div class="metadata-block">
+          <h3>성과</h3>
+          <p>{project.data.outcome}</p>
+        </div>
+      )}
+      {project.data.researchRelevance && (
+        <div class="metadata-block">
+          <h3>연구 관련성</h3>
+          <p>{project.data.researchRelevance}</p>
+        </div>
+      )}
     </section>
 
     <div class="prose">
