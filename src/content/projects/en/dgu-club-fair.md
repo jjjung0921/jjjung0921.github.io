@@ -18,9 +18,6 @@ technicalCore:
   - "axios API integration"
   - "Component reuse"
 researchRelevance: "Not directly tied to research, but builds frontend implementation experience in a collaborative environment."
-links:
-  - label: "Repository"
-    url: "https://github.com/LikeLion-at-DGU/2026_spring_club_fair_FE"
 summary: "Frontend for the DGU 2026 first-half club fair website (team project)."
 ---
 

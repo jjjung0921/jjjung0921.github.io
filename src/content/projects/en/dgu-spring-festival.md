@@ -11,16 +11,13 @@ tags: ["Web", "Frontend", "Team"]
 repository: "https://github.com/LikeLion-at-DGU/2026-spring-festival-frontend"
 constraint: "Maintain a consistent UI under short-lived festival traffic and a mobile-first environment."
 architecture: "Cohere components, hooks, and state per domain under features/, keep domain-agnostic UI in components/ui, and wrap the axios instance and utilities in lib/."
-experiment: "Aimed to reduce merge conflicts and duplication in team collaboration through domain-based folder separation."
+experiment: "Deployed and operated during the actual festival; per Google Analytics it recorded about 2.7K active users and roughly 57K total events."
 technicalCore:
   - "Feature-based folder architecture"
   - "Reusable UI components (cva · tailwind-merge)"
   - "Client-side routing"
   - "axios-based API integration"
 researchRelevance: "Not directly tied to research, but builds frontend architecture experience in separating presentation from data logic."
-links:
-  - label: "Repository"
-    url: "https://github.com/LikeLion-at-DGU/2026-spring-festival-frontend"
 summary: "Frontend for the LikeLion DGU 2026 spring festival website (team project)."
 ---
 
@@ -34,3 +31,8 @@ Frontend for Dongguk University LikeLion's 2026 spring festival website. Built o
 - `components/ui/` — domain-agnostic shared UI
 - `lib/` — axios instance and utility wrappers
 - `pages/` — route-level screens
+
+## Usage
+
+- ~2.7K active users (Google Analytics)
+- ~57K total events

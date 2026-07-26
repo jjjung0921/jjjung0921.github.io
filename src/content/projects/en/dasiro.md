@@ -19,11 +19,6 @@ technicalCore:
   - "Risk-grade color scale"
   - "Map–data integration"
 researchRelevance: "Transforming geographic data into a risk objective for visualization connects to experience in designing data flow."
-links:
-  - label: "Live demo"
-    url: "https://dasiro.netlify.app/"
-  - label: "Repository"
-    url: "https://github.com/LikeLion-at-DGU/2025-hackaton-8-Dasiro-frontend"
 summary: "A hackathon web service that visualizes Seoul sinkhole risk on a map and guides safe routes (team project, deployed)."
 ---
 

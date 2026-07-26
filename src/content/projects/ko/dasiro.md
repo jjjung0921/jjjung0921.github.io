@@ -19,11 +19,6 @@ technicalCore:
   - "위험 등급 색상 스케일"
   - "지도-데이터 연동"
 researchRelevance: "지리 데이터를 위험도라는 목표로 변환해 시각화하는 작업으로, 데이터 흐름 설계 경험과 연결된다."
-links:
-  - label: "Live demo"
-    url: "https://dasiro.netlify.app/"
-  - label: "Repository"
-    url: "https://github.com/LikeLion-at-DGU/2025-hackaton-8-Dasiro-frontend"
 summary: "서울 싱크홀 위험도를 지도로 시각화하고 안전 경로를 안내하는 해커톤 웹 서비스 (팀 프로젝트, 배포됨)."
 ---
 
