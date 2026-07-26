@@ -2,7 +2,7 @@
 title: "Jungjin Lee CV"
 lang: "en"
 translationKey: "profile"
-summary: "A CV focused on optimization-minded AI systems, interactive agents, and research-oriented software artifacts."
+summary: "Started with Neural Architecture Search and now focused on bi-level optimization; currently building a user-interactive staged matgo game centered on Dynamic Difficulty Adjustment (DDA)."
 updated: "2026-07-09"
 ---
 
@@ -25,8 +25,8 @@ To me, computer science is the discipline of tracing data. Every computation is 
 ## Research Interests
 
 - Bi-level Optimization
-- Dynamic Difficulty Adjustment
 - Neural Architecture Search
 - Player Modeling
+- Dynamic Difficulty Adjustment
 - AI Agents & Systems
 - Optimization-based Machine Learning

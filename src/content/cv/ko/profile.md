@@ -27,5 +27,6 @@ To me, computer science is the discipline of tracing data. Every computation is 
 - Bi-level Optimization
 - Neural Architecture Search
 - Player Modeling
+- Dynamic Difficulty Adjustment
 - AI Agents & Systems
 - Optimization-based Machine Learning
