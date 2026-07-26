@@ -3,7 +3,7 @@ title: "동국대 봄 축제 웹사이트"
 lang: "ko"
 translationKey: "dgu-spring-festival"
 status: "done"
-problem: "축제 기간 방문객이 모바일에서 축제 정보를 빠르게 확인할 수 있는 웹이 필요했다."
+problem: "축제 기간 방문객이 모바일에서 축제 정보를 빠르게 확인할 수 있는 웹을 제작한다."
 role: "Frontend developer (팀)"
 timeRange: "2026"
 stack: ["React", "Vite", "TypeScript", "Tailwind CSS", "React Router", "axios"]

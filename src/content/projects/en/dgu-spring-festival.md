@@ -3,7 +3,7 @@ title: "DGU Spring Festival Website"
 lang: "en"
 translationKey: "dgu-spring-festival"
 status: "done"
-problem: "Festival visitors needed a mobile-first web app to quickly find festival information during the event."
+problem: "Build a mobile-first web app so festival visitors can quickly find festival information during the event."
 role: "Frontend developer (team)"
 timeRange: "2026"
 stack: ["React", "Vite", "TypeScript", "Tailwind CSS", "React Router", "axios"]

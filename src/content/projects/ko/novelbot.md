@@ -18,7 +18,7 @@ technicalCore:
   - "WebSocket 기반 실시간 채팅 스트리밍"
   - "구매 범위 접근 제어 · 검색 경계 검사 (스포일러 방지)"
   - "RAG 서버 연동 (Milvus · LangChain)"
-researchRelevance: "구매 범위를 넘지 않는 접근 제약 QA — 에피소드 단위 인덱스와 사용자 접근 행렬로 검색 경계를 지켜 스포일러를 차단하는 설계는, 제약된 추론·검색 제어·사용자별 정보 접근이라는 상호작용형 AI 시스템 문제와 직접 닿는다. 나아가 RAG 응답에 System 2형 숙고 추론(multi-hop·self-verification)을 얹으면 검색 안에 추론이 중첩되는 구조가 되어, 내가 관심을 둔 중첩 최적화·nested search와 이어진다."
+researchRelevance: "구매 범위를 넘지 않는 접근 제약 QA — 에피소드 단위 인덱스와 사용자 접근 행렬로 검색 경계를 지켜 스포일러를 차단하는 설계는, 제약된 추론·검색 제어·사용자별 정보 접근이라는 상호작용형 AI 시스템 문제와 연관될 수 있다. 나아가 RAG 응답에 System 2형 숙고 추론(multi-hop·self-verification)을 얹으면 검색 안에 추론이 중첩되는 구조가 되어, 내가 관심을 둔 bi-level optimization·nested search와 이어진다."
 links:
   - label: "NovelBot (조직 저장소)"
     url: "https://github.com/orgs/novelbot/repositories"
@@ -52,4 +52,4 @@ NovelBot은 웹소설 독자가 이전 화를 직접 뒤지거나 스포일러�
 
 ## 향후 방향
 
-백엔드 참여를 넘어, AI 응답 부분을 **System 2 딥러닝(숙고형 다단계 추론)** 으로 강화하고 싶다 — 에피소드 간 multi-hop 추론, 답변이 스포일러 경계를 넘지 않는지에 대한 self-verification, 검색과 추론을 반복하는 deliberate reasoning. 이는 검색 안에 추론이 중첩되는 구조로, 내가 관심을 둔 중첩 최적화·nested search와 맞닿는다.
+백엔드 참여를 넘어, AI 응답 부분을 **System 2 딥러닝(숙고형 다단계 추론)** 으로 강화하고 싶다 — 에피소드 간 multi-hop 추론, 답변이 스포일러 경계를 넘지 않는지에 대한 self-verification, 검색과 추론을 반복하는 deliberate reasoning. 이는 검색 안에 추론이 중첩되는 구조로, 내가 관심을 둔 bi-level optimization·nested search와 맞닿는다.
