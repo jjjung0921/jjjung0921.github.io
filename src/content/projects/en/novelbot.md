@@ -18,7 +18,7 @@ technicalCore:
   - "WebSocket real-time chat streaming"
   - "Purchase-range access control · retrieval boundary check (spoiler prevention)"
   - "RAG-server integration (Milvus · LangChain)"
-researchRelevance: "Access-constrained QA that never exceeds the purchased range — holding the retrieval boundary with an episode-level index and a per-user access matrix — directly touches the interactive-AI problems of constrained reasoning, retrieval control, and per-user information access."
+researchRelevance: "Access-constrained QA that never exceeds the purchased range — holding the retrieval boundary with an episode-level index and a per-user access matrix — directly touches the interactive-AI problems of constrained reasoning, retrieval control, and per-user information access. Going further, layering System 2-style deliberate reasoning (multi-hop, self-verification) onto the RAG responses nests reasoning inside retrieval, connecting to my interest in nested optimization and search."
 links:
   - label: "NovelBot (organization repositories)"
     url: "https://github.com/orgs/novelbot/repositories"
@@ -49,3 +49,7 @@ The core constraint is: "never retrieve or answer with information beyond the ra
 - **Frontend** (React) — a teammate's part
 - **Backend** (Spring Boot) — my part: domains, auth, chat, integration, access control
 - **RAG server** (Python · Milvus · LangChain) — a teammate's part: vector search, LLM responses
+
+## Future direction
+
+Beyond the backend, I want to strengthen the AI-response side with **System 2 deep learning (deliberate, multi-step reasoning)** — multi-hop reasoning across episodes, self-verification that an answer never crosses the spoiler boundary, and deliberate reasoning that iterates between retrieval and inference. This nests reasoning inside retrieval, meeting my interest in nested optimization and search.
