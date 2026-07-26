@@ -403,6 +403,7 @@
 }
 
 .identity-item {
+  align-content: start;
   display: grid;
   gap: 0.85rem;
 }
