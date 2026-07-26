@@ -1,0 +1,44 @@
+name: 버그 리포트
+description: 사이트에서 발견한 버그를 알려주세요
+title: "[Bug] "
+labels: ["bug"]
+body:
+  - type: textarea
+    id: summary
+    attributes:
+      label: 무엇이 잘못됐나요
+      description: 기대한 동작과 실제 동작을 함께 적어주세요.
+    validations:
+      required: true
+  - type: textarea
+    id: repro
+    attributes:
+      label: 재현 방법
+      placeholder: |
+        1. '...' 페이지로 이동
+        2. '...' 클릭
+        3. 오류 확인
+    validations:
+      required: true
+  - type: dropdown
+    id: area
+    attributes:
+      label: 영역
+      options:
+        - 레이아웃 / 스타일 (토큰·반응형·다크모드)
+        - 콘텐츠 (notes / projects / lab / cv)
+        - 라우팅 / 링크
+        - ko/en 패리티
+        - 빌드 / 배포
+        - 기타
+    validations:
+      required: true
+  - type: input
+    id: env
+    attributes:
+      label: 환경
+      placeholder: 브라우저 · 기기 · 화면 폭 (예. Chrome, iPhone, 390px)
+  - type: textarea
+    id: extra
+    attributes:
+      label: 스크린샷 · 추가 정보
