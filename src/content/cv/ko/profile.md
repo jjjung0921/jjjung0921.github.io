@@ -2,13 +2,19 @@
 title: "이정진 CV"
 lang: "ko"
 translationKey: "profile"
-summary: "최적화 기반 AI 시스템, 상호작용형 에이전트, 연구형 소프트웨어 산출물 중심의 CV."
+summary: "NAS(Neural Architecture Search)로 시작하여 bi-level optimization에 관심을 두고 공부하고 있습니다. 현재는 DDA(Dynamic Difficulty Adjustment)를 중점으로 user-interactive staged matgo-game 프로젝트를 진행 중입니다."
 updated: "2026-07-09"
 ---
 
 # Jungjin Lee
 
-Computer Science & Engineering student focused on optimization-minded AI systems, interactive agents, and research-oriented software artifacts.
+Computer Science & Engineering student. Academically, my aim is to automate the construction of AI that fits the individual. Neural architecture search taught me to treat a model's design as something a search can discover rather than a human must hand-craft; player modeling and dynamic difficulty adjustment taught me that the target worth fitting is a specific person, not an average one. Bi-level optimization is where the two meet — an outer objective that adapts a system to its user, resolved by an inner search that builds it. The long goal is to make user-tailored AI something we *synthesize*, not hand-tune.
+
+## Philosophy
+
+I don't trust a technique until I understand why it must exist. My default way of learning is to reconstruct a method from the limitation it answers — what the previous approach couldn't do, and why this one has to look the way it does. Understanding earned this way survives past the exam and transfers to the next problem.
+
+To me, computer science is the discipline of tracing data. Every computation is data moving across memory, and I find that you cannot reason about a program — let alone optimize it — until you can follow where that data goes and where its cost accrues. But efficient memory and efficient *programming* pull against each other: abstraction buys human clarity at the price of indirection, hand-tuning buys speed at the price of comprehension. Managing that tradeoff is the real craft — the abstractions I write at the top are only as good as how they resolve onto memory underneath.
 
 ## Education
 
@@ -19,7 +25,6 @@ Computer Science & Engineering student focused on optimization-minded AI systems
 ## Research Interests
 
 - Bi-level Optimization
-- Dynamic Difficulty Adjustment
 - Neural Architecture Search
 - Player Modeling
 - AI Agents & Systems
