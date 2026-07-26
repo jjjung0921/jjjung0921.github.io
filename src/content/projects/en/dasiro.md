@@ -18,7 +18,6 @@ technicalCore:
   - "Kakao Maps route guidance"
   - "Risk-grade color scale"
   - "Map–data integration"
-researchRelevance: "Transforming geographic data into a risk objective for visualization connects to experience in designing data flow."
 summary: "A hackathon web service that visualizes Seoul sinkhole risk on a map and guides safe routes (team project, deployed)."
 ---
 

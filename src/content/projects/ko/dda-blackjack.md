@@ -17,7 +17,7 @@ technicalCore:
   - "플레이어 실력 추정"
   - "동적 정책 전환"
   - "시뮬레이션 기반 평가"
-researchRelevance: "DDA를 상위-하위 목적이 중첩된 최적화 문제로 다루며, 플레이어 모델링과 AutoML 관점으로 확장할 수 있다."
+researchRelevance: "DDA를 상위-하위 목적이 중첩된 최적화 문제로 다루며, 사용자의 실력 향상을 목적으로 하는 stage 기반 게임이기에 performative prediction을 통해 실력 향상을 유도한다. 이후 플레이어 모델링과 AutoML 관점으로 확장할 수 있다."
 links:
   - label: "상세 보기"
     url: "/projects/dda-blackjack/"

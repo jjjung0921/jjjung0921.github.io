@@ -17,7 +17,6 @@ technicalCore:
   - "styled-components styling"
   - "axios API integration"
   - "Component reuse"
-researchRelevance: "Not directly tied to research, but builds frontend implementation experience in a collaborative environment."
 summary: "Frontend for the DGU 2026 first-half club fair website (team project)."
 ---
 

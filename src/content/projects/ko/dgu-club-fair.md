@@ -17,7 +17,6 @@ technicalCore:
   - "styled-components 스타일링"
   - "axios API 연동"
   - "컴포넌트 재사용"
-researchRelevance: "연구와 직접 연결되진 않지만, 협업 환경에서의 프론트엔드 구현 경험으로 이어진다."
 summary: "동국대 2026 상반기 동아리박람회 웹사이트 프론트엔드 (팀 프로젝트)."
 ---
 
