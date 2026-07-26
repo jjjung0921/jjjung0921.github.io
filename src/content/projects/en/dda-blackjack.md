@@ -17,7 +17,7 @@ technicalCore:
   - "Player skill estimation"
   - "Dynamic policy shifting"
   - "Simulation-based evaluation"
-researchRelevance: "This treats DDA as a nested upper/lower optimization problem and extends toward player modeling and AutoML."
+researchRelevance: "This treats DDA as a nested upper/lower optimization problem; since it is a stage-based game aimed at improving the player's skill, it uses performative prediction to drive that improvement. It then extends toward player modeling and AutoML."
 links:
   - label: "Details"
     url: "/en/projects/dda-blackjack/"
