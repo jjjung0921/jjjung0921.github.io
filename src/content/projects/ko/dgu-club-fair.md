@@ -3,7 +3,7 @@ title: "동국대 동아리박람회 웹사이트"
 lang: "ko"
 translationKey: "dgu-club-fair"
 status: "done"
-problem: "동아리박람회 정보를 온라인에서 한눈에 탐색할 수 있는 웹이 필요했다."
+problem: "동아리박람회 정보를 온라인에서 한눈에 탐색할 수 있는 웹을 제작한다."
 role: "Frontend developer (팀)"
 timeRange: "2026"
 stack: ["React", "TypeScript", "styled-components", "React Router", "axios"]

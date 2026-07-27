@@ -3,7 +3,7 @@ title: "이정진 CV"
 lang: "ko"
 translationKey: "profile"
 summary: "NAS(Neural Architecture Search)로 시작하여 bi-level optimization에 관심을 두고 공부하고 있습니다. 현재는 DDA(Dynamic Difficulty Adjustment)를 중점으로 user-interactive staged matgo-game 프로젝트를 진행 중입니다."
-updated: "2026-07-09"
+updated: "2026-07-26"
 ---
 
 # Jungjin Lee
@@ -30,3 +30,25 @@ To me, computer science is the discipline of tracing data. Every computation is 
 - Dynamic Difficulty Adjustment
 - AI Agents & Systems
 - Optimization-based Machine Learning
+
+## Selected Projects
+
+- **DDA Blackjack / Matgo** — research prototype framing dynamic difficulty adjustment as a bi-level optimization with player modeling; a stage-based game that drives skill improvement via performative prediction.
+- **MEEA\* Retrosynthesis** — individual-research review of an MCTS-enhanced A\* search; reviewed the paper and code, reproduced the training pipeline the original repo omits, and ran cpuct / policyNet ablations.
+- **NovelBot — Conversational AI for Web Novels** *(team)* — led the Spring Boot backend (auth, purchase, WebSocket chat), enforcing spoiler-safe, purchase-range access control over a RAG server.
+- **Dasiro — Seoul Sinkhole Safety Map** *(team)* — deployed hackathon web app; D3.js + Kakao Maps risk visualization and safe-route guidance.
+- **DGU Spring Festival Site** *(team)* — React frontend; ~2.7K active users and ~57K events (Google Analytics).
+
+## Selected Notes
+
+- **Performative Prediction** — anticipating the distribution shift a model itself induces
+- **CMA-ES** — updating a search distribution for black-box optimization
+- **BERT** — why bidirectional representation was the central problem
+- **TypeScript type system** — how it statically models JavaScript
+
+## Technical
+
+- **Languages** — C / C++, C#, Java, Python, TypeScript / JavaScript
+- **Backend** — Spring Boot, Spring Security / JWT, MySQL, Redis, WebSocket
+- **AI / ML** — PyTorch, RAG (Milvus · LangChain), RDKit
+- **Frontend** — React, Vite, Tailwind CSS, styled-components, Astro

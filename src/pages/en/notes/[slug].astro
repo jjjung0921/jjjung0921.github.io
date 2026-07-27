@@ -5,6 +5,7 @@ import BadgeList from '../../../components/ui/BadgeList.astro';
 import { getLocalizedStaticPaths, getPublicEntrySlug } from '../../../lib/content/collections';
 import { getNoteFieldLabel } from '../../../lib/content/fields';
 import { getStatusLabel, getStatusTone } from '../../../lib/content/status';
+import CopyCode from '../../../components/content/CopyCode.astro';
 
 export async function getStaticPaths() {
   return getLocalizedStaticPaths(await getCollection('notes'), 'en', 'note', 'notes');
@@ -33,4 +34,5 @@ const slug = getPublicEntrySlug('notes', note);
       <Content />
     </div>
   </article>
+  <CopyCode />
 </Base>
