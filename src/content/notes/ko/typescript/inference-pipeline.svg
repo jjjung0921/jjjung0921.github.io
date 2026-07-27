@@ -1,0 +1,91 @@
+<svg viewBox="0 0 660 210" xmlns="http://www.w3.org/2000/svg">
+  <style>
+    text { font-family: 'Pretendard', system-ui, -apple-system, sans-serif; }
+    .stage-num { font-size: 10px; font-weight: 700; fill: #FFFFFF; }
+    .stage-title { font-size: 12px; font-weight: 700; fill: #374151; }
+    .stage-desc { font-size: 10.5px; fill: #6B7280; }
+    .stage-key { font-size: 10.5px; font-weight: 600; }
+    .arrow-line { stroke: #9CA3AF; stroke-width: 1.5; fill: none; marker-end: url(#arrowR); }
+
+    @media (prefers-color-scheme: dark) {
+      .stage-title { fill: #E5E7EB; }
+      .stage-desc { fill: #9CA3AF; }
+    }
+  </style>
+
+  <defs>
+    <marker id="arrowR" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#9CA3AF"/>
+    </marker>
+  </defs>
+
+  <!-- Stage 0 -->
+  <rect x="10" y="30" width="140" height="110" rx="8" fill="#D1FAE5" stroke="#10B981" stroke-width="1.5"/>
+  <circle cx="30" cy="48" r="10" fill="#10B981"/>
+  <text class="stage-num" x="30" y="52" text-anchor="middle">0</text>
+  <text class="stage-title" x="44" y="52">표현식 계산</text>
+  <line x1="20" y1="62" x2="140" y2="62" stroke="#10B981" stroke-width="0.6" opacity="0.4"/>
+  <text class="stage-desc" x="22" y="80">배열 리터럴, 조건식 등</text>
+  <text class="stage-desc" x="22" y="96">표현식의 타입을 계산</text>
+  <text class="stage-key" x="22" y="120" fill="#059669">새 타입은 여기서만</text>
+
+  <!-- Arrow 0→1 -->
+  <line class="arrow-line" x1="150" y1="85" x2="170" y2="85"/>
+
+  <!-- Stage 1 -->
+  <rect x="170" y="30" width="140" height="110" rx="8" fill="#F3F4F6" stroke="#D1D5DB" stroke-width="1.5"/>
+  <circle cx="190" cy="48" r="10" fill="#6B7280"/>
+  <text class="stage-num" x="190" y="52" text-anchor="middle">1</text>
+  <text class="stage-title" x="204" y="52">후보 수집</text>
+  <line x1="180" y1="62" x2="300" y2="62" stroke="#D1D5DB" stroke-width="0.6" opacity="0.6"/>
+  <text class="stage-desc" x="182" y="80">T가 등장한 자리마다</text>
+  <text class="stage-desc" x="182" y="96">타입을 받아 적는다</text>
+  <text class="stage-key" x="182" y="120" fill="#6B7280">판단 없이 기록만</text>
+
+  <!-- Arrow 1→2 -->
+  <line class="arrow-line" x1="310" y1="85" x2="330" y2="85"/>
+
+  <!-- Stage 2 -->
+  <rect x="330" y="30" width="140" height="110" rx="8" fill="#EFF6FF" stroke="#3B82F6" stroke-width="1.5"/>
+  <circle cx="350" cy="48" r="10" fill="#3B82F6"/>
+  <text class="stage-num" x="350" y="52" text-anchor="middle">2</text>
+  <text class="stage-title" x="364" y="52">선택</text>
+  <line x1="340" y1="62" x2="460" y2="62" stroke="#3B82F6" stroke-width="0.6" opacity="0.3"/>
+  <text class="stage-desc" x="342" y="80">나머지를 받아낼 수</text>
+  <text class="stage-desc" x="342" y="96">있는 후보를 고른다</text>
+  <text class="stage-key" x="342" y="120" fill="#2563EB">제약은 여기서 필터</text>
+
+  <!-- Arrow 2→3 -->
+  <line class="arrow-line" x1="470" y1="85" x2="490" y2="85"/>
+
+  <!-- Stage 3 -->
+  <rect x="490" y="30" width="140" height="110" rx="8" fill="#FEF3C7" stroke="#F59E0B" stroke-width="1.5"/>
+  <circle cx="510" cy="48" r="10" fill="#F59E0B"/>
+  <text class="stage-num" x="510" y="52" text-anchor="middle">3</text>
+  <text class="stage-title" x="524" y="52">인자 검사</text>
+  <line x1="500" y1="62" x2="620" y2="62" stroke="#F59E0B" stroke-width="0.6" opacity="0.3"/>
+  <text class="stage-desc" x="502" y="80">확정된 T로 각 인자를</text>
+  <text class="stage-desc" x="502" y="96">다시 검사한다</text>
+  <text class="stage-key" x="502" y="120" fill="#D97706">에러는 대부분 여기</text>
+
+  <!-- Bottom summary -->
+  <text x="330" y="170" text-anchor="middle" font-size="11.5" fill="#6B7280">0단계만 새 타입을 만든다. 1~2단계는 받아적고 고를 뿐이다.</text>
+  <text x="330" y="190" text-anchor="middle" font-size="11.5" fill="#6B7280">제약(T extends X)은 2단계에서 자격 미달 후보를 걸러낸다.</text>
+
+  <style>
+    @media (prefers-color-scheme: dark) {
+      rect[fill="#D1FAE5"] { fill: #064E3B; stroke: #34D399; }
+      rect[fill="#F3F4F6"] { fill: #1F2937; stroke: #4B5563; }
+      rect[fill="#EFF6FF"] { fill: #1E3A5F; stroke: #60A5FA; }
+      rect[fill="#FEF3C7"] { fill: #78350F; stroke: #FBBF24; }
+      circle[fill="#10B981"] { fill: #34D399; }
+      circle[fill="#6B7280"] { fill: #9CA3AF; }
+      circle[fill="#3B82F6"] { fill: #60A5FA; }
+      circle[fill="#F59E0B"] { fill: #FBBF24; }
+      .stage-key[fill="#059669"] { fill: #34D399; }
+      .stage-key[fill="#6B7280"] { fill: #9CA3AF; }
+      .stage-key[fill="#2563EB"] { fill: #60A5FA; }
+      .stage-key[fill="#D97706"] { fill: #FBBF24; }
+    }
+  </style>
+</svg>

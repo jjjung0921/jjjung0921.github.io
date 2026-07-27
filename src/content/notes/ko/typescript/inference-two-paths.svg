@@ -1,0 +1,106 @@
+<svg viewBox="0 0 620 380" xmlns="http://www.w3.org/2000/svg">
+  <style>
+    text { font-family: 'Pretendard', system-ui, -apple-system, sans-serif; }
+    .title { font-size: 13px; font-weight: 700; fill: #374151; }
+    .code { font-family: 'SF Mono', 'Fira Code', 'Consolas', monospace; font-size: 11.5px; fill: #1F2937; }
+    .stage { font-size: 10.5px; fill: #6B7280; font-weight: 600; }
+    .desc { font-size: 11px; fill: #6B7280; }
+    .result-ok { font-family: 'SF Mono', 'Fira Code', 'Consolas', monospace; font-size: 12px; font-weight: 700; fill: #059669; }
+    .result-err { font-family: 'SF Mono', 'Fira Code', 'Consolas', monospace; font-size: 12px; font-weight: 700; fill: #DC2626; }
+    .arrow { stroke: #9CA3AF; stroke-width: 1.3; fill: none; marker-end: url(#arrowG); }
+    .divider { stroke: #E5E7EB; stroke-width: 1; stroke-dasharray: 4 3; }
+    .stage-box { rx: 5; }
+
+    @media (prefers-color-scheme: dark) {
+      .title { fill: #E5E7EB; }
+      .code { fill: #D1D5DB; }
+      .stage { fill: #9CA3AF; }
+      .desc { fill: #9CA3AF; }
+      .result-ok { fill: #34D399; }
+      .result-err { fill: #F87171; }
+      .divider { stroke: #374151; }
+    }
+  </style>
+  
+  <!-- Divider -->
+  <line class="divider" x1="310" y1="10" x2="310" y2="370"/>
+
+  <!-- === Left: fromArr([dog, cat]) === -->
+  <text class="title" x="155" y="24" text-anchor="middle">fromArr([dog, cat])</text>
+  <text class="code" x="155" y="42" text-anchor="middle">function fromArr&lt;T&gt;(xs: T[]): T</text>
+
+  <!-- Stage 0 -->
+  <rect x="40" y="58" width="230" height="44" class="stage-box" fill="#D1FAE5" stroke="#10B981" stroke-width="1.2"/>
+  <text class="stage" x="52" y="74">0단계: 표현식 계산</text>
+  <text class="code" x="52" y="92">[dog, cat] → (Cat | Dog)[]</text>
+
+  <line class="arrow" x1="155" y1="102" x2="155" y2="118"/>
+
+  <!-- Stage 1 -->
+  <rect x="40" y="118" width="230" height="44" class="stage-box" fill="#F3F4F6" stroke="#D1D5DB" stroke-width="1.2"/>
+  <text class="stage" x="52" y="134">1단계: 후보 수집</text>
+  <text class="code" x="52" y="152">T[] = (Cat|Dog)[] → {Cat|Dog}</text>
+
+  <line class="arrow" x1="155" y1="162" x2="155" y2="178"/>
+
+  <!-- Stage 2 -->
+  <rect x="40" y="178" width="230" height="44" class="stage-box" fill="#F3F4F6" stroke="#D1D5DB" stroke-width="1.2"/>
+  <text class="stage" x="52" y="194">2단계: 선택</text>
+  <text class="code" x="52" y="212">후보 1개 → T := Cat | Dog</text>
+
+  <line class="arrow" x1="155" y1="222" x2="155" y2="238"/>
+
+  <!-- Stage 3 -->
+  <rect x="40" y="238" width="230" height="44" class="stage-box" fill="#D1FAE5" stroke="#10B981" stroke-width="1.2"/>
+  <text class="stage" x="52" y="254">3단계: 인자 검사</text>
+  <text class="code" x="52" y="272">(Cat|Dog)[] → T[] ✓</text>
+
+  <!-- Result -->
+  <text class="result-ok" x="155" y="310" text-anchor="middle">T = Cat | Dog — 통과</text>
+  <text class="desc" x="155" y="332" text-anchor="middle">union은 0단계에서 이미 만들어졌다</text>
+  <text class="desc" x="155" y="350" text-anchor="middle">추론은 받아적었을 뿐이다</text>
+
+  <!-- === Right: pair(dog, cat) === -->
+  <text class="title" x="465" y="24" text-anchor="middle">pair(dog, cat)</text>
+  <text class="code" x="465" y="42" text-anchor="middle">function pair&lt;T&gt;(x: T, y: T): T[]</text>
+
+  <!-- Stage 0 -->
+  <rect x="350" y="58" width="230" height="44" class="stage-box" fill="#F3F4F6" stroke="#D1D5DB" stroke-width="1.2"/>
+  <text class="stage" x="362" y="74">0단계: 표현식 계산</text>
+  <text class="code" x="362" y="92">dog → Dog, cat → Cat</text>
+
+  <line class="arrow" x1="465" y1="102" x2="465" y2="118"/>
+
+  <!-- Stage 1 -->
+  <rect x="350" y="118" width="230" height="44" class="stage-box" fill="#F3F4F6" stroke="#D1D5DB" stroke-width="1.2"/>
+  <text class="stage" x="362" y="134">1단계: 후보 수집</text>
+  <text class="code" x="362" y="152">T = Dog, T = Cat → {Dog, Cat}</text>
+
+  <line class="arrow" x1="465" y1="162" x2="465" y2="178"/>
+
+  <!-- Stage 2 -->
+  <rect x="350" y="178" width="230" height="58" class="stage-box" fill="#FEE2E2" stroke="#EF4444" stroke-width="1.2"/>
+  <text class="stage" x="362" y="194">2단계: 선택</text>
+  <text class="code" x="362" y="212">Dog ⊄ Cat, Cat ⊄ Dog</text>
+  <text class="code" x="362" y="228">답 없음 → T := Dog (첫 후보)</text>
+
+  <line class="arrow" x1="465" y1="236" x2="465" y2="250"/>
+
+  <!-- Stage 3 -->
+  <rect x="350" y="250" width="230" height="44" class="stage-box" fill="#FEE2E2" stroke="#EF4444" stroke-width="1.2"/>
+  <text class="stage" x="362" y="266">3단계: 인자 검사</text>
+  <text class="code" x="362" y="284">Cat → Dog ✗</text>
+
+  <!-- Result -->
+  <text class="result-err" x="465" y="322" text-anchor="middle">Error — Cat은 Dog에 할당 불가</text>
+  <text class="desc" x="465" y="344" text-anchor="middle">두 표현식이 따로 도착했으므로</text>
+  <text class="desc" x="465" y="362" text-anchor="middle">합쳐지지 않았다</text>
+
+  <style>
+    @media (prefers-color-scheme: dark) {
+      rect[fill="#D1FAE5"] { fill: #064E3B; stroke: #34D399; }
+      rect[fill="#F3F4F6"] { fill: #1F2937; stroke: #4B5563; }
+      rect[fill="#FEE2E2"] { fill: #450A0A; stroke: #F87171; }
+    }
+  </style>
+</svg>
