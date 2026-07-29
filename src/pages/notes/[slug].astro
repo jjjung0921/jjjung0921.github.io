@@ -20,7 +20,7 @@ const slug = getPublicEntrySlug('notes', note);
   <article class="page-stack">
     <header class="page-header">
       <div class="metadata">
-        <span>{note.data.date.toISOString().slice(0, 10)}</span>
+        <span>{(note.data.lastUpdated ?? note.data.date).toISOString().slice(0, 10)}</span>
         <span>{getNoteFieldLabel(note.data.field, note.data.lang)}</span>
         {note.data.series && <span>{note.data.series}</span>}
         <span>{note.data.category}</span>

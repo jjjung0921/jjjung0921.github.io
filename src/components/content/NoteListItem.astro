@@ -17,7 +17,8 @@ const fieldLabel = getNoteFieldLabel(note.data.field, note.data.lang);
 const fieldKey = toFilterKey(note.data.field);
 const tagKeys = note.data.tags.map(toFilterKey).join(' ');
 const seriesKey = note.data.series ? toFilterKey(note.data.series) : '';
-const dateKey = note.data.date.toISOString();
+const displayDate = note.data.lastUpdated ?? note.data.date;
+const dateKey = displayDate.toISOString();
 ---
 
 <a
@@ -31,7 +32,7 @@ const dateKey = note.data.date.toISOString();
 >
   <div class="note-list-summary">
     <div class="metadata">
-      <span>{note.data.date.toISOString().slice(0, 10)}</span>
+      <span>{displayDate.toISOString().slice(0, 10)}</span>
       <span>{fieldLabel}</span>
       {note.data.series && <span>{note.data.series}</span>}
       <span>{note.data.category}</span>

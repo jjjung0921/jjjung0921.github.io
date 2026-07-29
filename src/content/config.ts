@@ -7,6 +7,7 @@ const noteSchema = z.object({
   lang,
   translationKey: z.string(),
   date: z.coerce.date(),
+  lastUpdated: z.coerce.date().optional(),
   field: z.enum(['web', 'game', 'programming-language', 'ai']),
   category: z.string(),
   series: z.string().optional(),
