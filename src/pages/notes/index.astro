@@ -31,10 +31,11 @@ const noteSeriesOptions = makeFilterOptions(notes.flatMap((note) => note.data.se
         { key: 'tags', label: '#태그', allLabel: '전체', options: noteTagOptions, dependsOn: 'field' },
       ]}
       sort={{
-        label: '날짜순',
+        label: '정렬',
         options: [
           { value: 'date:desc', label: '최신순' },
           { value: 'date:asc', label: '오래된순' },
+          { value: 'order:asc', label: '시리즈순' },
         ],
       }}
     />
