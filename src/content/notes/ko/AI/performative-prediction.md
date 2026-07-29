@@ -12,12 +12,12 @@ field: "ai"
 category: "Performative Prediction"
 series: "Performative Prediction"
 # status: "draft" | "reading" | "implemented" | "stable"
-status: "draft"
-summary: "기존의 머신러닝은 데이터의 분포가 고정된 상태에서 설계되었다. 그러나 모델의 결정이 결정 이후의 데이터의 분포를 변화시킨다면 우리는 이를 어떻게 예측할 것인가. Performative Prediction은 이에 대한 문제를 정식화한다."
-problem: "Data의 distribution이 performative할 때, 우리는 이를 어떻게 예측할 것인가."
-coreIdea: ""
-connection: "DDA에서 사용자의 실력을 향상 시키는 방향으로 Opponent model을 설계할 수 있는가?"
-tags: ["optimization", "performative prediction"]
+status: "implemented"
+summary: "머신러닝은 데이터 분포가 고정되어 있다고 가정하지만, 모델의 예측이 결정을 낳고 그 결정이 다시 데이터를 바꾼다면 이 전제는 무너진다. 1954년 GMS 정리가 던진 '공표된 예측이 스스로 실현될 수 있는가'라는 질문에서 출발해, 이를 분포와 손실함수의 언어로 옮긴 Performative Prediction의 프레임워크와 재학습(RRM)이 수렴하기 위한 조건을 정리한다."
+problem: "모델의 예측이 데이터 분포를 바꿀 때, 재학습은 한 점으로 수렴하는가 — 그리고 그 조건은 무엇인가."
+coreIdea: "재학습은 분포 이동에 대한 땜질이 아니라 평형을 찾아가는 동역학이다. 분포가 도망가는 속도(εβ)가 최적화가 당기는 속도(γ)보다 작으면, 재학습은 축약 사상이 되어 유일한 안정점으로 선형 수렴한다."
+connection: "DDA에서 사용자의 실력을 향상시키는 방향으로 Opponent model을 설계할 수 있는가? — 난이도 조절이 곧 플레이어의 실력 분포를 바꾸는 전형적 performative 상황이다."
+tags: ["optimization", "performative prediction", "fixed-point", "convergence", "distribution-shift"]
 ---
 
 # 우리의 결정은 환경을 변화시킨다.
@@ -129,7 +129,7 @@ PR은 **모델이 탄생시킨 데이터 환경에서** 모델의 성능을 측�
 
 앞서 우리는 $\theta$가 모델-환경 쌍을 구성한다는 것을 확인했다. $\theta$가 만드는 (모델, 그 모델이 유발한 환경) 쌍들 중에서, 그 쌍의 손실이 가장 낮은 것을 우리는 **Performative Optimality**라고 한다.
 
->[!warning] PS와 PO는 독립된 다른 개념이다. 일반적으로 일치하지 않는다. $\theta_{PO}$는 최선이지만 배포 후 재학습하면 딴 데로 가고(불안정), $\theta_{PS}$는 안정하지만 최선이 아니다. 
+> [!warning] 두 해 개념은 일반적으로 **일치하지 않는다.** $\theta_{\text{PO}}$는 최선이지만 배포 후 재학습하면 다른 곳으로 옮겨가고(불안정), $\theta_{\text{PS}}$는 안정하지만 최선이 아니다. 이 간극을 재는 것은 다음 글의 주제이며, 이번 글은 **도달 가능한 쪽**인 $\theta_{\text{PS}}$에 집중한다.
 
 ### PR와 DPR의 시각적 비교
 
@@ -349,6 +349,54 @@ RRM과 RGD를 한 눈에 비교하면 아래와 같다.
 | $\varepsilon$ 문턱 | $\dfrac{\gamma}{\beta}$ | $\dfrac{\gamma}{(\beta+\gamma)(1+1.5\eta\beta)}$ (더 작음) |
 | 수렴            | 선형                       | 선형 (더 느림)                                          |
 | $\varepsilon=0$ | 1스텝에 수렴               | 고전 GD 수렴률                                          |
+
+## 4. 정리 — 무엇을 답했고 무엇이 남았는가
+
+이번 글이 답한 질문은 하나다. **"모델이 데이터 분포를 바꾸는 환경에서, 재학습은 한 점으로 수렴하는가?"**
+
+답은 조건부 성립이었다. 손실이 $\gamma$-strong convex, $\beta$-smoothness이고 분포 맵이 $\varepsilon$-sensitive일 때, 재학습 연산자 $G$는 축약 사상이 되고
+
+$$
+\varepsilon < \frac{\gamma}{\beta}
+\qquad\Longleftrightarrow\qquad
+\underbrace{\varepsilon\beta}_{\text{분포가 도망가는 속도}}
+\;
+\underbrace{\gamma}_{\text{최적화가 당기는 속도}}
+$$
+
+이면 유일한 안정점 $\theta_{\text{PS}}$로 선형 수렴한다. 세 가정 중 어느 하나만 빼도 발산하는 반례가 존재하므로 이 결과는 더 약화할 수 없다.
+
+그러나 여기까지는 **"재학습이 어디로 가는가"** 에 대한 답일 뿐이다. 두 가지가 남아 있다.
+
+### 남은 문제 1: 모집단 가정
+
+위 논의는 모두 "모집단 수준(population level)"에서 이루어졌다. 즉 $\mathcal{D}(\theta_t)$에 대한 기댓값을 정확히 계산할 수 있다고 가정했다. 그러나 1장에서 지적했듯 현실에서 우리가 관측하는 것은 배포 이후의 **유한한 표본**뿐이다. 원 논문은 이 경우에도 고확률로 안정점 근방에 도달하고 그 안에 머문다는 것을 보인다(RERM/REGD).
+
+### 남은 문제 2: $\theta_{\text{PS}}$는 $\theta_{\text{PO}}$가 아니다
+
+더 근본적인 문제가 남았다. 2장에서 우리는 해 개념을 **2가지**로 정의했다.
+
+| | 정의 | 성격 |
+| --- | --- | --- |
+| $\theta_{\text{PS}}$ | 자기가 만든 분포에서 재학습해도 그대로 | 고정점 — **도달 가능** |
+| $\theta_{\text{PO}}$ | 모든 모델-환경 쌍 중 손실 최소 | 전역 최적 — **우리가 원하던 것** |
+
+그리고 앞서 3장 전체는 **$\theta_{\text{PS}}$** 만 다뤘다. 우리가 도달한 곳은 "원하던 최선"이 아니라 "재학습이 데려다준 곳"이다.
+
+$\theta_{\text{PS}}$는 본인으로부터 유발한 데이터로는 반박되지 않는다. 지금 조건에서 데이터를 모아 위험 최소화를 다시 풀어도 같은 모델이 나오므로, **그 안에서는 더이상의 개선의 여지가 보이지 않는다**. 그러나 이는 더 나은 모델이 없다는 뜻과 동치가 아니다.
+
+그렇다면 아래왁 같은 질문이 남는다.
+
+> **도달한 안정점은 원하던 최적점과 얼마나 다른가?**
+
+안정점이 최적점과의 차이가 크지 않아야 앞서 우리가 살펴본 방식이 정당화된다.
+
+다음 글에서는 이 질문에 답하고자 한다. 다음 세 갈래로 진행된다 
+1. **약한 가정에서도 안정점이 존재하는가**
+2. **최적점을 직접 겨냥하는 것은 왜 어려운가**
+3. **두 해 사이의 거리에 상한을 줄 수 있는가**. 
+
+이 답이 있어야 비로소 프레임워크가 완성된다.
 
 ## 참고문헌
 - Hardt, Moritz, and Celestine Mendler-Dünner. "Performative prediction: Past and future." Statistical Science 40.3 (2025): 417-436.
