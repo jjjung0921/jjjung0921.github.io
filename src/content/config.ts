@@ -11,6 +11,7 @@ const noteSchema = z.object({
   field: z.enum(['web', 'game', 'programming-language', 'ai']),
   category: z.string(),
   series: z.string().optional(),
+  order: z.number().optional(),
   status: z.enum(['draft', 'reading', 'implemented', 'stable']),
   summary: z.string(),
   problem: z.string(),
