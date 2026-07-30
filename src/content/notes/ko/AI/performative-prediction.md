@@ -117,8 +117,10 @@ $$
 ### 2.2 Performative Optimality: Stackelberg equilibria
 
 $$
+\begin{aligned}
 \text{PR}(\theta)\stackrel{\text{def}}{=}\mathbb{E}_{Z\sim\mathcal{D}(\theta)}\ell(Z;\theta)\\
 \theta_{PO}=\argmin_\theta\text{PR}(\theta)
+\end{aligned}
 $$
 
 stability와 별개로, '가능한 것 중 최선'을 묻는 두 번째 해 개념이 있다. 이쪽은 고정점 조건이 아니라 전역 최소화 문제이고, 게임이론의 Stackelberg 균형에 대응한다.

@@ -40,6 +40,25 @@ type LocalizedEntry = {
   data: { lang: Lang };
 };
 
+type TranslatableEntry = {
+  data: {
+    lang: Lang;
+    translationKey: string;
+  };
+};
+
+export function findTranslation<TEntry extends TranslatableEntry>(
+  entries: TEntry[],
+  entry: TEntry,
+  targetLang: Lang,
+): TEntry | undefined {
+  return entries.find(
+    (candidate) =>
+      candidate.data.lang === targetLang
+      && candidate.data.translationKey === entry.data.translationKey,
+  );
+}
+
 export function getLocalizedStaticPaths<TEntry extends LocalizedEntry, TPropName extends string>(
   entries: TEntry[],
   lang: Lang,
