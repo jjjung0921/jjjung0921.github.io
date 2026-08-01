@@ -4,12 +4,15 @@ import Base from '../../layouts/Base.astro';
 import BadgeList from '../../components/ui/BadgeList.astro';
 import {
   findTranslation,
+  getEntryPath,
   getLocalizedStaticPaths,
+  getNoteSeriesNavigation,
   getPublicEntrySlug,
 } from '../../lib/content/collections';
 import { getNoteFieldLabel } from '../../lib/content/fields';
 import { getStatusLabel, getStatusTone } from '../../lib/content/status';
 import CopyCode from '../../components/content/CopyCode.astro';
+import SeriesNavigation from '../../components/content/SeriesNavigation.astro';
 
 export async function getStaticPaths() {
   return getLocalizedStaticPaths(await getCollection('notes'), 'ko', 'note', 'notes');
@@ -17,7 +20,9 @@ export async function getStaticPaths() {
 
 const { note } = Astro.props;
 const { Content } = await note.render();
-const englishNote = findTranslation(await getCollection('notes'), note, 'en');
+const notes = await getCollection('notes');
+const englishNote = findTranslation(notes, note, 'en');
+const seriesNavigation = getNoteSeriesNavigation(notes, note);
 const alternatePath = englishNote
   ? `/en/notes/${getPublicEntrySlug('notes', englishNote)}/`
   : '/en/notes/';
@@ -40,6 +45,17 @@ const alternatePath = englishNote
     <div class="prose">
       <Content />
     </div>
+    <SeriesNavigation
+      lang="ko"
+      previous={seriesNavigation.previous && {
+        href: getEntryPath('notes', seriesNavigation.previous),
+        title: seriesNavigation.previous.data.title,
+      }}
+      next={seriesNavigation.next && {
+        href: getEntryPath('notes', seriesNavigation.next),
+        title: seriesNavigation.next.data.title,
+      }}
+    />
   </article>
   <CopyCode />
 </Base>

@@ -334,6 +334,91 @@
   padding-bottom: var(--space-page-y);
 }
 
+.series-navigation {
+  border-top: 1px solid var(--color-line);
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  padding-top: var(--space-section-compact);
+}
+
+.series-navigation-link {
+  align-items: center;
+  background: color-mix(in srgb, var(--color-bg-raised) 78%, transparent);
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+  display: flex;
+  gap: 1rem;
+  min-width: 0;
+  padding: 1.15rem;
+  transition:
+    background 160ms ease,
+    border-color 160ms ease,
+    box-shadow 160ms ease,
+    transform 160ms ease;
+}
+
+.series-navigation-next {
+  grid-column: 2;
+  justify-content: flex-end;
+  text-align: right;
+}
+
+.series-navigation-link:hover {
+  background: var(--color-bg-raised);
+  border-color: color-mix(in srgb, var(--color-accent) 34%, var(--color-line));
+  box-shadow: var(--shadow-md);
+  transform: translateY(-1px);
+}
+
+.series-navigation-icon {
+  align-items: center;
+  border: 1px solid var(--color-accent);
+  border-radius: 999px;
+  color: var(--color-accent);
+  display: inline-flex;
+  flex: 0 0 2.75rem;
+  height: 2.75rem;
+  justify-content: center;
+  transition:
+    background 160ms ease,
+    color 160ms ease;
+  width: 2.75rem;
+}
+
+.series-navigation-link:hover .series-navigation-icon {
+  background: var(--color-accent);
+  color: var(--color-bg-raised);
+}
+
+.series-navigation-copy {
+  display: grid;
+  gap: 0.35rem;
+  min-width: 0;
+}
+
+.series-navigation-label {
+  color: var(--color-muted);
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.series-navigation-title {
+  color: var(--color-ink);
+  display: -webkit-box;
+  font-size: 1rem;
+  font-weight: 760;
+  line-height: 1.4;
+  overflow: hidden;
+  overflow-wrap: anywhere;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+
 .page-header {
   border-bottom: 1px solid var(--color-line);
   display: grid;
@@ -1361,6 +1446,14 @@
 
   .main {
     padding: var(--mobile-shell-padding-y) var(--mobile-shell-padding-x) 4rem;
+  }
+
+  .series-navigation {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .series-navigation-next {
+    grid-column: 1;
   }
 
   .page-title {

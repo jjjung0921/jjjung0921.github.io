@@ -3,6 +3,11 @@ import type { CollectionEntry } from 'astro:content';
 export type Lang = 'ko' | 'en';
 type RoutableCollection = 'notes' | 'projects' | 'lab';
 
+export interface NoteSeriesNavigation {
+  previous?: CollectionEntry<'notes'>;
+  next?: CollectionEntry<'notes'>;
+}
+
 export function filterByLang<T extends { data: { lang: Lang } }>(entries: T[], lang: Lang): T[] {
   return entries.filter((entry) => entry.data.lang === lang);
 }
@@ -80,4 +85,44 @@ export function getEntryPath(
   const slug = getPublicEntrySlug(collection, entry);
   const prefix = entry.data.lang === 'en' ? '/en' : '';
   return `${prefix}/${collection}/${slug}/`;
+}
+
+function compareNotesBySeriesOrder(
+  a: CollectionEntry<'notes'>,
+  b: CollectionEntry<'notes'>,
+): number {
+  const aOrder = a.data.order ?? Number.POSITIVE_INFINITY;
+  const bOrder = b.data.order ?? Number.POSITIVE_INFINITY;
+
+  if (aOrder !== bOrder) {
+    return aOrder - bOrder;
+  }
+
+  const dateDifference = a.data.date.getTime() - b.data.date.getTime();
+  return dateDifference !== 0 ? dateDifference : a.slug.localeCompare(b.slug);
+}
+
+export function getNoteSeriesNavigation(
+  entries: CollectionEntry<'notes'>[],
+  currentNote: CollectionEntry<'notes'>,
+): NoteSeriesNavigation {
+  const { lang, series } = currentNote.data;
+
+  if (!series) {
+    return {};
+  }
+
+  const orderedSeries = entries
+    .filter((entry) => entry.data.lang === lang && entry.data.series === series)
+    .sort(compareNotesBySeriesOrder);
+  const currentIndex = orderedSeries.findIndex((entry) => entry.slug === currentNote.slug);
+
+  if (currentIndex === -1) {
+    return {};
+  }
+
+  return {
+    previous: orderedSeries[currentIndex - 1],
+    next: orderedSeries[currentIndex + 1],
+  };
 }

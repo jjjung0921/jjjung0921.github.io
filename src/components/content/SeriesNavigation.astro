@@ -1,0 +1,64 @@
+---
+import Icon from '../ui/Icon.astro';
+
+interface SeriesNavigationItem {
+  href: string;
+  title: string;
+}
+
+interface Props {
+  lang: 'ko' | 'en';
+  previous?: SeriesNavigationItem;
+  next?: SeriesNavigationItem;
+}
+
+const { lang, previous, next } = Astro.props;
+const labels = lang === 'ko'
+  ? {
+      navigation: '시리즈 글 탐색',
+      previous: '시리즈 이전 글',
+      next: '시리즈 다음 글',
+    }
+  : {
+      navigation: 'Series navigation',
+      previous: 'Previous in series',
+      next: 'Next in series',
+    };
+---
+
+{
+  (previous || next) && (
+    <nav class="series-navigation" aria-label={labels.navigation}>
+      {previous && (
+        <a
+          class="series-navigation-link series-navigation-previous"
+          href={previous.href}
+          aria-label={`${labels.previous}: ${previous.title}`}
+        >
+          <span class="series-navigation-icon" aria-hidden="true">
+            <Icon name="arrow-left" size={22} />
+          </span>
+          <span class="series-navigation-copy">
+            <span class="series-navigation-label">{labels.previous}</span>
+            <span class="series-navigation-title">{previous.title}</span>
+          </span>
+        </a>
+      )}
+      {next && (
+        <a
+          class="series-navigation-link series-navigation-next"
+          href={next.href}
+          aria-label={`${labels.next}: ${next.title}`}
+        >
+          <span class="series-navigation-copy">
+            <span class="series-navigation-label">{labels.next}</span>
+            <span class="series-navigation-title">{next.title}</span>
+          </span>
+          <span class="series-navigation-icon" aria-hidden="true">
+            <Icon name="arrow-right" size={22} />
+          </span>
+        </a>
+      )}
+    </nav>
+  )
+}
