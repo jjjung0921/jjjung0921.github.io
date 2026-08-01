@@ -1,0 +1,82 @@
+<svg viewBox="0 0 620 360" xmlns="http://www.w3.org/2000/svg">
+  <style>
+    text { font-family: 'Pretendard', system-ui, -apple-system, sans-serif; }
+    .title { font-size: 13px; font-weight: 600; fill: #374151; }
+    .type-label { font-size: 14px; font-weight: 700; }
+    .ops { font-family: 'SF Mono', 'Fira Code', 'Consolas', monospace; font-size: 11.5px; fill: #4B5563; }
+    .caption { font-size: 12.5px; fill: #6B7280; }
+    .result { font-size: 15px; font-weight: 700; fill: #DC2626; }
+    .bracket { stroke: #9CA3AF; stroke-width: 1.5; fill: none; }
+    .arrow { stroke: #9CA3AF; stroke-width: 1.5; fill: none; marker-end: url(#arrowGray); }
+
+    @media (prefers-color-scheme: dark) {
+      .title { fill: #D1D5DB; }
+      .ops { fill: #9CA3AF; }
+      .caption { fill: #9CA3AF; }
+      .result { fill: #F87171; }
+      .bracket { stroke: #6B7280; }
+      .arrow { stroke: #6B7280; }
+    }
+  </style>
+
+  <defs>
+    <marker id="arrowGray" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#9CA3AF"/>
+    </marker>
+  </defs>
+
+  <!-- Title -->
+  <text class="title" x="310" y="28" text-anchor="middle">T의 가능 범위가 모든 타입일 때, 타입별 연산의 교집합</text>
+
+  <!-- ops(string) box -->
+  <rect x="30" y="50" width="160" height="175" rx="8" fill="#DBEAFE" stroke="#3B82F6" stroke-width="1.5" opacity="0.9"/>
+  <text class="type-label" x="110" y="74" text-anchor="middle" fill="#2563EB">ops(string)</text>
+  <line x1="50" y1="82" x2="170" y2="82" stroke="#3B82F6" stroke-width="0.8" opacity="0.4"/>
+  <text class="ops" x="56" y="102">length</text>
+  <text class="ops" x="56" y="120">toUpperCase()</text>
+  <text class="ops" x="56" y="138">slice()</text>
+  <text class="ops" x="56" y="156">trim()</text>
+  <text class="ops" x="56" y="174">charAt()</text>
+  <text class="ops" x="56" y="192">padStart()</text>
+  <text class="ops" x="56" y="212" fill="#9CA3AF">…</text>
+
+  <!-- ops(number) box -->
+  <rect x="230" y="50" width="160" height="175" rx="8" fill="#D1FAE5" stroke="#10B981" stroke-width="1.5" opacity="0.9"/>
+  <text class="type-label" x="310" y="74" text-anchor="middle" fill="#059669">ops(number)</text>
+  <line x1="250" y1="82" x2="370" y2="82" stroke="#10B981" stroke-width="0.8" opacity="0.4"/>
+  <text class="ops" x="256" y="102">toFixed()</text>
+  <text class="ops" x="256" y="120">toPrecision()</text>
+  <text class="ops" x="256" y="138">toExponential()</text>
+  <text class="ops" x="256" y="158" fill="#9CA3AF">…</text>
+
+  <!-- ops(boolean) box -->
+  <rect x="430" y="50" width="160" height="175" rx="8" fill="#FEF3C7" stroke="#F59E0B" stroke-width="1.5" opacity="0.9"/>
+  <text class="type-label" x="510" y="74" text-anchor="middle" fill="#D97706">ops(boolean)</text>
+  <line x1="450" y1="82" x2="570" y2="82" stroke="#F59E0B" stroke-width="0.8" opacity="0.4"/>
+  <text class="ops" x="456" y="108" fill="#9CA3AF">(고유 연산 없음)</text>
+
+  <!-- ... ellipsis for more types -->
+  <text x="600" y="140" font-size="20" fill="#9CA3AF" text-anchor="middle">…</text>
+
+  <!-- Dark mode box overrides -->
+  <style>
+    @media (prefers-color-scheme: dark) {
+      rect { opacity: 0.85; }
+      .type-label[fill="#2563EB"] { fill: #60A5FA; }
+      .type-label[fill="#059669"] { fill: #34D399; }
+      .type-label[fill="#D97706"] { fill: #FBBF24; }
+    }
+  </style>
+
+  <!-- Bracket connecting all boxes -->
+  <path class="bracket" d="M 110 230 L 110 250 Q 110 260 120 260 L 300 260"/>
+  <path class="bracket" d="M 310 230 L 310 250 Q 310 260 305 260 L 300 260"/>
+  <path class="bracket" d="M 510 230 L 510 250 Q 510 260 505 260 L 300 260"/>
+
+  <!-- Arrow down from bracket junction -->
+  <path class="arrow" d="M 310 260 L 310 290"/>
+
+  <!-- Intersection result -->
+  <text class="result" x="310" y="318" text-anchor="middle">∩ ≈ ∅</text>
+  <text class="caption" x="310" y="343" text-anchor="middle">본문에서 T에 대해 쓸 수 있는 연산이 거의 없다</text>
+</svg>

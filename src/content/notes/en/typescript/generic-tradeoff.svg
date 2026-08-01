@@ -1,0 +1,58 @@
+<svg viewBox="0 0 620 310" xmlns="http://www.w3.org/2000/svg">
+  <style>
+    text { font-family: 'Pretendard', system-ui, -apple-system, sans-serif; }
+    .row-label { font-family: 'SF Mono', 'Fira Code', 'Consolas', monospace; font-size: 13px; font-weight: 600; fill: #1F2937; }
+    .bar-label { font-size: 11px; fill: #FFFFFF; font-weight: 600; }
+    .bar-label-dark { font-size: 11px; fill: #374151; font-weight: 600; }
+    .bar-detail { font-family: 'SF Mono', 'Fira Code', 'Consolas', monospace; font-size: 10px; fill: rgba(255,255,255,0.85); }
+    .bar-detail-dark { font-family: 'SF Mono', 'Fira Code', 'Consolas', monospace; font-size: 10px; fill: #6B7280; }
+    .legend-text { font-size: 11.5px; fill: #6B7280; }
+    .axis-label { font-size: 11px; fill: #9CA3AF; }
+
+    @media (prefers-color-scheme: dark) {
+      .row-label { fill: #E5E7EB; }
+      .legend-text { fill: #9CA3AF; }
+      .axis-label { fill: #6B7280; }
+    }
+  </style>
+
+  <!-- Legend -->
+  <rect x="160" y="14" width="14" height="14" rx="3" fill="#3B82F6"/>
+  <text class="legend-text" x="180" y="25">T의 범위 (받을 수 있는 타입)</text>
+  <rect x="390" y="14" width="14" height="14" rx="3" fill="#10B981"/>
+  <text class="legend-text" x="410" y="25">본문에서 쓸 수 있는 연산</text>
+
+  <!-- Row 1: <T> -->
+  <text class="row-label" x="30" y="72">&lt;T&gt;</text>
+  <!-- Blue bar: wide (420px) -->
+  <rect x="30" y="82" width="420" height="36" rx="6" fill="#3B82F6"/>
+  <text class="bar-label" x="40" y="105">string, number, boolean, object, null, ...</text>
+  <!-- Green bar: tiny (40px) -->
+  <rect x="460" y="82" width="40" height="36" rx="6" fill="#10B981" opacity="0.4"/>
+  <text class="bar-label-dark" x="468" y="105">≈ ∅</text>
+
+  <!-- Row 2: <T extends {length:number}> -->
+  <text class="row-label" x="30" y="160">&lt;T extends {length: number}&gt;</text>
+  <!-- Blue bar: medium (270px) -->
+  <rect x="30" y="170" width="270" height="36" rx="6" fill="#3B82F6"/>
+  <text class="bar-label" x="40" y="193">string, Array, {length, ...}</text>
+  <!-- Green bar: medium (190px) -->
+  <rect x="310" y="170" width="190" height="36" rx="6" fill="#10B981"/>
+  <text class="bar-label" x="320" y="193">length</text>
+
+  <!-- Row 3: <T extends string> -->
+  <text class="row-label" x="30" y="248">&lt;T extends string&gt;</text>
+  <!-- Blue bar: narrow (130px) -->
+  <rect x="30" y="258" width="130" height="36" rx="6" fill="#3B82F6"/>
+  <text class="bar-label" x="40" y="281">string</text>
+  <!-- Green bar: wide (330px) -->
+  <rect x="170" y="258" width="330" height="36" rx="6" fill="#10B981"/>
+  <text class="bar-label" x="180" y="281">length, toUpperCase, slice, trim, charAt, ...</text>
+
+  <!-- Dark mode adjustments for bar fills -->
+  <style>
+    @media (prefers-color-scheme: dark) {
+      .bar-label-dark { fill: #9CA3AF; }
+    }
+  </style>
+</svg>

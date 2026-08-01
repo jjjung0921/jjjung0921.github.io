@@ -117,8 +117,10 @@ $$
 ### 2.2 Performative Optimality: Stackelberg equilibria
 
 $$
+\begin{aligned}
 \text{PR}(\theta)\stackrel{\text{def}}{=}\mathbb{E}_{Z\sim\mathcal{D}(\theta)}\ell(Z;\theta)\\
 \theta_{PO}=\argmin_\theta\text{PR}(\theta)
+\end{aligned}
 $$
 
 stability와 별개로, '가능한 것 중 최선'을 묻는 두 번째 해 개념이 있다. 이쪽은 고정점 조건이 아니라 전역 최소화 문제이고, 게임이론의 Stackelberg 균형에 대응한다.
@@ -187,7 +189,6 @@ $$
 ### 3.3 $\beta$-jointly smooth
 
 $$
-[
 \left\|
 \nabla_{\theta}\ell(z;\theta)
 -
@@ -200,9 +201,9 @@ $$
 \right\|_2,
 \qquad
 \forall \theta,\theta'\in\Theta,\; z\in\mathcal Z,
-]
+$$
 
-[
+$$
 \left\|
 \nabla_{\theta}\ell(z;\theta)
 -
@@ -215,7 +216,6 @@ z-z'
 \right\|_2,
 \qquad
 \forall \theta\in\Theta,\; z,z'\in\mathcal Z.
-]
 $$
 
 $\theta$와 $z$에 대한 $\nabla_\theta\ell(z;\theta)$의 $\beta$-Lipschitz를 따지는 것이다. 이는 파라미터에 의한 학습 gradient의 민감도를 따진다. 만약, 학습 gradient의 민감도가 너무 크다면(eg. $\beta=\infty$) gradient가 제멋대로 튀며 학습이 되지 않는다.
@@ -333,7 +333,7 @@ $$
 
 $$
 \varepsilon
-
+<
 \frac{\gamma}{(\beta+\gamma)\left(1+1.5\,\eta\beta\right)}
 $$
 
@@ -360,7 +360,7 @@ $$
 \varepsilon < \frac{\gamma}{\beta}
 \qquad\Longleftrightarrow\qquad
 \underbrace{\varepsilon\beta}_{\text{분포가 도망가는 속도}}
-\;
+\;<\;
 \underbrace{\gamma}_{\text{최적화가 당기는 속도}}
 $$
 
@@ -404,6 +404,6 @@ $\theta_{\text{PS}}$는 본인으로부터 유발한 데이터로는 반박되�
 
 ## 연결
 
-- 관련 프로젝트:
+- 관련 프로젝트: staged DDA matgo
 - 관련 실험:
-- 다음에 확인할 질문:
+- 다음에 확인할 질문: RRM에서의 해답은 PO를 만족할 수 있는가?

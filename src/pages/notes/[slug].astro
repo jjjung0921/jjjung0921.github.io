@@ -2,10 +2,17 @@
 import { getCollection } from 'astro:content';
 import Base from '../../layouts/Base.astro';
 import BadgeList from '../../components/ui/BadgeList.astro';
-import { getLocalizedStaticPaths, getPublicEntrySlug } from '../../lib/content/collections';
+import {
+  findTranslation,
+  getEntryPath,
+  getLocalizedStaticPaths,
+  getNoteSeriesNavigation,
+  getPublicEntrySlug,
+} from '../../lib/content/collections';
 import { getNoteFieldLabel } from '../../lib/content/fields';
 import { getStatusLabel, getStatusTone } from '../../lib/content/status';
 import CopyCode from '../../components/content/CopyCode.astro';
+import SeriesNavigation from '../../components/content/SeriesNavigation.astro';
 
 export async function getStaticPaths() {
   return getLocalizedStaticPaths(await getCollection('notes'), 'ko', 'note', 'notes');
@@ -13,14 +20,19 @@ export async function getStaticPaths() {
 
 const { note } = Astro.props;
 const { Content } = await note.render();
-const slug = getPublicEntrySlug('notes', note);
+const notes = await getCollection('notes');
+const englishNote = findTranslation(notes, note, 'en');
+const seriesNavigation = getNoteSeriesNavigation(notes, note);
+const alternatePath = englishNote
+  ? `/en/notes/${getPublicEntrySlug('notes', englishNote)}/`
+  : '/en/notes/';
 ---
 
-<Base title={note.data.title} page="notes" lang="ko" alternatePath={`/en/notes/${slug}/`}>
+<Base title={note.data.title} page="notes" lang="ko" alternatePath={alternatePath}>
   <article class="page-stack">
     <header class="page-header">
       <div class="metadata">
-        <span>{note.data.date.toISOString().slice(0, 10)}</span>
+        <span>{(note.data.lastUpdated ?? note.data.date).toISOString().slice(0, 10)}</span>
         <span>{getNoteFieldLabel(note.data.field, note.data.lang)}</span>
         {note.data.series && <span>{note.data.series}</span>}
         <span>{note.data.category}</span>
@@ -33,6 +45,17 @@ const slug = getPublicEntrySlug('notes', note);
     <div class="prose">
       <Content />
     </div>
+    <SeriesNavigation
+      lang="ko"
+      previous={seriesNavigation.previous && {
+        href: getEntryPath('notes', seriesNavigation.previous),
+        title: seriesNavigation.previous.data.title,
+      }}
+      next={seriesNavigation.next && {
+        href: getEntryPath('notes', seriesNavigation.next),
+        title: seriesNavigation.next.data.title,
+      }}
+    />
   </article>
   <CopyCode />
 </Base>

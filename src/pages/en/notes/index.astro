@@ -31,10 +31,11 @@ const noteSeriesOptions = makeFilterOptions(notes.flatMap((note) => note.data.se
         { key: 'tags', label: '#Tags', allLabel: 'All', options: noteTagOptions, dependsOn: 'field' },
       ]}
       sort={{
-        label: 'Date',
+        label: 'Sort',
         options: [
           { value: 'date:desc', label: 'Newest first' },
           { value: 'date:asc', label: 'Oldest first' },
+          { value: 'order:asc', label: 'Series order' },
         ],
       }}
     />

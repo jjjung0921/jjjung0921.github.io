@@ -2,19 +2,21 @@ import type { Lang } from './collections';
 import type { FilterOption } from './filters';
 import { toFilterKey } from './filters';
 
-export const noteFieldOrder = ['web', 'game', 'programming-language', 'ai'] as const;
+export const noteFieldOrder = ['web', 'game', 'programming-language', 'ai', 'blog'] as const;
 
 export type NoteField = (typeof noteFieldOrder)[number];
 
 const noteFieldLabels: Record<Lang, Record<NoteField, string>> = {
   ko: {
     ai: 'AI',
+    blog: '블로그',
     game: '게임',
     'programming-language': '프로그래밍 언어',
     web: '웹',
   },
   en: {
     ai: 'AI',
+    blog: 'Blog',
     game: 'Game',
     'programming-language': 'Programming Language',
     web: 'Web',

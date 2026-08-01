@@ -172,6 +172,12 @@ const { label, scope, groups, resultLabel, resetLabel, emptyText, sort } = Astro
           return (Date.parse(a.dataset.date || '') - Date.parse(b.dataset.date || '')) * multiplier;
         }
 
+        if (key === 'order') {
+          const oa = Number(a.dataset.order) || Infinity;
+          const ob = Number(b.dataset.order) || Infinity;
+          return (oa - ob) * multiplier;
+        }
+
         return 0;
       });
     };
@@ -207,11 +213,29 @@ const { label, scope, groups, resultLabel, resetLabel, emptyText, sort } = Astro
       }
     };
 
+    let sortBeforeSeries = initialSortValue;
+    const orderSortBtn = sortControls.find((b) => b.dataset.filterSortValue === 'order:asc');
+
+    const applySortValue = (value) => {
+      sortControls.forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.filterSortValue === value)));
+    };
+
     root.querySelectorAll('[data-filter-key]').forEach((button) => {
       button.addEventListener('click', () => {
         root
           .querySelectorAll(`[data-filter-key="${button.dataset.filterKey}"]`)
           .forEach((item) => item.setAttribute('aria-pressed', String(item === button)));
+
+        if (button.dataset.filterKey === 'series' && orderSortBtn) {
+          const currentSort = sortControls.find((b) => b.getAttribute('aria-pressed') === 'true')?.dataset.filterSortValue;
+          if (button.dataset.filterValue !== 'all') {
+            if (currentSort !== 'order:asc') sortBeforeSeries = currentSort;
+            applySortValue('order:asc');
+          } else if (sortBeforeSeries) {
+            applySortValue(sortBeforeSeries);
+          }
+        }
+
         update();
       });
     });
