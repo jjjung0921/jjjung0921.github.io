@@ -189,7 +189,6 @@ $$
 ### 3.3 $\beta$-jointly smooth
 
 $$
-[
 \left\|
 \nabla_{\theta}\ell(z;\theta)
 -
@@ -202,9 +201,9 @@ $$
 \right\|_2,
 \qquad
 \forall \theta,\theta'\in\Theta,\; z\in\mathcal Z,
-]
+$$
 
-[
+$$
 \left\|
 \nabla_{\theta}\ell(z;\theta)
 -
@@ -217,7 +216,6 @@ z-z'
 \right\|_2,
 \qquad
 \forall \theta\in\Theta,\; z,z'\in\mathcal Z.
-]
 $$
 
 $\theta$와 $z$에 대한 $\nabla_\theta\ell(z;\theta)$의 $\beta$-Lipschitz를 따지는 것이다. 이는 파라미터에 의한 학습 gradient의 민감도를 따진다. 만약, 학습 gradient의 민감도가 너무 크다면(eg. $\beta=\infty$) gradient가 제멋대로 튀며 학습이 되지 않는다.
@@ -335,7 +333,7 @@ $$
 
 $$
 \varepsilon
-
+<
 \frac{\gamma}{(\beta+\gamma)\left(1+1.5\,\eta\beta\right)}
 $$
 
@@ -362,7 +360,7 @@ $$
 \varepsilon < \frac{\gamma}{\beta}
 \qquad\Longleftrightarrow\qquad
 \underbrace{\varepsilon\beta}_{\text{분포가 도망가는 속도}}
-\;
+\;<\;
 \underbrace{\gamma}_{\text{최적화가 당기는 속도}}
 $$
 

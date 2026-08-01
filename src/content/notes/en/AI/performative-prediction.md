@@ -187,7 +187,6 @@ $$
 ### 3.3 $\beta$-joint smoothness
 
 $$
-[
 \left\|
 \nabla_{\theta}\ell(z;\theta)
 -
@@ -200,9 +199,9 @@ $$
 \right\|_2,
 \qquad
 \forall \theta,\theta'\in\Theta,\; z\in\mathcal Z,
-]
+$$
 
-[
+$$
 \left\|
 \nabla_{\theta}\ell(z;\theta)
 -
@@ -215,7 +214,6 @@ z-z'
 \right\|_2,
 \qquad
 \forall \theta\in\Theta,\; z,z'\in\mathcal Z.
-]
 $$
 
 This asks for $\beta$-Lipschitzness of $\nabla_\theta\ell(z;\theta)$ in both $\theta$ and $z$. It concerns the sensitivity of the training gradient to the parameters. If that sensitivity is too large (e.g. $\beta=\infty$), the gradient bounces around arbitrarily and training fails.
@@ -333,7 +331,7 @@ and the convergence condition is as follows.
 
 $$
 \varepsilon
-
+<
 \frac{\gamma}{(\beta+\gamma)\left(1+1.5\,\eta\beta\right)}
 $$
 
@@ -360,7 +358,7 @@ $$
 \varepsilon < \frac{\gamma}{\beta}
 \qquad\Longleftrightarrow\qquad
 \underbrace{\varepsilon\beta}_{\text{speed at which the distribution runs away}}
-\;
+\;<\;
 \underbrace{\gamma}_{\text{speed at which optimization pulls back}}
 $$
 
