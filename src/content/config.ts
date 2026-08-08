@@ -12,6 +12,7 @@ const noteSchema = z.object({
   category: z.string(),
   series: z.string().optional(),
   order: z.number().optional(),
+  projects: z.array(z.string()).default([]),
   status: z.enum(['draft', 'reading', 'implemented', 'stable']),
   summary: z.string(),
   problem: z.string(),

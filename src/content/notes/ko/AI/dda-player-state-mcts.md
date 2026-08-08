@@ -7,6 +7,7 @@ field: "ai"
 category: "Dynamic Difficulty Adjustment"
 series: "DDA Paper Review"
 order: 5
+projects: ["staged-dda"]
 status: "reading"
 summary: "이 논문은 HP 차이 대신 Challenge, Competence, Valence, Flow를 예측하는 player state model을 MCTS score로 넣는다. 그래서 DDA의 기준을 game metric에서 player experience로 옮길 수 있다는 점을 비교적 선명하게 보여준다."
 problem: "HP difference, score, win rate 같은 heuristic은 플레이어가 실제로 느끼는 도전감이나 몰입을 직접 설명하지 못한다."

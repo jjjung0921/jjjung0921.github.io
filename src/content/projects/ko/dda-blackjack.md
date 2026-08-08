@@ -1,7 +1,7 @@
 ---
-title: "DDA 블랙잭 / 맞고"
+title: "범용 staged-DDA"
 lang: "ko"
-translationKey: "dda-blackjack"
+translationKey: "staged-dda"
 status: "active"
 problem: "상대가 플레이어의 몰입도를 극대화하기 위해 전략을 어떻게 동적으로 조정할 수 있을까?"
 role: "Research prototype designer"

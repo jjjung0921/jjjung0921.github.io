@@ -7,6 +7,7 @@ field: "ai"
 category: "Dynamic Difficulty Adjustment"
 series: "DDA Paper Review"
 order: 6
+projects: ["staged-dda"]
 status: "reading"
 summary: "AlphaDDA는 fully trained AlphaZero의 board-state value를 이용해 simulation count, dropout probability, 또는 UCT score를 조절한다. 즉, 강한 AI를 새로 학습하지 않고도 사람과 맞는 강도로 낮추는 가장 직접적인 DDA baseline을 보여준다."
 problem: "fully trained AlphaZero는 대부분의 human player에게 너무 강해서 training partner로 쓰기 어렵고, 그렇다고 처음부터 약한 AI를 다시 학습하는 것도 비효율적이다."

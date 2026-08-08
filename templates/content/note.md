@@ -11,6 +11,8 @@ date: "2026-07-10"
 field: "ai"
 category: "세부 분류"
 series: "시리즈 이름"
+# 프로젝트 상세에 함께 표시할 프로젝트 translationKey. 여러 프로젝트 연결 가능.
+# projects: ["dda-blackjack"]
 # status: "draft" | "reading" | "implemented" | "stable"
 status: "draft"
 summary: "한 문장 요약."
