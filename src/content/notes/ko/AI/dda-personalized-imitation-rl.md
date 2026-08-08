@@ -7,6 +7,7 @@ field: "ai"
 category: "Dynamic Difficulty Adjustment"
 series: "DDA Paper Review"
 order: 3
+projects: ["staged-dda"]
 status: "reading"
 summary: "이 논문은 플레이어 행동을 imitation agent로 근사하고, 그 proxy를 이기도록 RL opponent를 학습하는 방식으로 개인화 DDA를 시도한다. 다만 목적함수는 아직 HP 중심에 가깝고, 진짜 개인화를 보장하려면 더 선명한 upper-level objective가 필요하다."
 problem: "정적 난이도나 단순 규칙 기반 opponent는 플레이어의 현재 행동과 숙련도 변화에 맞지 않아, frustration과 boredom을 동시에 낳을 수 있다."

@@ -2,7 +2,12 @@
 import { getCollection } from 'astro:content';
 import Base from '../../layouts/Base.astro';
 import BadgeList from '../../components/ui/BadgeList.astro';
-import { getLocalizedStaticPaths, getSlugWithoutLangPrefix } from '../../lib/content/collections';
+import NoteListItem from '../../components/content/NoteListItem.astro';
+import {
+  getLocalizedStaticPaths,
+  getNotesForProject,
+  getSlugWithoutLangPrefix,
+} from '../../lib/content/collections';
 import { getStatusLabel, getStatusTone } from '../../lib/content/status';
 
 export async function getStaticPaths() {
@@ -12,6 +17,11 @@ export async function getStaticPaths() {
 const { project } = Astro.props;
 const { Content } = await project.render();
 const slug = getSlugWithoutLangPrefix(project.slug);
+const projectNotes = getNotesForProject(
+  await getCollection('notes'),
+  project.data.translationKey,
+  project.data.lang,
+);
 ---
 
 <Base title={project.data.title} page="projects" lang="ko" alternatePath={`/en/projects/${slug}/`}>
@@ -65,5 +75,20 @@ const slug = getSlugWithoutLangPrefix(project.slug);
     <div class="prose">
       <Content />
     </div>
+
+    <section class="page-stack" aria-labelledby="project-notes-title">
+      <div>
+        <p class="eyebrow">Project Notes</p>
+        <h2 id="project-notes-title" class="section-title">프로젝트 노트</h2>
+        <p class="lede">프로젝트를 진행하며 작성한 기록과 학습 노트입니다.</p>
+      </div>
+      {projectNotes.length > 0 ? (
+        <div class="card-list">
+          {projectNotes.map((note) => <NoteListItem note={note} />)}
+        </div>
+      ) : (
+        <p class="lede">연결된 노트가 아직 없습니다.</p>
+      )}
+    </section>
   </article>
 </Base>

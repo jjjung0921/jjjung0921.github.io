@@ -1,0 +1,149 @@
+<svg viewBox="0 0 660 412" xmlns="http://www.w3.org/2000/svg">
+  <style>
+    text { font-family: 'Pretendard', system-ui, -apple-system, sans-serif; }
+    .zone-title { font-size: 12.5px; font-weight: 700; }
+    .zone-sub   { font-size: 10px; fill: #9CA3AF; }
+    .zt-build   { fill: #2563EB; }
+    .zt-run     { fill: #7C3AED; }
+    .box-t      { font-size: 10.5px; font-weight: 600; fill: #1F2937; }
+    .box-s      { font-size: 9px; fill: #6B7280; }
+    .mono       { font-family: 'SF Mono', 'Fira Code', 'Consolas', monospace; font-size: 8.5px; fill: #6B7280; }
+    .chip-t     { font-size: 7.5px; font-weight: 600; fill: #FFFFFF; }
+    .edge-t     { font-size: 8.5px; fill: #9CA3AF; }
+    .foot-k     { font-size: 9.5px; font-weight: 700; }
+    .foot-v     { font-size: 9.5px; fill: #6B7280; }
+    .legend-t   { font-size: 8.5px; fill: #9CA3AF; }
+
+    .box     { fill: #FFFFFF; stroke: #D1D5DB; stroke-width: 1.3; }
+    .box-b   { fill: #EFF6FF; stroke: #3B82F6; stroke-width: 1.5; }
+    .box-r   { fill: #F5F3FF; stroke: #8B5CF6; stroke-width: 1.5; }
+    .divider { stroke: #D1D5DB; stroke-width: 1.2; stroke-dasharray: 5 4; }
+    .arrow   { stroke: #9CA3AF; stroke-width: 1.3; fill: none; }
+    .rowline { stroke: #E5E7EB; stroke-width: 1; }
+
+    @media (prefers-color-scheme: dark) {
+      .box-t    { fill: #E5E7EB; }
+      .box-s    { fill: #9CA3AF; }
+      .mono     { fill: #9CA3AF; }
+      .foot-v   { fill: #9CA3AF; }
+      .zone-sub { fill: #6B7280; }
+      .legend-t { fill: #6B7280; }
+      .zt-build { fill: #60A5FA; }
+      .zt-run   { fill: #A78BFA; }
+      .box      { fill: #1F2937; stroke: #4B5563; }
+      .box-b    { fill: #172554; stroke: #3B82F6; }
+      .box-r    { fill: #2E1065; stroke: #8B5CF6; }
+      .divider  { stroke: #4B5563; }
+      .arrow    { stroke: #6B7280; }
+      .rowline  { stroke: #374151; }
+    }
+  </style>
+
+  <defs>
+    <marker id="ah" markerWidth="7" markerHeight="7" refX="6" refY="2.5" orient="auto">
+      <path d="M0,0 L6,2.5 L0,5 Z" fill="#9CA3AF"/>
+    </marker>
+  </defs>
+
+  <!-- ===== Zone headers ===== -->
+  <text class="zone-title zt-build" x="16" y="24">Build time — split per tenant</text>
+  <text class="zone-sub" x="16" y="40">Static assets · zero idle cost when duplicated</text>
+
+  <text class="zone-title zt-run" x="374" y="24">Runtime — merged into one</text>
+  <text class="zone-sub" x="374" y="40">Resident process · N× cost when duplicated</text>
+
+  <line class="divider" x1="356" y1="52" x2="356" y2="352"/>
+
+  <!-- ===== Left: inputs ===== -->
+  <rect class="box" x="14" y="100" width="106" height="46" rx="6"/>
+  <text class="box-t" x="67" y="120" text-anchor="middle">Single codebase</text>
+  <text class="mono" x="67" y="135" text-anchor="middle">src/modules/*</text>
+
+  <rect class="box" x="14" y="180" width="106" height="46" rx="6"/>
+  <text class="box-t" x="67" y="200" text-anchor="middle">Configs ×N</text>
+  <text class="mono" x="67" y="215" text-anchor="middle">public.config.json</text>
+
+  <!-- inputs -> vite -->
+  <path class="arrow" d="M120,123 C132,123 132,152 140,160" marker-end="url(#ah)"/>
+  <path class="arrow" d="M120,203 C132,203 132,174 140,166" marker-end="url(#ah)"/>
+
+  <!-- Vite -->
+  <rect class="box-b" x="142" y="139" width="76" height="48" rx="6"/>
+  <text class="box-t" x="180" y="159" text-anchor="middle">Vite</text>
+  <text class="box-s" x="180" y="174" text-anchor="middle">define + Rollup</text>
+
+  <!-- vite -> bundles (fan out) -->
+  <path class="arrow" d="M218,157 C238,157 238,100 246,96"  marker-end="url(#ah)"/>
+  <path class="arrow" d="M218,163 C238,163 238,178 246,180" marker-end="url(#ah)"/>
+  <path class="arrow" d="M218,169 C238,169 238,260 246,264" marker-end="url(#ah)"/>
+
+  <!-- ===== Bundles ===== -->
+  <!-- A -->
+  <rect class="box" x="248" y="70" width="104" height="54" rx="6"/>
+  <text class="box-t" x="258" y="88">Merchant A bundle</text>
+  <rect x="258" y="96" width="24" height="13" rx="3" fill="#6B7280"/>
+  <text class="chip-t" x="270" y="105" text-anchor="middle">Menu</text>
+  <rect x="286" y="96" width="24" height="13" rx="3" fill="#6B7280"/>
+  <text class="chip-t" x="298" y="105" text-anchor="middle">Cart</text>
+  <rect x="314" y="96" width="24" height="13" rx="3" fill="#10B981"/>
+  <text class="chip-t" x="326" y="105" text-anchor="middle">Rwd</text>
+
+  <!-- B -->
+  <rect class="box" x="248" y="154" width="104" height="54" rx="6"/>
+  <text class="box-t" x="258" y="172">Merchant B bundle</text>
+  <rect x="258" y="180" width="24" height="13" rx="3" fill="#6B7280"/>
+  <text class="chip-t" x="270" y="189" text-anchor="middle">Menu</text>
+  <rect x="286" y="180" width="24" height="13" rx="3" fill="#6B7280"/>
+  <text class="chip-t" x="298" y="189" text-anchor="middle">Cart</text>
+  <rect x="314" y="180" width="24" height="13" rx="3" fill="none" stroke="#D1D5DB" stroke-width="1" stroke-dasharray="2 2"/>
+
+  <!-- C -->
+  <rect class="box" x="248" y="238" width="104" height="54" rx="6"/>
+  <text class="box-t" x="258" y="256">Merchant C bundle</text>
+  <rect x="258" y="264" width="24" height="13" rx="3" fill="#6B7280"/>
+  <text class="chip-t" x="270" y="273" text-anchor="middle">Menu</text>
+  <rect x="286" y="264" width="24" height="13" rx="3" fill="#6B7280"/>
+  <text class="chip-t" x="298" y="273" text-anchor="middle">Cart</text>
+  <rect x="314" y="264" width="24" height="13" rx="3" fill="#F59E0B"/>
+  <text class="chip-t" x="326" y="273" text-anchor="middle">Store</text>
+
+  <!-- legend -->
+  <rect x="248" y="306" width="9" height="9" rx="2" fill="#10B981"/>
+  <text class="legend-t" x="260" y="314">Reward</text>
+  <rect x="304" y="306" width="9" height="9" rx="2" fill="#F59E0B"/>
+  <text class="legend-t" x="316" y="314">Store</text>
+
+  <text class="edge-t" x="248" y="332">Inactive modules are</text>
+  <text class="edge-t" x="248" y="344">absent from the bundle</text>
+
+  <!-- ===== Right: converge ===== -->
+  <path class="arrow" d="M352,97  C392,97  400,150 410,162" marker-end="url(#ah)"/>
+  <path class="arrow" d="M352,181 C392,181 400,172 410,172" marker-end="url(#ah)"/>
+  <path class="arrow" d="M352,265 C392,265 400,194 410,182" marker-end="url(#ah)"/>
+
+  <rect class="box-r" x="412" y="136" width="164" height="72" rx="6"/>
+  <text class="box-t" x="494" y="160" text-anchor="middle">Single backend instance</text>
+  <text class="box-s" x="494" y="176" text-anchor="middle">Identifies tenant from host and</text>
+  <text class="box-s" x="494" y="189" text-anchor="middle">auth context, then verifies</text>
+
+  <path class="arrow" d="M494,208 L494,248" marker-end="url(#ah)"/>
+
+  <!-- DB -->
+  <rect class="box" x="412" y="250" width="164" height="86" rx="6"/>
+  <text class="box-t" x="494" y="270" text-anchor="middle">Tenant-scoped Database</text>
+  <line class="rowline" x1="424" y1="278" x2="564" y2="278"/>
+  <text class="mono" x="424" y="294">tenant=A</text><text class="mono" x="494" y="294">orders, rewards …</text>
+  <line class="rowline" x1="424" y1="300" x2="564" y2="300"/>
+  <text class="mono" x="424" y="316">tenant=B</text><text class="mono" x="494" y="316">orders, rewards …</text>
+  <line class="rowline" x1="424" y1="322" x2="564" y2="322"/>
+  <text class="mono" x="424" y="332">tenant=C</text><text class="mono" x="494" y="332">orders, rewards …</text>
+
+  <!-- ===== Footer ===== -->
+  <text class="foot-k zt-build" x="16" y="372">Buys isolation</text>
+  <text class="foot-v" x="16" y="388">Deploy isolation · module gating · per-tenant rollback</text>
+  <text class="foot-v" x="16" y="402">Cost — N artifacts, version drift</text>
+
+  <text class="foot-k zt-run" x="374" y="372">Buys propagation</text>
+  <text class="foot-v" x="374" y="388">Instant patch propagation · pooling · shared connections</text>
+  <text class="foot-v" x="374" y="402">Cost — full blast radius, isolation owned by code</text>
+</svg>

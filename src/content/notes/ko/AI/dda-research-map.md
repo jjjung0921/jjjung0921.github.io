@@ -7,6 +7,7 @@ field: "ai"
 category: "Dynamic Difficulty Adjustment"
 series: "DDA Paper Review"
 order: 1
+projects: ["staged-dda"]
 status: "reading"
 summary: "DDA 논문 다섯 편을 player state, meta balance, encounter generation, evaluation function, AI strength control이라는 축으로 다시 놓아 보면, 내 bi-level DDA가 어디서 공통 골격을 빌리고 어디서 구분해야 하는지가 선명해진다."
 problem: "DDA 논문들을 읽다 보면 상태 추정, 메타 균형, 전투 조합 생성, AI 약화가 한 범주로 섞여 보여서, 어떤 방법을 내 연구의 기반으로 삼아야 하는지 흐려진다."

@@ -7,6 +7,7 @@ field: "ai"
 category: "Dynamic Difficulty Adjustment"
 series: "DDA Paper Review"
 order: 2
+projects: ["staged-dda"]
 status: "reading"
 summary: "BiGMB는 game meta를 고정된 승률 표가 아니라 equilibrium strategy의 entropy로 바라본다. 이 논문은 DDA를 개인화하지는 않지만, 내 연구에서 upper-level objective를 어떻게 정의해야 하는지 강한 힌트를 준다."
 problem: "imbalanced meta에서는 소수의 strategy만 살아남기 때문에, designer가 다루는 objective를 단순 win rate가 아니라 equilibrium에서의 다양성으로 다시 정의할 필요가 있다."

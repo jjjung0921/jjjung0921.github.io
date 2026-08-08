@@ -16,6 +16,24 @@ export function sortByDateDesc<T extends { data: { date: Date } }>(entries: T[])
   return [...entries].sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
 }
 
+export function getNotesForProject(
+  entries: CollectionEntry<'notes'>[],
+  projectTranslationKey: string,
+  lang: Lang,
+): CollectionEntry<'notes'>[] {
+  return entries
+    .filter(
+      (entry) => entry.data.lang === lang && entry.data.projects.includes(projectTranslationKey),
+    )
+    .sort((a, b) => {
+      const aSeries = a.data.series ?? '';
+      const bSeries = b.data.series ?? '';
+      const seriesDifference = aSeries.localeCompare(bSeries, ['ko', 'en']);
+
+      return seriesDifference !== 0 ? seriesDifference : compareNotesBySeriesOrder(a, b);
+    });
+}
+
 export function getSlugWithoutLangPrefix(slug: string): string {
   return slug.replace(/^(ko|en)\//, '');
 }

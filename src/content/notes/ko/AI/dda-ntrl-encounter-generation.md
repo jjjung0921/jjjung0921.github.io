@@ -7,6 +7,7 @@ field: "ai"
 category: "Dynamic Difficulty Adjustment"
 series: "DDA Paper Review"
 order: 4
+projects: ["staged-dda"]
 status: "reading"
 summary: "NTRL은 D&D의 난이도를 단순 XP budget 조정이 아니라 encounter composition 생성 문제로 다시 쓴다. contextual bandit과 REINFORCE를 사용해 party 상태에 맞는 적 조합을 만들고, offline simulation으로 학습한 뒤 online에서는 즉시 생성한다."
 problem: "DMG의 정적 XP heuristic은 party 구성, 적 synergy, 현재 자원 상태를 충분히 반영하지 못하고, 자동 playtesting은 실시간 캠페인에 쓰기엔 느리다."
