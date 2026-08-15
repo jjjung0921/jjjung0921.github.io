@@ -9,12 +9,12 @@ export const siteConfig = {
     ko: {
       name: '이정진',
       role: 'AI / Optimization',
-      bio: 'DDA를 bi-level optimization으로 풀어내는 연구형 포트폴리오를 쌓고 있습니다.',
+      bio: '메모리 위에 데이터의 도시를 짓는 마음으로 시스템을 설계하고, 사람에게 동적으로 적응하는 AI를 bi-level optimization으로 연구합니다.',
     },
     en: {
       name: 'Lee Jungjin',
       role: 'AI / Optimization',
-      bio: 'Building a research portfolio around DDA, bi-level optimization, and AutoML.',
+      bio: 'Designing systems like cities of data built on memory, and studying bi-level optimization toward AI that dynamically adapts to each person.',
     },
   },
 };
