@@ -11,7 +11,6 @@ Computer Science & Engineering student focused on optimization-minded AI systems
 ## Research Interests
 
 - Bi-level Optimization
-- Dynamic Difficulty Adjustment
 - Neural Architecture Search
 - Player Modeling
 - AI Agents & Systems

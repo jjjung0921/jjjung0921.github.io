@@ -1,0 +1,90 @@
+<svg viewBox="0 0 660 400" xmlns="http://www.w3.org/2000/svg">
+  <style>
+    text { font-family: 'Pretendard', system-ui, -apple-system, sans-serif; }
+    .zone   { font-size: 11.5px; font-weight: 700; }
+    .box-t  { font-size: 10.5px; font-weight: 600; fill: #1F2937; }
+    .box-s  { font-size: 8.5px; fill: #6B7280; }
+    .life   { font-size: 8px; font-weight: 600; }
+    .note   { font-size: 9px; fill: #9CA3AF; }
+    .edge-t { font-size: 9px; font-weight: 600; fill: #C0392B; }
+
+    .heap   { fill: #EEF5FD; stroke: #3E7DBF; stroke-width: 2; }
+    .dom    { fill: #F6F0EA; stroke: #B57A3C; stroke-width: 2; }
+    .disk   { fill: #EFF9F3; stroke: #2F8F58; stroke-width: 2; }
+    .tab    { fill: none; stroke: #9CA3AF; stroke-width: 1.4; stroke-dasharray: 6 4; }
+    .box    { fill: #FFFFFF; stroke: #C7CDD4; stroke-width: 1.3; }
+    .box-d  { fill: #FFFFFF; stroke: #C7CDD4; stroke-width: 1.3; stroke-dasharray: 3 3; }
+    .border { stroke: #C0392B; stroke-width: 2.4; }
+
+    .z-heap { fill: #2563EB; } .z-dom { fill: #A0651F; } .z-disk { fill: #1F6B41; }
+    .l-no   { fill: #C0392B; } .l-yes { fill: #2F8F58; }
+
+    @media (prefers-color-scheme: dark) {
+      .box-t { fill: #E5E7EB; } .box-s { fill: #9CA3AF; }
+      .note  { fill: #6B7280; }
+      .heap  { fill: #172554; } .dom { fill: #2A1F14; } .disk { fill: #0C2E1C; }
+      .box   { fill: #1F2937; stroke: #4B5563; }
+      .box-d { fill: #1F2937; stroke: #4B5563; }
+      .tab   { stroke: #4B5563; }
+      .z-heap{ fill: #60A5FA; } .z-dom { fill: #D9A86C; } .z-disk { fill: #4ADE80; }
+      .edge-t{ fill: #F87171; } .border { stroke: #F87171; }
+      .l-no  { fill: #F87171; } .l-yes { fill: #4ADE80; }
+    }
+  </style>
+
+  <!-- browser tab boundary -->
+  <rect class="tab" x="14" y="34" width="632" height="252" rx="8"/>
+  <text class="note" x="22" y="28">Browser tab — a refresh rebuilds everything inside</text>
+
+  <!-- ===== JS heap ===== -->
+  <rect class="heap" x="28" y="52" width="360" height="220" rx="7"/>
+  <text class="zone z-heap" x="42" y="72">JS heap — owned by the JS engine</text>
+  <text class="note" x="42" y="87">Every React data structure lives here</text>
+
+  <rect class="box-d" x="42" y="98" width="156" height="46" rx="5"/>
+  <text class="box-t" x="52" y="116">Render scope</text>
+  <text class="box-s" x="52" y="130">locals · elements</text>
+  <text class="life l-no" x="52" y="141">GC'd immediately</text>
+
+  <rect class="box" x="212" y="98" width="160" height="46" rx="5"/>
+  <text class="box-t" x="222" y="116">Module scope</text>
+  <text class="box-s" x="222" y="130">top-level variables</text>
+  <text class="life l-yes" x="222" y="141">Survives unmount</text>
+
+  <rect class="box" x="42" y="156" width="156" height="52" rx="5"/>
+  <text class="box-t" x="52" y="174">Fiber</text>
+  <text class="box-s" x="52" y="188">useState · useRef · effects</text>
+  <text class="life l-no" x="52" y="201">Dies on unmount</text>
+
+  <rect class="box" x="212" y="156" width="160" height="52" rx="5"/>
+  <text class="box-t" x="222" y="174">External store</text>
+  <text class="box-s" x="222" y="188">QueryCache · Zustand</text>
+  <text class="life l-yes" x="222" y="201">Survives unmount</text>
+
+  <text class="note" x="42" y="232">Lifetime differs not by location but by</text>
+  <text class="note" x="42" y="246">who holds the reference</text>
+
+  <!-- ===== the real boundary ===== -->
+  <line class="border" x1="404" y1="52" x2="404" y2="272"/>
+  <text class="edge-t" x="410" y="46">The real boundary</text>
+
+  <!-- ===== DOM ===== -->
+  <rect class="dom" x="420" y="52" width="212" height="220" rx="7"/>
+  <text class="zone z-dom" x="434" y="72">DOM tree</text>
+  <text class="note" x="434" y="87">Owned by the browser rendering engine</text>
+
+  <rect class="box" x="434" y="98" width="184" height="52" rx="5"/>
+  <text class="box-t" x="444" y="116">Actual nodes</text>
+  <text class="box-s" x="444" y="130">C++ objects · JS accesses via wrappers</text>
+  <text class="life l-no" x="444" y="143">Removed by React at commit</text>
+
+  <text class="note" x="434" y="176">Crossing this boundary is costly.</text>
+  <text class="note" x="434" y="190">The virtual DOM exists to reduce</text>
+  <text class="note" x="434" y="204">how often you cross it.</text>
+
+  <!-- ===== browser storage (outside the tab) ===== -->
+  <rect class="disk" x="28" y="306" width="604" height="72" rx="7"/>
+  <text class="zone z-disk" x="42" y="326">Browser storage — localStorage · IndexedDB</text>
+  <text class="box-s" x="42" y="344">Cart · selected store (Zustand persist)</text>
+  <text class="life l-yes" x="42" y="362">Survives a refresh — the only partition outliving the page</text>
+</svg>
