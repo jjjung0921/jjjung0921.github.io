@@ -1,0 +1,280 @@
+---
+interface Props {
+  lang: 'ko' | 'en';
+}
+
+const { lang } = Astro.props;
+
+const copy = {
+  ko: {
+    alt: 'AI가 설계한 환경 안에서 사용자가 점진적으로 적응하고, 그 관측이 다시 AI의 재설계로 돌아오는 이중 최적화 구조',
+    zone: '환경 · 도시 — AI가 설계한 문제 (λ)',
+    lowerTitle: '하위 레벨 — 사람의 점진적 적응',
+    lowerEq: 'x_(t+1) ~ g(x_t, λ; θ)',
+    lowerNote: '학습된 반응 모델 — argmin 가정 없음',
+    upper: 'λ 재설계',
+    upperSub: '느린 루프 ×1',
+    inner: '점진 적응 ×N',
+    aiName: 'AI 에이전트',
+    aiRole: '상위 레벨 — 문제를 설계하는 쪽',
+    userName: '사용자',
+    observe: '관측으로 반응 모델을 학습하고 상태를 추정 — 사람을 "푸는" 게 아니라 "배운다"',
+  },
+  en: {
+    alt: 'A bi-level structure in which the user adapts gradually inside the environment the AI designs, and those observations feed back into the redesign',
+    zone: 'Environment · city — the problem the AI designs (λ)',
+    lowerTitle: 'Lower level — adapts gradually',
+    lowerEq: 'x_(t+1) ~ g(x_t, λ; θ)',
+    lowerNote: 'learned response model — no argmin',
+    upper: 'redesign λ',
+    upperSub: 'slow loop ×1',
+    inner: 'adapts ×N',
+    aiName: 'AI agent',
+    aiRole: 'Upper level — designs the problem',
+    userName: 'User',
+    observe: 'Observations train the response model and infer state — the person is learned, not solved',
+  },
+}[lang];
+---
+
+<figure class="bilevel-figure">
+  <svg viewBox="0 52 660 348" role="img" aria-label={copy.alt}>
+    <defs>
+      <marker id="bl-arrow-upper" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+        <path class="bl-marker-upper" d="M 0 0 L 10 5 L 0 10 z" />
+      </marker>
+      <marker id="bl-arrow-lower" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+        <path class="bl-marker-lower" d="M 0 0 L 10 5 L 0 10 z" />
+      </marker>
+    </defs>
+
+    <line class="bl-ground" x1="30" y1="302" x2="240" y2="302" />
+
+    <ellipse class="bl-shadow" cx="108" cy="302" rx="56" ry="8" />
+    <line class="bl-stroke-upper" x1="108" y1="112" x2="108" y2="98" />
+    <circle class="bl-fill-upper" cx="108" cy="93" r="4.5" />
+    <rect class="bl-machine" x="71" y="112" width="74" height="56" rx="13" />
+    <rect class="bl-fill-upper" x="89" y="130" width="11" height="16" rx="4" />
+    <rect class="bl-fill-upper" x="116" y="130" width="11" height="16" rx="4" />
+    <path class="bl-stroke-upper" d="M 96 156 Q 108 162 120 156" />
+    <rect class="bl-machine" x="64" y="176" width="88" height="86" rx="15" />
+    <circle class="bl-node" cx="88" cy="205" r="3.4" />
+    <circle class="bl-node" cx="128" cy="205" r="3.4" />
+    <circle class="bl-node" cx="108" cy="232" r="3.4" />
+    <line class="bl-wire" x1="88" y1="205" x2="128" y2="205" />
+    <line class="bl-wire" x1="88" y1="205" x2="108" y2="232" />
+    <line class="bl-wire" x1="128" y1="205" x2="108" y2="232" />
+    <rect class="bl-machine" x="44" y="192" width="14" height="46" rx="7" />
+    <rect class="bl-machine" x="154" y="196" width="48" height="14" rx="7" />
+    <circle class="bl-machine" cx="206" cy="203" r="7" />
+    <path class="bl-jet" d="M 88 268 L 84 282 M 108 268 L 108 285 M 128 268 L 132 282" />
+
+    <text class="bl-name bl-text-upper" x="108" y="325" text-anchor="middle">{copy.aiName}</text>
+    <text class="bl-role" x="108" y="339" text-anchor="middle">{copy.aiRole}</text>
+
+    <path class="bl-arrow-upper" d="M 215 203 L 246 203" marker-end="url(#bl-arrow-upper)" />
+
+    <rect class="bl-env" x="250" y="70" width="380" height="262" rx="12" />
+    <text class="bl-zone" x="266" y="94">{copy.zone}</text>
+
+    <rect class="bl-building" x="272" y="250" width="18" height="52" rx="2" />
+    <rect class="bl-building" x="294" y="266" width="16" height="36" rx="2" />
+    <rect class="bl-building" x="314" y="238" width="20" height="64" rx="2" />
+    <line class="bl-ground" x1="262" y1="302" x2="618" y2="302" />
+
+    <text class="bl-flow bl-text-lower" x="266" y="126">{copy.lowerTitle}</text>
+    <text class="bl-mono bl-text-lower" x="266" y="141">{copy.lowerEq}</text>
+    <text class="bl-sub bl-text-lower" x="266" y="155">{copy.lowerNote}</text>
+
+    <ellipse class="bl-shadow" cx="470" cy="302" rx="48" ry="8" />
+    <circle class="bl-person" cx="470" cy="139" r="26" />
+    <path class="bl-fill-lower" d="M 446 132 A 26 26 0 0 1 494 132 L 487 122 L 478 128 L 466 118 L 454 126 Z" />
+    <circle class="bl-fill-lower" cx="461" cy="141" r="2.6" />
+    <circle class="bl-fill-lower" cx="479" cy="141" r="2.6" />
+    <path class="bl-stroke-lower" d="M 461 151 Q 470 156 479 151" />
+    <rect class="bl-person" x="441" y="170" width="58" height="88" rx="16" />
+    <rect class="bl-person" x="414" y="192" width="14" height="48" rx="7" />
+    <rect class="bl-person" x="502" y="192" width="14" height="48" rx="7" />
+    <rect class="bl-person" x="449" y="254" width="14" height="46" rx="7" />
+    <rect class="bl-person" x="477" y="254" width="14" height="46" rx="7" />
+
+    <path class="bl-arrow-inner" d="M 470 106 A 88 100 0 1 1 382 206" marker-end="url(#bl-arrow-lower)" />
+    <text class="bl-sub bl-text-lower" x="560" y="262">{copy.inner}</text>
+    <text class="bl-name bl-text-lower" x="470" y="325" text-anchor="middle">{copy.userName}</text>
+
+    <text class="bl-flow bl-text-upper" x="218" y="176" text-anchor="middle">{copy.upper}</text>
+    <text class="bl-sub bl-text-upper" x="218" y="228" text-anchor="middle">{copy.upperSub}</text>
+
+    <path class="bl-arrow-observe" d="M 380 334 C 330 392, 240 392, 182 306" marker-end="url(#bl-arrow-lower)" />
+    <text class="bl-sub bl-text-lower" x="300" y="392" text-anchor="middle">{copy.observe}</text>
+  </svg>
+</figure>
+
+<style>
+  .bilevel-figure {
+    margin: 0;
+    min-width: 0;
+  }
+
+  .bilevel-figure svg {
+    display: block;
+    height: auto;
+    width: 100%;
+  }
+
+  .bilevel-figure text {
+    font-family: var(--font-body);
+  }
+
+  .bl-zone {
+    fill: var(--color-accent);
+    font-size: 10.5px;
+    font-weight: 700;
+  }
+
+  .bl-flow {
+    font-size: 9.5px;
+    font-weight: 600;
+  }
+
+  .bl-sub {
+    font-size: 8.5px;
+  }
+
+  .bl-mono {
+    font-family: var(--font-mono);
+    font-size: 9.5px;
+    font-weight: 600;
+  }
+
+  .bl-name {
+    font-size: 10.5px;
+    font-weight: 700;
+  }
+
+  .bl-role {
+    fill: var(--color-muted);
+    font-size: 8.5px;
+  }
+
+  .bl-text-upper {
+    fill: var(--color-accent);
+  }
+
+  .bl-text-lower {
+    fill: var(--color-warm);
+  }
+
+  .bl-env {
+    fill: color-mix(in srgb, var(--color-accent) 7%, var(--color-bg-raised));
+    stroke: color-mix(in srgb, var(--color-accent) 45%, var(--color-line));
+    stroke-width: 2;
+  }
+
+  .bl-machine {
+    fill: var(--color-bg-raised);
+    stroke: var(--color-accent);
+    stroke-width: 2;
+  }
+
+  .bl-person {
+    fill: color-mix(in srgb, var(--color-warm) 10%, var(--color-bg-raised));
+    stroke: var(--color-warm);
+    stroke-width: 2;
+  }
+
+  .bl-fill-upper {
+    fill: var(--color-accent);
+  }
+
+  .bl-fill-lower {
+    fill: var(--color-warm);
+  }
+
+  .bl-stroke-upper {
+    fill: none;
+    stroke: var(--color-accent);
+    stroke-linecap: round;
+    stroke-width: 2;
+  }
+
+  .bl-stroke-lower {
+    fill: none;
+    stroke: var(--color-warm);
+    stroke-linecap: round;
+    stroke-width: 2;
+  }
+
+  .bl-node {
+    fill: var(--color-accent);
+    opacity: 0.85;
+  }
+
+  .bl-wire {
+    fill: none;
+    opacity: 0.85;
+    stroke: var(--color-accent);
+    stroke-width: 1.4;
+  }
+
+  .bl-jet {
+    fill: none;
+    opacity: 0.5;
+    stroke: var(--color-accent);
+    stroke-linecap: round;
+    stroke-width: 2;
+  }
+
+  .bl-building {
+    fill: var(--color-accent);
+    opacity: 0.28;
+  }
+
+  .bl-ground {
+    stroke: var(--color-line);
+    stroke-dasharray: 2 5;
+    stroke-width: 1.4;
+  }
+
+  .bl-shadow {
+    fill: var(--color-ink);
+    opacity: 0.07;
+  }
+
+  .bl-arrow-upper {
+    fill: none;
+    stroke: var(--color-accent);
+    stroke-width: 2.4;
+  }
+
+  .bl-arrow-inner {
+    fill: none;
+    stroke: var(--color-warm);
+    stroke-dasharray: 7 5;
+    stroke-width: 2;
+  }
+
+  .bl-arrow-observe {
+    fill: none;
+    stroke: var(--color-warm);
+    stroke-dasharray: 3 4;
+    stroke-width: 2;
+  }
+
+  .bl-marker-upper {
+    fill: var(--color-accent);
+  }
+
+  .bl-marker-lower {
+    fill: var(--color-warm);
+  }
+
+  :root[data-theme='dark'] .bl-shadow {
+    fill: var(--color-bg);
+    opacity: 0.55;
+  }
+
+  :root[data-theme='dark'] .bl-building {
+    opacity: 0.35;
+  }
+</style>

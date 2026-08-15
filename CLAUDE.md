@@ -32,6 +32,7 @@ npm run build    # 정적 빌드 — 변경 후 필수 검증
 
 | 스킬 | 언제 |
 |---|---|
+| `decision-post` | 프로젝트에서 나온 설계 결정을 글로 정리 (모먼트 커피 시리즈 등) |
 | `astro-frontend-architect` | 페이지·컴포넌트·라우팅·컬렉션 구현 |
 | `web-design-system` | 토큰·타이포·레이아웃 등 비주얼 결정 |
 | `product-planning` | 페이지/기능이 리뷰어 동선·사이트 목표에 맞는지 판정 |

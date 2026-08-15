@@ -2,6 +2,7 @@
 import Base from '../../layouts/Base.astro';
 import PageHeader from '../../components/ui/PageHeader.astro';
 import Icon from '../../components/ui/Icon.astro';
+import BilevelFigure from '../../components/ui/BilevelFigure.astro';
 ---
 
 <Base
@@ -21,8 +22,10 @@ import Icon from '../../components/ui/Icon.astro';
 
     <section class="quote-panel">
       <p class="lede">
-        I view computation as a city built on memory and bits. I study how data, models,
-        agents, players, and systems interact through objectives, constraints, and feedback loops.
+        I think of computer science as reading the flow of data and building a city on the land
+        called memory — one with the infrastructure that lets data travel safely, correctly, and
+        efficiently. I study how that city redesigns itself around its residents, through the lens
+        of bi-level optimization.
       </p>
       <div class="button-row">
         <a class="button primary" href="/en/cv/">View CV</a>
@@ -43,14 +46,41 @@ import Icon from '../../components/ui/Icon.astro';
         <span class="icon-tile"><Icon name="cpu" size={22} /></span>
         <p class="eyebrow">Engineering</p>
         <h2>Tracing Data</h2>
-        <p>Every computation is data moving across memory. I tune the tradeoff between machine efficiency and the clarity of the code.</p>
+        <p>Every computation is data moving across memory. I tune the tradeoff between machine efficiency and code clarity so data travels safely, correctly, and efficiently.</p>
       </article>
       <article class="identity-item">
         <span class="icon-tile"><Icon name="box" size={22} /></span>
         <p class="eyebrow">Research</p>
         <h2>Synthesizing Tailored AI</h2>
-        <p>I aim to synthesize AI that adapts to the individual through bi-level optimization, rather than hand-tuning it.</p>
+        <p>My final goal is to design AI models customized to an individual user, adapting dynamically as they are used — synthesized through bi-level optimization rather than hand-tuned.</p>
       </article>
+    </section>
+
+    <section class="card">
+      <p class="eyebrow">Final goal</p>
+      <h2 class="section-title">AI That Dynamically Adapts to a Person</h2>
+      <p>
+        What I ultimately want to build is a city that redesigns itself for a single resident — an
+        AI model customized to an individual user, dynamically adapting to them. Dynamic difficulty
+        adjustment (DDA) is my first testing ground for this goal.
+      </p>
+      <BilevelFigure lang="en" />
+    </section>
+
+    <section class="card">
+      <p class="eyebrow">Current research direction</p>
+      <h2 class="section-title">Dynamic Difficulty Adjustment as Bi-level Optimization</h2>
+      <p>
+        Just as a city relays its roads around its residents' movement, the upper level selects
+        difficulty parameters, reward weights, environment settings, or opponent policies, while
+        at the lower level players and agents respond through behavioral adaptation.
+      </p>
+      <div class="equation-card" aria-label="Bi-level objective">
+        <div class="equation-label">minimize over <span class="symbol-accent">lambda in Lambda</span>:</div>
+        <div class="equation-line">F(<span class="symbol-accent">lambda</span>, <span class="symbol-warm">x*(lambda)</span>)</div>
+        <div class="equation-label">subject to:</div>
+        <div class="equation-line"><span class="symbol-warm">x*(lambda)</span> in argmin over x in X f(x, <span class="symbol-accent">lambda</span>)</div>
+      </div>
     </section>
   </div>
 </Base>

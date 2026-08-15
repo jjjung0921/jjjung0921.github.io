@@ -1,0 +1,94 @@
+<svg viewBox="0 0 660 300" xmlns="http://www.w3.org/2000/svg">
+  <style>
+    text { font-family: 'Pretendard', system-ui, -apple-system, sans-serif; }
+    .row    { font-size: 10px; font-weight: 600; fill: #1F2937; }
+    .row-s  { font-size: 8px; fill: #9CA3AF; }
+    .evt    { font-size: 9px; font-weight: 700; fill: #6B7280; }
+    .end    { font-size: 8.5px; font-weight: 600; }
+    .note   { font-size: 9px; fill: #9CA3AF; }
+
+    .mark   { stroke: #D1D5DB; stroke-width: 1.2; stroke-dasharray: 4 4; }
+    .axis   { stroke: #C7CDD4; stroke-width: 1.2; }
+    .cap    { stroke: #C0392B; stroke-width: 2.6; }
+    .e-die  { fill: #C0392B; }
+    .e-live { fill: #2F8F58; }
+
+    .b-render { fill: #E5E7EB; }
+    .b-fiber  { fill: #3E7DBF; }
+    .b-mod    { fill: #7C93A8; }
+    .b-store  { fill: #8B5CF6; }
+    .b-disk   { fill: #2F8F58; }
+    .b-dom    { fill: #B57A3C; }
+
+    @media (prefers-color-scheme: dark) {
+      .row { fill: #E5E7EB; } .row-s { fill: #6B7280; }
+      .evt { fill: #9CA3AF; } .note { fill: #6B7280; }
+      .mark { stroke: #4B5563; } .axis { stroke: #4B5563; }
+      .cap { stroke: #F87171; } .e-die { fill: #F87171; } .e-live { fill: #4ADE80; }
+      .b-render { fill: #4B5563; }
+    }
+  </style>
+
+  <defs>
+    <marker id="ar" markerWidth="7" markerHeight="7" refX="6" refY="2.5" orient="auto">
+      <path d="M0,0 L6,2.5 L0,5 Z" fill="#2F8F58"/>
+    </marker>
+  </defs>
+
+  <!-- event markers -->
+  <text class="evt" x="126" y="34">Mount</text>
+  <text class="evt" x="236" y="34" text-anchor="middle">Re-render</text>
+  <text class="evt" x="372" y="34" text-anchor="middle">Unmount</text>
+  <text class="evt" x="498" y="34" text-anchor="middle">Refresh</text>
+
+  <line class="mark" x1="126" y1="42" x2="126" y2="256"/>
+  <line class="mark" x1="236" y1="42" x2="236" y2="256"/>
+  <line class="mark" x1="372" y1="42" x2="372" y2="256"/>
+  <line class="mark" x1="498" y1="42" x2="498" y2="256"/>
+
+  <!-- 1. render scope -->
+  <text class="row" x="112" y="62" text-anchor="end">Render scope</text>
+  <text class="row-s" x="112" y="73" text-anchor="end">locals · elements</text>
+  <rect class="b-render" x="126" y="52" width="46" height="18" rx="3"/>
+  <rect class="b-render" x="236" y="52" width="46" height="18" rx="3"/>
+  <text class="end e-die" x="292" y="65">Discarded each render</text>
+
+  <!-- 2. Fiber -->
+  <text class="row" x="112" y="94" text-anchor="end">Fiber</text>
+  <text class="row-s" x="112" y="105" text-anchor="end">useState · useRef</text>
+  <rect class="b-fiber" x="126" y="84" width="246" height="18" rx="3"/>
+  <line class="cap" x1="372" y1="80" x2="372" y2="106"/>
+  <text class="end e-die" x="380" y="97">Severed at unmount</text>
+
+  <!-- 3. module scope -->
+  <text class="row" x="112" y="126" text-anchor="end">Module scope</text>
+  <text class="row-s" x="112" y="137" text-anchor="end">top-level variables</text>
+  <rect class="b-mod" x="126" y="116" width="372" height="18" rx="3"/>
+  <line class="cap" x1="498" y1="112" x2="498" y2="138"/>
+  <text class="end e-die" x="506" y="129">Gone at refresh</text>
+
+  <!-- 4. external store -->
+  <text class="row" x="112" y="158" text-anchor="end">External store</text>
+  <text class="row-s" x="112" y="169" text-anchor="end">QueryCache · Zustand</text>
+  <rect class="b-store" x="126" y="148" width="372" height="18" rx="3"/>
+  <line class="cap" x1="498" y1="144" x2="498" y2="170"/>
+  <text class="end e-die" x="506" y="161">Gone at refresh</text>
+
+  <!-- 5. browser storage -->
+  <text class="row" x="112" y="190" text-anchor="end">Browser storage</text>
+  <text class="row-s" x="112" y="201" text-anchor="end">localStorage · persist</text>
+  <rect class="b-disk" x="126" y="180" width="496" height="18" rx="3"/>
+  <line class="axis" x1="622" y1="189" x2="640" y2="189" marker-end="url(#ar)"/>
+  <text class="end e-live" x="506" y="212">Outlives a refresh</text>
+
+  <!-- 6. DOM -->
+  <text class="row" x="112" y="230" text-anchor="end">DOM</text>
+  <text class="row-s" x="112" y="241" text-anchor="end">Committed nodes</text>
+  <rect class="b-dom" x="152" y="220" width="220" height="18" rx="3"/>
+  <line class="cap" x1="372" y1="216" x2="372" y2="242"/>
+  <text class="end e-die" x="380" y="233">Removed by React</text>
+
+  <!-- axis -->
+  <line class="axis" x1="126" y1="262" x2="646" y2="262" marker-end="url(#ar)"/>
+  <text class="note" x="126" y="280">Bar length is lifetime. Where it is severed decides where the value belongs.</text>
+</svg>
