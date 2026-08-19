@@ -32,7 +32,6 @@ npm run build    # 정적 빌드 — 변경 후 필수 검증
 
 | 스킬 | 언제 |
 |---|---|
-| `decision-post` | 프로젝트에서 나온 설계 결정을 글로 정리 (모먼트 커피 시리즈 등) |
 | `astro-frontend-architect` | 페이지·컴포넌트·라우팅·컬렉션 구현 |
 | `web-design-system` | 토큰·타이포·레이아웃 등 비주얼 결정 |
 | `product-planning` | 페이지/기능이 리뷰어 동선·사이트 목표에 맞는지 판정 |
@@ -41,3 +40,11 @@ npm run build    # 정적 빌드 — 변경 후 필수 검증
 | `commit` | 이 레포의 모든 커밋. post 브랜치 콘텐츠 커밋 시 ko→en 번역 동반 강제 |
 
 여러 축에 걸치면 product-planning(무엇을) → web-design-system(어떻게 보일지) → astro-frontend-architect(구현) 순으로.
+
+## 전역 스킬
+
+| 스킬 | 언제 |
+|---|---|
+| `decision-post` | 프로젝트 레포의 `notes/`에 쌓인 CS·설계 질문을 시리즈형 기술 포스트로 변환 (모먼트 커피 시리즈 등). notes 항목 형식과 `noteSchema` 매핑, ko/en 패리티, series·order 관리를 담는다 |
+
+이 레포의 스킬이 아니라 계정 전역 스킬이다 — 소스 프로젝트(예: 모먼트 커피)에서 작업할 때도 같은 스킬이 잡혀야 하기 때문이다.
