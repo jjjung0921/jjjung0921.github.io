@@ -24,7 +24,9 @@ Use this skill for every commit in this repo. It exists mainly to guarantee that
    ```bash
    npm run lint
    npm run build
+   grep -rln 'ai:draft\|TODO: 확인 필요' src/content/ && echo 'unreviewed draft markers remain — do not commit'
    ```
+   Content that still carries `<!-- ai:draft -->` markers or `<!-- TODO: 확인 필요 -->` notes is unreviewed (blog-coauthor · study-series · decision-post rule): stop and ask the user to review those sections before committing.
 6. Stage the Korean and English files together, then commit. Do not push unless asked.
 
 ## Commit Message Convention
