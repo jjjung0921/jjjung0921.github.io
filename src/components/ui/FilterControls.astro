@@ -169,7 +169,13 @@ const { label, scope, groups, resultLabel, resetLabel, emptyText, sort } = Astro
 
       return [...cards].sort((a, b) => {
         if (key === 'date') {
-          return (Date.parse(a.dataset.date || '') - Date.parse(b.dataset.date || '')) * multiplier;
+          const dateDifference = Date.parse(a.dataset.date || '') - Date.parse(b.dataset.date || '');
+          if (dateDifference !== 0) return dateDifference * multiplier;
+          // 같은 날짜·같은 시리즈면 order가 큰(뒤 편) 글을 더 최신으로 본다.
+          if (a.dataset.series && a.dataset.series === b.dataset.series && a.dataset.order && b.dataset.order) {
+            return (Number(a.dataset.order) - Number(b.dataset.order)) * multiplier;
+          }
+          return 0;
         }
 
         if (key === 'order') {

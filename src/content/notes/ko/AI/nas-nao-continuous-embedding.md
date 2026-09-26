@@ -18,10 +18,10 @@ tags: ["nas", "nao", "continuous-optimization", "architecture-embedding", "surro
 # NAO는 이산 아키텍처를 어떤 연속 공간에서 움직였나?
 
 ## 작성 배경
-이 글은 내가 Notion에 작성한 [NAO 리뷰](https://app.notion.com/p/333fb10f6501803aaa88e2e4fd89fecb)를 바탕으로 썼다. 논문 선택과 핵심 해석은 내 원문에서 출발했으며, GPT로 블로그에 맞게 구조와 표현을 재구성한 뒤 원문과 원 논문을 대조해 직접 검수했다. 목적함수와 gradient step의 의미는 NeurIPS 원 논문을 다시 대조해 보완했다.
+이 글은 내가 Notion에 작성한 [NAO 리뷰](https://app.notion.com/p/333fb10f6501803aaa88e2e4fd89fecb)를 바탕으로 썼다. 논문 선택과 핵심 해석은 내 원문에서 출발했다. GPT로 블로그에 맞게 구조와 표현을 재구성한 뒤 원문과 원 논문을 대조해 직접 검수했다. 목적함수와 gradient step의 의미는 NeurIPS 원 논문을 다시 대조해 보완했다.
 
 ## 문제: 이산 구조에는 바로 미분할 좌표가 없다
-architecture $a$가 operation token과 connection token의 sequence라고 하자. $a$의 일부를 바꾸면 전혀 다른 graph가 되기 때문에, 일반적인 의미의 $\nabla_a f(a)$는 정의하기 어렵다.
+architecture $a$가 operation token과 connection token의 sequence라고 하자. $a$의 일부를 바꾸면 전혀 다른 graph가 되기 때문에 일반적인 의미의 $\nabla_a f(a)$는 정의하기 어렵다.
 
 기존 performance predictor는 이미 생성한 후보의 성능을 예측하고 좋은 후보를 골라내는 데 주로 쓰였다. NAO는 predictor를 **새 후보를 만드는 gradient field**로 사용한다.
 
@@ -93,7 +93,7 @@ e_a
 \big|_{e=e_a}
 $$
 
-성능 대신 error를 예측한다면 부호는 반대가 된다. 중요한 점은 architecture token을 직접 미분하는 것이 아니라, **predictor가 학습한 연속 공간 안에서 gradient step을 수행한다**는 것이다.
+성능 대신 error를 예측한다면 부호는 반대가 된다. NAO는 architecture token을 직접 미분하지 않고 **predictor가 학습한 연속 공간 안에서 gradient step을 수행한다**.
 
 그 다음 decoder가 새 embedding을 discrete architecture로 되돌린다.
 
@@ -111,7 +111,7 @@ $$
 | 이산 복원 | decoder가 token sequence 생성 | edge별 argmax |
 | 주요 위험 | predictor·decoder 외삽 | mixed-op와 discretization gap |
 
-두 방법 모두 discrete choice를 continuous optimization으로 바꾸지만, 연속 공간을 만드는 방식이 다르다.
+두 방법 모두 discrete choice를 continuous optimization으로 바꾸지만 연속 공간을 만드는 방식이 다르다.
 
 ## 한계
 NAO의 gradient는 실제 accuracy surface의 gradient가 아니다. predictor가 근사한 surface의 gradient다.
@@ -123,9 +123,9 @@ NAO의 gradient는 실제 accuracy surface의 gradient가 아니다. predictor�
 - predictor 학습을 위한 후보 평가는 여전히 필요하다
 
 ## 간단한 해결 아이디어
-latent step에 trust region을 두고, ensemble predictor의 uncertainty가 큰 후보는 실제 평가로 되돌리는 방법이 자연스럽다. decoder validity constraint와 round-trip consistency $a\rightarrow e\rightarrow\hat a$도 함께 측정해야 한다.
+latent step에 trust region을 두고 ensemble predictor의 uncertainty가 큰 후보는 실제 평가로 되돌리는 방법이 자연스럽다. decoder validity constraint와 round-trip consistency $a\rightarrow e\rightarrow\hat a$도 함께 측정해야 한다.
 
-핵심은 gradient를 얻었다는 사실보다, **그 gradient가 어떤 surrogate와 어떤 데이터 범위 안에서만 유효한지**를 기록하는 것이다.
+gradient를 얻었다는 사실보다 **그 gradient가 어떤 surrogate와 어떤 데이터 범위 안에서만 유효한지**를 기록하는 일이 더 중요하다.
 
 ## 참고자료
 - [Neural Architecture Optimization](https://proceedings.neurips.cc/paper/2018/hash/933670f1ac8ba969f32989c312faba75-Abstract.html)

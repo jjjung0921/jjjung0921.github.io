@@ -31,24 +31,24 @@ summary: "개별연구 과목에서 MEEA*-PC(Zhao et al., 2024)를 논문·코�
 
 ## 개요
 
-개별연구 과목에서 역합성 분석(retrosynthetic planning)을 공부하며 진행한 작업이다. 대상은 Zhao, Tu, Xu의 *"Efficient retrosynthetic planning with MCTS exploration enhanced A\* search"* (Communications Chemistry, 2024)이며, **방법과 원 코드는 원저자의 것**이다. 논문·코드 리뷰에서 출발해, 원 저장소가 제공하지 않는 부분을 직접 재현하고 몇 가지 실험을 돌렸다.
+개별연구 과목에서 역합성 분석(retrosynthetic planning)을 공부하며 진행한 작업이다. 대상은 Zhao, Tu, Xu의 *"Efficient retrosynthetic planning with MCTS exploration enhanced A\* search"* (Communications Chemistry, 2024)이며 **방법과 원 코드는 원저자의 것**이다. 논문·코드 리뷰에서 출발해 원 저장소가 제공하지 않는 부분을 직접 재현하고 몇 가지 실험을 돌렸다.
 
 ## 핵심 파악 (리뷰)
 
-- **MEEA\***: MCTS의 exploration(pUCT) 성질은 유지하되, selection에서 A\*처럼 가장 낮은 f-value를 가진 후보에 우선순위를 부여한다.
-- **MEEA\*-PC**: 학습 손실을 `L = L_RL + λ·L_PC`로 두고, path consistency 정규화로 heuristic의 일반화를 개선한다.
+- **MEEA\***: MCTS의 exploration(pUCT) 성질은 유지하되, 선택 단계에서는 A\*처럼 f-value가 가장 낮은 후보를 먼저 고른다.
+- **MEEA\*-PC**: 학습 손실을 `L = L_RL + λ·L_PC`로 두고 path consistency 정규화로 heuristic의 일반화를 개선한다.
 - A\*의 heuristic 의존과 MCTS의 compulsive exploration이라는 두 단점을 서로 보완하는 구조로 이해했다.
 
 ## 직접 수행한 추가 실험
 
 - **미제공 학습 데이터 재구성**: USPTO 원본(TDC) → RXNMapper로 atom mapping → rdchiral로 template 재추출(라벨 381,302 → 219,032). MEEA\*를 USPTO 299k에 실행해 경로 데이터를 만들고 train/validate 9:1로 분할.
 - **cpuct ablation**: `cpuct=0`(A\* 성향, 평균 depth 18, 정확도 80%) vs `cpuct=15`(MCTS 성향, 평균 depth 6, 정확도 94%) — USPTO가 얕은 depth를 요구한다는 점과 부합.
-- **policyNet 아키텍처 변형**: MLP 기준선 대비 GELU 적용 시 USPTO precision 0.80 → 0.9474로 개선. Transformer는 오히려 저하 — Morgan fingerprint에 순서 정보가 없어 positional encoding이 이득이 없었고, SMILES 계열 시퀀스 모델이 더 적합하리라 판단.
-- **valueEnsemble**: value 예측의 magic number(-7) 유무 비교 — 제거 시 loss는 작지만 hinge loss 학습에서 gradient vanishing 우려가 커 유지가 타당하다고 결론.
+- **policyNet 아키텍처 변형**: MLP 기준선 대비 GELU 적용 시 USPTO precision 0.80 → 0.9474로 개선. Transformer는 오히려 저하. Morgan fingerprint에 순서 정보가 없어 positional encoding이 이득이 없었고 SMILES 계열 시퀀스 모델이 더 적합하리라 판단.
+- **valueEnsemble**: value 예측의 magic number(-7) 유무 비교. 제거 시 loss는 작지만 hinge loss 학습에서 gradient vanishing 우려가 커 유지가 타당하다고 결론.
 
 ## 제안한 후속 방향
 
-- **policyNet**: SMILES + Transformer로 더 풍부한 표현을 학습하거나, Morgan fingerprint에 GNN을 얹어 반응 중심 예측.
+- **policyNet**: SMILES + Transformer로 더 풍부한 표현을 학습하거나 Morgan fingerprint에 GNN을 얹어 반응 중심 예측.
 - **valueEnsemble**: 고정 magic number 대신 adaptive threshold, consistency loss에 KL-divergence 같은 분포 정규화.
 
 ## 산출물

@@ -238,15 +238,15 @@ svg {
   --callout-color: var(--tone-success);
 }
 
+/* 제목은 block 흐름으로 둔다 — flex로 두면 제목 안의 텍스트·수식·굵게 조각이
+   각각 flex 항목이 되어 세로로 쪼개진다. 아이콘은 inline으로 첫 줄에 붙인다. */
 .prose [data-callout-title] {
-  align-items: center;
   color: var(--callout-color);
-  display: flex;
+  display: block;
   font-family: var(--font-mono);
   font-size: var(--text-sm);
   font-weight: 800;
-  gap: 0.55rem;
-  line-height: 1.4;
+  line-height: 1.6;
 }
 
 .prose [data-callout-title]::before {
@@ -255,12 +255,14 @@ svg {
   border-radius: 999px;
   content: 'i';
   display: inline-flex;
-  flex: 0 0 1.15rem;
   font-family: var(--font-body);
   font-size: 0.72rem;
   height: 1.15rem;
   justify-content: center;
   line-height: 1;
+  margin-right: 0.55rem;
+  vertical-align: -0.15rem;
+  width: 1.15rem;
 }
 
 .prose [data-callout][data-callout-type='warning'] > [data-callout-title]::before {
@@ -272,12 +274,33 @@ svg {
   font-size: 0.68rem;
 }
 
+/* 내 해석: 원문에서 확인한 사실이 아니라 필자의 해석임을 표시한다.
+   사실 콜아웃과 구분되도록 보라 계열 + 점선 테두리 + 연필 아이콘, 본문은 기울임 없이 둔다. */
+.prose [data-callout][data-callout-type='interpretation'] {
+  --callout-color: var(--tone-experiment);
+  border-left-style: dashed;
+  border-style: dashed;
+  border-left-width: 3px;
+}
+
+.prose [data-callout][data-callout-type='interpretation'] > [data-callout-title]::before {
+  border-style: dashed;
+  content: '\270E';
+  font-size: 0.7rem;
+}
+
 .prose [data-callout-body] > :first-child {
   margin-top: 0.55rem;
 }
 
 .prose [data-callout-body] > :last-child {
   margin-bottom: 0;
+}
+
+/* 대문자·자간 변환이 걸린 자리(표 머리, eyebrow 등)에서도 수식 글자를 바꾸지 않는다 */
+.katex {
+  letter-spacing: normal;
+  text-transform: none;
 }
 
 .prose .katex-display {

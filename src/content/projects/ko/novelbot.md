@@ -27,7 +27,7 @@ summary: "웹소설 독자가 구매한 범위 안에서 스포일러 없이 작
 
 ## 개요
 
-NovelBot은 웹소설 독자가 이전 화를 직접 뒤지거나 스포일러를 감수하지 않고도, 자신이 읽은 범위 안에서 작품에 대한 궁금증을 바로 해소하도록 돕는 대화형 AI 플랫폼이다. 팀 프로젝트이며, 나는 **Spring Boot 백엔드**를 주 기여자로 맡았다.
+NovelBot은 웹소설 독자를 위한 대화형 AI 플랫폼이다. 이전 화를 직접 뒤지거나 스포일러를 감수하지 않고도 자신이 읽은 범위 안에서 작품에 대한 궁금증을 바로 해소하도록 돕는다. 팀 프로젝트다. 나는 **Spring Boot 백엔드**를 주 기여자로 맡았다.
 
 ## 담당 (Backend)
 
@@ -52,4 +52,4 @@ NovelBot은 웹소설 독자가 이전 화를 직접 뒤지거나 스포일러�
 
 ## 향후 방향
 
-백엔드 참여를 넘어, AI 응답 부분을 **System 2 딥러닝(숙고형 다단계 추론)** 으로 강화하고 싶다 — 에피소드 간 multi-hop 추론, 답변이 스포일러 경계를 넘지 않는지에 대한 self-verification, 검색과 추론을 반복하는 deliberate reasoning. 이는 검색 안에 추론이 중첩되는 구조로, 내가 관심을 둔 bi-level optimization·nested search와 맞닿는다.
+백엔드 참여에 더해 AI 응답 부분도 **System 2 딥러닝(숙고형 다단계 추론)** 으로 강화하고 싶다 — 에피소드 간 multi-hop 추론, 답변이 스포일러 경계를 넘지 않는지에 대한 self-verification, 검색과 추론을 반복하는 deliberate reasoning. 검색 안에 추론이 중첩되는 이 구조는 내가 관심을 둔 bi-level optimization·nested search와 맞닿는다.

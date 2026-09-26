@@ -27,7 +27,7 @@ tags: ["typescript", "javascript"]
 1. 기존의 JavaScript에서는 어떤 문제가 발생할 수 있는가?
 2. TypeScript는 이 문제를 어떻게 해결했는지 간략하게 overview를 제공한다.
 
-2026/07/13인 현재 Javascript의 구체적인 포스트는 아직 작성이 되지 않았지만 추후 추가할 예정이기에 JS에 대해서는 알고 있다는 가정 하에 진행한다.
+2026/07/13인 현재 Javascript의 구체적인 포스트는 아직 작성하지 않았지만 추후 추가할 예정이기에 JS에 대해서는 알고 있다는 가정 하에 진행한다.
 
 ## 0. JS에는 무슨 문제가 있었는가?
 
@@ -46,11 +46,11 @@ JavaScript Source Code
 → Result or Runtime Error
 ```
 
-위 과정에서 **Binding은 특정 스코프에서 식별자와 그에 대응하는 변수·함수·매개변수의 관계를 구성**하는 역할을 한다.
+위 과정에서 **Binding은 특정 스코프에서 식별자와 그에 대응하는 변수·함수·매개변수의 관계를 구성**한다.
 
 이후 **Runtime Execution에서는 선언문, 할당문, 함수 호출 등이 실행되면서 binding이 초기화되거나 새로운 값으로 갱신**되며
 
-**Expression Evalution에서는 실제 값을 대상으로 프로퍼티 접근, 함수 호출, 연산자 적용, 암묵적 타입 변환 등이 수행**된다. 해당 연산을 수행할 수 없는 경우 **예외가 발생**할 수 있다.
+**Expression Evalution에서는 실제 값을 대상으로 프로퍼티 접근, 함수 호출, 연산자 적용, 암묵적 타입 변환 등이 수행**된다. 해당 연산을 수행할 수 없으면 **예외가 발생**할 수 있다.
 
 JavaScript에는 binding 이후, 실제 실행 전에 값의 사용 관계를 검사하는 정적 타입 검사 단계가 없다. 따라서 부적절한 값 사용은 표현식이 실제 런타임 값으로 평가될 때 드러날 수 있다.
 
@@ -60,11 +60,11 @@ JavaScript에는 binding 이후, 실제 실행 전에 값의 사용 관계를 �
 const a = 10;
 a.toUpperCase() //TypeError: a.toUpperCase is not a function
 ```
-TypeScript는 가능한 런타임 값의 형태와 사용 관계를 **정적으로 모델링**하고, 코드가 실행되기 전에 일부 오류 가능성을 진단하기 위해 등장했다.
+TypeScript는 가능한 런타임 값의 형태와 사용 관계를 **정적으로 모델링**하고 코드가 실행되기 전에 일부 오류 가능성을 진단하기 위해 등장했다.
 
 ## 1. TypeScript의 등장
 
-TypeScript는 앞서 말했듯 런타임 값의 형태를 모델링하고 이를 통해 "Expression Evaluation"에서 발생할 수 있는 일부 문제를 미리 찾기 위해 등장한 언어이다.
+TypeScript는 앞서 말했듯 런타임 값의 형태를 모델링해서 "Expression Evaluation"에서 발생할 수 있는 일부 문제를 미리 찾기 위해 등장한 언어이다.
 
 동작 과정은 아래와 같다.
 ```
@@ -77,7 +77,7 @@ TypeScript Source Code
 → JavaScript Source Code
 ```
 
-위 과정에서 **Type Check**라는 정적 타입 검사 과정이 추가됨으로써 실제 프로그램을 실행하지 않더라도 compile 과정에서 미리 일부 타입 관련 오류를 체크할 수 있다.
+위 과정에서 **Type Check**라는 정적 타입 검사 과정이 추가되어 실제 프로그램을 실행하지 않더라도 compile 과정에서 미리 일부 타입 관련 오류를 체크할 수 있다.
 
 ```ts
 a = 10;
@@ -88,4 +88,4 @@ a.toUpperCase() //Property 'toUpperCase' does not exist on type '10'.
 
 ## 연결
 
-- 다음에 확인할 질문: TypeScript에서의 정적 타입 검사는 JavaScript 위에서 어떻게 동작하는가?
+- 다음에 확인할 질문: TypeScript의 정적 타입 검사는 JavaScript 위에서 어떻게 동작하는가?
