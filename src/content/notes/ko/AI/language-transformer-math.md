@@ -18,28 +18,28 @@ tags: ["transformer", "self-attention", "positional-encoding", "mask", "layer-no
 # Transformer의 수학: Q, K, V부터 residual까지
 
 ## 작성 배경
-이 글은 내가 Notion에 남긴 원문을 바탕으로 GPT로 구조와 문장을 블로그용으로 재구성한 뒤, 원문과 원 논문을 대조해 직접 검수한 버전이다. 논문 선택과 핵심 해석은 원문에서 출발했고, 수식과 한계는 원 논문과 대조해 보완했다.
+이 글의 바탕은 내가 Notion에 남긴 원문이다. GPT로 구조와 문장을 블로그용으로 재구성했다. 그 뒤 원문과 원 논문을 대조해 직접 검수했다. 논문 선택과 핵심 해석은 원문에서 출발했다. 수식과 한계는 원 논문과 대조해 보완했다.
 
 - [Attention](https://app.notion.com/p/340fb10f6501814fbec6d1d8a36b139a)
 - [Transformer](https://app.notion.com/p/340fb10f65018105bb36c2164380ff9d)
 
 ## 문제
-RNN과 LSTM은 순서를 잘 보존하지만, 다음 hidden state를 계산해야 다음 단계로 갈 수 있다. 이 순차 의존성은 병렬화를 막고, 긴 문맥에서는 계산 비용을 키운다. Transformer는 이 문제를 recurrence 없이 풀 수 있는가라는 질문에 대한 답이다.
+RNN과 LSTM은 순서를 잘 보존한다. 하지만 다음 hidden state를 계산해야 다음 단계로 갈 수 있다. 이 순차 의존성은 병렬화를 막는다. 긴 문맥에서는 계산 비용을 키운다. Transformer는 이 문제를 recurrence 없이 풀 수 있는가라는 질문에 대한 답이다.
 
-Transformer의 핵심은 token 사이의 관계를 직접 계산하고, 위치는 별도로 넣어 주는 것이다. 그래서 모델은 순서를 "계산 순서"로 읽지 않고 "표현된 위치 정보"로 읽는다.
+Transformer는 token 사이의 관계를 직접 계산한다. 위치는 별도로 넣어 준다. 그래서 모델은 순서를 "계산 순서"로 읽지 않고 "표현된 위치 정보"로 읽는다.
 
 ## 핵심 아이디어/발전 흐름
 ### self-attention
-각 token은 다른 token을 참고하면서 자신의 표현을 다시 만든다. 즉, 문장 전체가 서로를 바라보며 새 표현을 계산한다. 이는 encoder와 decoder 내부에서 모두 같은 방식으로 쓰인다.
+각 token은 다른 token을 참고하면서 자신의 표현을 다시 만든다. 문장 전체가 서로를 참고해 새 표현을 계산한다. self-attention은 encoder와 decoder 내부에서 모두 같은 방식으로 쓰인다.
 
 ### positional encoding
-순서를 없앤 대신 위치를 따로 넣어야 한다. sin/cos 기반 positional encoding은 token 위치를 각 차원에 다른 주기로 주입해, 모델이 상대적 위치를 구분할 수 있게 한다.
+순서를 없앤 대신 위치를 따로 넣어야 한다. sin/cos 기반 positional encoding은 token 위치를 각 차원에 다른 주기로 주입한다. 모델은 이 값으로 상대적 위치를 구분할 수 있다.
 
 ### multi-head와 block 구조
-하나의 attention만 쓰지 않고 여러 head를 병렬로 둔다. 각 head는 서로 다른 표현 공간을 보고, 마지막에 concat된다. 여기에 residual, layer norm, FFN을 쌓으면 하나의 Transformer block이 된다.
+하나의 attention만 쓰지 않고 여러 head를 병렬로 둔다. 각 head는 서로 다른 표현 공간을 보고 마지막에 concat된다. 여기에 residual, layer norm, FFN을 쌓으면 하나의 Transformer block이 된다.
 
 ### encoder-decoder 흐름
-입력은 encoder stack에서 전역 문맥으로 바뀌고, decoder는 masked self-attention으로 미래를 보지 않으면서 cross-attention으로 encoder 출력을 읽는다. 이 구조가 번역과 같은 sequence-to-sequence 문제를 병렬적으로 다루게 한다.
+입력은 encoder stack에서 전역 문맥으로 바뀐다. decoder는 masked self-attention으로 미래를 보지 않으면서 cross-attention으로 encoder 출력을 읽는다. 이 구조 덕분에 번역과 같은 sequence-to-sequence 문제를 병렬적으로 다룰 수 있다.
 
 ## 방법/수식
 ### Q, K, V projection
@@ -85,7 +85,7 @@ $$
 PE_{(pos,2i+1)} = \cos\left(pos / 10000^{2i/d_{model}}\right)
 $$
 
-이 표현은 각 차원에 다른 주기를 넣어 위치와 상대 위치를 구별하게 한다.
+각 차원에 다른 주기를 넣기 때문에 모델은 위치와 상대 위치를 구별할 수 있다.
 
 ### mask
 Decoder에서는 미래 토큰을 보면 안 된다. 그래서 causal mask를 넣는다.
@@ -112,7 +112,7 @@ $$
 이 블록이 여러 층 쌓여 encoder와 decoder를 이룬다.
 
 ### 전체 흐름
-입력 embedding에 positional encoding을 더하고, encoder stack을 통과시킨 뒤, decoder는 masked self-attention과 encoder-decoder attention을 차례로 거친다. 마지막에는 linear projection과 softmax로 다음 토큰 분포를 낸다.
+입력 embedding에 positional encoding을 더해 encoder stack을 통과시킨다. 그다음 decoder는 masked self-attention과 encoder-decoder attention을 차례로 거친다. 마지막에는 linear projection과 softmax로 다음 토큰 분포를 낸다.
 
 ## 대표 모델 비교
 | 모델 | 계산 방식 | 강점 | 남는 한계 |
@@ -127,4 +127,4 @@ $$
 - [Kalchbrenner et al., 2016, Neural Machine Translation in Linear Time](https://arxiv.org/abs/1610.10099)
 
 ## 한계와 간단한 해결 아이디어
-Transformer의 가장 큰 비용은 긴 시퀀스에서 커지는 $O(n^2)$ attention이다. 위치 정보를 따로 넣는 방식도 긴 문맥에서는 완전한 해답이 아니다. 가장 단순한 해결 아이디어는 일부 위치만 보게 하는 sparse attention, 영역을 나눠 처리하는 chunking, 그리고 외부 기억을 붙이는 retrieval을 조합하는 것이다. 이 지점에서 sequence modeling은 다시 효율성 문제와 만난다.
+Transformer의 가장 큰 비용은 긴 시퀀스에서 커지는 $O(n^2)$ attention이다. 위치 정보를 따로 넣는 방식도 긴 문맥에서는 완전한 해답이 아니다. 해결 아이디어로는 sparse attention, chunking, retrieval을 조합하는 방법이 가장 단순하다. sparse attention은 일부 위치만 보고 chunking은 영역을 나눠 처리한다. retrieval은 외부 기억을 붙인다. sequence modeling에서는 효율성이 다시 문제가 된다.

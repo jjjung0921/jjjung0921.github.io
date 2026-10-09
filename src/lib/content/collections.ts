@@ -12,8 +12,22 @@ export function filterByLang<T extends { data: { lang: Lang } }>(entries: T[], l
   return entries.filter((entry) => entry.data.lang === lang);
 }
 
-export function sortByDateDesc<T extends { data: { date: Date } }>(entries: T[]): T[] {
-  return [...entries].sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
+type DatedEntry = { data: { date: Date; series?: string; order?: number } };
+
+// 같은 날짜·같은 시리즈의 글은 order가 큰(뒤 편) 글을 더 최신으로 본다.
+function compareSameDaySeriesOrder(a: DatedEntry, b: DatedEntry): number {
+  if (!a.data.series || a.data.series !== b.data.series) return 0;
+  const aOrder = a.data.order;
+  const bOrder = b.data.order;
+  if (aOrder === undefined || bOrder === undefined) return 0;
+  return aOrder - bOrder;
+}
+
+export function sortByDateDesc<T extends DatedEntry>(entries: T[]): T[] {
+  return [...entries].sort((a, b) => {
+    const dateDifference = b.data.date.getTime() - a.data.date.getTime();
+    return dateDifference !== 0 ? dateDifference : -compareSameDaySeriesOrder(a, b);
+  });
 }
 
 export function getNotesForProject(

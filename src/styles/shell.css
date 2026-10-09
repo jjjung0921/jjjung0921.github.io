@@ -1300,6 +1300,245 @@
   gap: 1rem;
 }
 
+/* MAML 이차 task 예시 (lab/maml-quadratic-tasks) */
+[data-maml-demo] {
+  --maml-task: var(--tone-progress);
+  --maml-main: var(--color-accent);
+  --maml-fo: var(--tone-experiment);
+  --maml-joint: var(--color-muted);
+}
+
+.maml-demo-frame {
+  align-content: start;
+  gap: 1rem;
+  padding: clamp(1rem, 3vw, 1.75rem);
+  place-items: stretch;
+}
+
+.maml-figure {
+  margin: 0;
+}
+
+.maml-figure svg {
+  background: var(--color-bg);
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-md);
+  cursor: crosshair;
+  display: block;
+  height: auto;
+  width: 100%;
+}
+
+.maml-axis {
+  stroke: var(--color-line);
+  stroke-width: 1;
+}
+
+.maml-task-contour {
+  fill: none;
+  opacity: 0.4;
+  stroke: var(--maml-task);
+  stroke-width: 1;
+}
+
+.maml-contour {
+  fill: none;
+  opacity: 0.55;
+  stroke: var(--maml-main);
+  stroke-dasharray: 4 4;
+  stroke-width: 1;
+}
+
+.maml-traj {
+  fill: none;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 2.2;
+}
+
+.maml-traj[data-series='maml'] { stroke: var(--maml-main); }
+.maml-traj[data-series='batch'] { opacity: 0.4; stroke: var(--maml-main); stroke-width: 1; }
+.maml-traj[data-series='fomaml'] { stroke: var(--maml-fo); stroke-dasharray: 6 4; }
+.maml-traj[data-series='joint'] { stroke: var(--maml-joint); }
+
+.maml-inner {
+  opacity: 0.6;
+  stroke: var(--maml-task);
+  stroke-width: 1;
+}
+
+.maml-center {
+  fill: none;
+  stroke: var(--maml-task);
+  stroke-width: 2.2;
+}
+
+.maml-adapted { fill: var(--maml-task); }
+
+.maml-star {
+  stroke: var(--color-bg);
+  stroke-width: 2;
+}
+
+.maml-star.maml { fill: var(--maml-main); }
+.maml-star.fomaml { fill: var(--maml-fo); }
+.maml-star.joint { fill: var(--maml-joint); }
+
+.maml-start {
+  fill: var(--color-bg);
+  stroke: var(--color-ink);
+  stroke-width: 2;
+}
+
+.maml-controls {
+  display: grid;
+  gap: 0.9rem 1.5rem;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.maml-control {
+  display: grid;
+  gap: 0.35rem;
+  min-width: 0;
+}
+
+.maml-control .lab-control-label {
+  flex-direction: row;
+}
+
+.maml-toggles {
+  align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+  font-size: var(--text-sm);
+  gap: 0.6rem 1rem;
+}
+
+.maml-toggles input {
+  accent-color: var(--color-accent);
+}
+
+.maml-button {
+  background: var(--color-bg);
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-sm);
+  color: var(--color-ink);
+  cursor: pointer;
+  font: inherit;
+  font-size: var(--text-xs);
+  padding: 0.3rem 0.6rem;
+}
+
+.maml-button:hover {
+  border-color: var(--color-accent);
+}
+
+.maml-hint {
+  color: var(--color-muted);
+  font-size: var(--text-xs);
+  margin: 0;
+}
+
+.maml-readout {
+  border-collapse: collapse;
+  font-size: var(--text-xs);
+  width: 100%;
+}
+
+.maml-readout th,
+.maml-readout td {
+  border-bottom: 1px solid var(--color-line);
+  font-weight: 600;
+  padding: 0.35rem 0.2rem;
+  text-align: left;
+}
+
+.maml-readout td {
+  font-family: var(--font-mono);
+  text-align: right;
+}
+
+.maml-metrics {
+  display: grid;
+  font-size: var(--text-sm);
+  gap: 0.45rem 0.75rem;
+  grid-template-columns: minmax(0, 1fr) auto;
+  margin: 0.9rem 0 0;
+}
+
+.maml-metrics dt {
+  min-width: 0;
+  overflow-x: auto;
+}
+
+.maml-metrics dd {
+  font-family: var(--font-mono);
+  font-weight: 800;
+  margin: 0;
+  text-align: right;
+}
+
+.maml-warning {
+  color: var(--color-warm);
+  font-size: var(--text-sm);
+  font-weight: 700;
+}
+
+.maml-chart {
+  display: block;
+  height: auto;
+  margin: 0.4rem 0;
+  width: 100%;
+}
+
+.maml-bar {
+  fill: color-mix(in srgb, var(--maml-main) 35%, transparent);
+}
+
+.maml-bar.is-current {
+  fill: var(--maml-main);
+}
+
+.maml-tick {
+  fill: var(--color-muted);
+  font-family: var(--font-mono);
+  font-size: 9px;
+}
+
+.maml-legend {
+  display: grid;
+  font-size: var(--text-sm);
+  gap: 0.45rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.maml-legend li {
+  align-items: center;
+  display: flex;
+  gap: 0.55rem;
+}
+
+.maml-legend .swatch {
+  border-top: 3px solid currentColor;
+  flex: none;
+  width: 1.2rem;
+}
+
+.maml-legend .swatch[data-series='task'] { color: var(--maml-task); }
+.maml-legend .swatch[data-series='maml'] { color: var(--maml-main); }
+.maml-legend .swatch[data-series='batch'] { border-top-width: 1px; color: var(--maml-main); opacity: 0.6; }
+.maml-legend .swatch[data-series='fomaml'] { border-top-style: dashed; color: var(--maml-fo); }
+.maml-legend .swatch[data-series='joint'] { color: var(--maml-joint); }
+.maml-legend .swatch-dot {
+  background: var(--maml-task);
+  border: 0;
+  border-radius: 999px;
+  height: 0.5rem;
+  width: 0.5rem;
+}
+
 @keyframes signalDrop {
   from {
     top: 0;
@@ -1536,6 +1775,10 @@
 
   .lab-control-stack {
     gap: 1.5rem;
+  }
+
+  .maml-controls {
+    grid-template-columns: 1fr;
   }
 
   .lab-control-label {

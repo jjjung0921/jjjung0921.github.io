@@ -1,0 +1,15 @@
+---
+// 실험실 항목(translationKey)별 상호작용 island를 고른다. 없으면 아무것도 그리지 않는다.
+import BilevelToyDemo from './BilevelToyDemo.astro';
+import MamlQuadraticDemo from './MamlQuadraticDemo.astro';
+
+interface Props {
+  translationKey: string;
+  lang: 'ko' | 'en';
+}
+
+const { translationKey, lang } = Astro.props;
+---
+
+{translationKey === 'bilevel-toy' && <BilevelToyDemo lang={lang} />}
+{translationKey === 'maml-quadratic-tasks' && <MamlQuadraticDemo lang={lang} />}

@@ -7,30 +7,28 @@ const { lang } = Astro.props;
 
 const copy = {
   ko: {
-    alt: 'AI가 설계한 환경 안에서 사용자가 점진적으로 적응하고, 그 관측이 다시 AI의 재설계로 돌아오는 이중 최적화 구조',
-    zone: '환경 · 도시 — AI가 설계한 문제 (λ)',
-    lowerTitle: '하위 레벨 — 사람의 점진적 적응',
-    lowerEq: 'x_(t+1) ~ g(x_t, λ; θ)',
-    lowerNote: '학습된 반응 모델 — argmin 가정 없음',
-    upper: 'λ 재설계',
-    upperSub: '느린 루프 ×1',
-    inner: '점진 적응 ×N',
+    alt: 'AI가 설계한 도시 안에서 사용자가 점진적으로 적응하고, 그 관측이 다시 AI의 재설계로 돌아오는 이중 최적화 구조',
     aiName: 'AI 에이전트',
     aiRole: '상위 레벨 — 문제를 설계하는 쪽',
+    upper: 'λ 재설계',
+    upperSub: '느린 루프 ×1',
+    zone: '환경 · 도시 — AI가 설계한 문제 (λ)',
+    lowerTitle: '하위 레벨 — 사람의 점진적 적응',
+    lowerNote: '학습된 반응 모델 — argmin 가정 없음',
+    inner: '점진 적응 ×N',
     userName: '사용자',
     observe: '관측으로 반응 모델을 학습하고 상태를 추정 — 사람을 "푸는" 게 아니라 "배운다"',
   },
   en: {
-    alt: 'A bi-level structure in which the user adapts gradually inside the environment the AI designs, and those observations feed back into the redesign',
-    zone: 'Environment · city — the problem the AI designs (λ)',
-    lowerTitle: 'Lower level — adapts gradually',
-    lowerEq: 'x_(t+1) ~ g(x_t, λ; θ)',
-    lowerNote: 'learned response model — no argmin',
-    upper: 'redesign λ',
-    upperSub: 'slow loop ×1',
-    inner: 'adapts ×N',
+    alt: 'A bi-level structure in which the user adapts gradually inside the city the AI designs, and those observations feed back into the redesign',
     aiName: 'AI agent',
     aiRole: 'Upper level — designs the problem',
+    upper: 'redesign λ',
+    upperSub: 'slow loop ×1',
+    zone: 'Environment · city — the problem the AI designs (λ)',
+    lowerTitle: 'Lower level — adapts gradually',
+    lowerNote: 'learned response model — no argmin',
+    inner: 'adapts ×N',
     userName: 'User',
     observe: 'Observations train the response model and infer state — the person is learned, not solved',
   },
@@ -38,7 +36,7 @@ const copy = {
 ---
 
 <figure class="bilevel-figure">
-  <svg viewBox="0 52 660 348" role="img" aria-label={copy.alt}>
+  <svg viewBox="0 0 660 320" role="img" aria-label={copy.alt}>
     <defs>
       <marker id="bl-arrow-upper" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
         <path class="bl-marker-upper" d="M 0 0 L 10 5 L 0 10 z" />
@@ -46,67 +44,62 @@ const copy = {
       <marker id="bl-arrow-lower" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
         <path class="bl-marker-lower" d="M 0 0 L 10 5 L 0 10 z" />
       </marker>
+      <marker id="bl-arrow-inner" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5.5" markerHeight="5.5" orient="auto-start-reverse">
+        <path class="bl-marker-lower" d="M 0 0 L 10 5 L 0 10 z" />
+      </marker>
     </defs>
 
-    <line class="bl-ground" x1="30" y1="302" x2="240" y2="302" />
+    <text class="bl-name bl-text-upper" x="86" y="52" text-anchor="middle">{copy.aiName}</text>
+    <text class="bl-role" x="86" y="66" text-anchor="middle">{copy.aiRole}</text>
 
-    <ellipse class="bl-shadow" cx="108" cy="302" rx="56" ry="8" />
-    <line class="bl-stroke-upper" x1="108" y1="112" x2="108" y2="98" />
-    <circle class="bl-fill-upper" cx="108" cy="93" r="4.5" />
-    <rect class="bl-machine" x="71" y="112" width="74" height="56" rx="13" />
-    <rect class="bl-fill-upper" x="89" y="130" width="11" height="16" rx="4" />
-    <rect class="bl-fill-upper" x="116" y="130" width="11" height="16" rx="4" />
-    <path class="bl-stroke-upper" d="M 96 156 Q 108 162 120 156" />
-    <rect class="bl-machine" x="64" y="176" width="88" height="86" rx="15" />
-    <circle class="bl-node" cx="88" cy="205" r="3.4" />
-    <circle class="bl-node" cx="128" cy="205" r="3.4" />
-    <circle class="bl-node" cx="108" cy="232" r="3.4" />
-    <line class="bl-wire" x1="88" y1="205" x2="128" y2="205" />
-    <line class="bl-wire" x1="88" y1="205" x2="108" y2="232" />
-    <line class="bl-wire" x1="128" y1="205" x2="108" y2="232" />
-    <rect class="bl-machine" x="44" y="192" width="14" height="46" rx="7" />
-    <rect class="bl-machine" x="154" y="196" width="48" height="14" rx="7" />
-    <circle class="bl-machine" cx="206" cy="203" r="7" />
-    <path class="bl-jet" d="M 88 268 L 84 282 M 108 268 L 108 285 M 128 268 L 132 282" />
+    <rect class="bl-machine" x="56" y="88" width="60" height="60" rx="12" />
+    <path class="bl-stroke-upper" d="M 72 88 V 80 M 100 88 V 80 M 72 148 V 156 M 100 148 V 156 M 56 106 H 48 M 56 130 H 48 M 116 106 H 124 M 116 130 H 124" />
+    <path class="bl-wire" d="M 72 108 H 100 M 72 108 L 86 130 M 100 108 L 86 130" />
+    <circle class="bl-node" cx="72" cy="108" r="3" />
+    <circle class="bl-node" cx="100" cy="108" r="3" />
+    <circle class="bl-node" cx="86" cy="130" r="3" />
 
-    <text class="bl-name bl-text-upper" x="108" y="325" text-anchor="middle">{copy.aiName}</text>
-    <text class="bl-role" x="108" y="339" text-anchor="middle">{copy.aiRole}</text>
+    <text class="bl-flow bl-text-upper" x="162" y="104" text-anchor="middle">{copy.upper}</text>
+    <path class="bl-arrow-upper" d="M 130 118 H 194" marker-end="url(#bl-arrow-upper)" />
+    <text class="bl-sub bl-text-upper" x="162" y="136" text-anchor="middle">{copy.upperSub}</text>
 
-    <path class="bl-arrow-upper" d="M 215 203 L 246 203" marker-end="url(#bl-arrow-upper)" />
+    <rect class="bl-env" x="204" y="16" width="432" height="228" rx="14" />
+    <text class="bl-zone" x="220" y="40">{copy.zone}</text>
+    <text class="bl-flow bl-text-lower" x="220" y="66">{copy.lowerTitle}</text>
+    <text class="bl-mono bl-text-lower" x="220" y="83">x<tspan class="bl-idx" dy="3">t+1</tspan><tspan dy="-3" dx="3">∼ g(x</tspan><tspan class="bl-idx" dy="3">t</tspan><tspan dy="-3">, λ; θ)</tspan></text>
+    <text class="bl-sub bl-text-lower" x="220" y="98">{copy.lowerNote}</text>
 
-    <rect class="bl-env" x="250" y="70" width="380" height="262" rx="12" />
-    <text class="bl-zone" x="266" y="94">{copy.zone}</text>
+    <g>
+      <rect class="bl-building" x="214" y="192" width="26" height="36" rx="1.5" />
+      <rect class="bl-building bl-building-back" x="240" y="172" width="18" height="56" rx="1.5" />
+      <rect class="bl-building" x="258" y="200" width="30" height="28" rx="1.5" />
+      <rect class="bl-building bl-building-back" x="288" y="164" width="22" height="64" rx="1.5" />
+      <rect class="bl-building" x="310" y="186" width="26" height="42" rx="1.5" />
+      <rect class="bl-building bl-building-back" x="336" y="206" width="20" height="22" rx="1.5" />
+      <rect class="bl-building" x="356" y="196" width="30" height="32" rx="1.5" />
+      <rect class="bl-building bl-building-back" x="470" y="202" width="24" height="26" rx="1.5" />
+      <rect class="bl-building" x="494" y="178" width="20" height="50" rx="1.5" />
+      <rect class="bl-building bl-building-back" x="514" y="190" width="28" height="38" rx="1.5" />
+      <rect class="bl-building" x="542" y="160" width="18" height="68" rx="1.5" />
+      <rect class="bl-building bl-building-back" x="560" y="184" width="30" height="44" rx="1.5" />
+      <rect class="bl-building" x="590" y="204" width="22" height="24" rx="1.5" />
+      <rect class="bl-building bl-building-back" x="612" y="196" width="14" height="32" rx="1.5" />
+      <path class="bl-antenna" d="M 299 164 V 152 M 551 160 V 146" />
+    </g>
+    <line class="bl-ground" x1="214" y1="228" x2="626" y2="228" />
 
-    <rect class="bl-building" x="272" y="250" width="18" height="52" rx="2" />
-    <rect class="bl-building" x="294" y="266" width="16" height="36" rx="2" />
-    <rect class="bl-building" x="314" y="238" width="20" height="64" rx="2" />
-    <line class="bl-ground" x1="262" y1="302" x2="618" y2="302" />
+    <ellipse class="bl-shadow" cx="430" cy="228" rx="34" ry="6" />
+    <circle class="bl-person" cx="430" cy="170" r="11" />
+    <path class="bl-person" d="M 406 228 V 208 A 24 24 0 0 1 454 208 V 228 Z" />
+    <text class="bl-name bl-text-lower" x="430" y="262" text-anchor="middle">{copy.userName}</text>
 
-    <text class="bl-flow bl-text-lower" x="266" y="126">{copy.lowerTitle}</text>
-    <text class="bl-mono bl-text-lower" x="266" y="141">{copy.lowerEq}</text>
-    <text class="bl-sub bl-text-lower" x="266" y="155">{copy.lowerNote}</text>
+    <path class="bl-arrow-inner" d="M 430 112 A 18 18 0 0 1 447.7 133.1" marker-end="url(#bl-arrow-inner)" />
+    <path class="bl-arrow-inner" d="M 445.6 139 A 18 18 0 0 1 418.4 143.8" marker-end="url(#bl-arrow-inner)" />
+    <path class="bl-arrow-inner" d="M 414.4 139 A 18 18 0 0 1 423.8 113.1" marker-end="url(#bl-arrow-inner)" />
+    <text class="bl-sub bl-text-lower" x="456" y="134">{copy.inner}</text>
 
-    <ellipse class="bl-shadow" cx="470" cy="302" rx="48" ry="8" />
-    <circle class="bl-person" cx="470" cy="139" r="26" />
-    <path class="bl-fill-lower" d="M 446 132 A 26 26 0 0 1 494 132 L 487 122 L 478 128 L 466 118 L 454 126 Z" />
-    <circle class="bl-fill-lower" cx="461" cy="141" r="2.6" />
-    <circle class="bl-fill-lower" cx="479" cy="141" r="2.6" />
-    <path class="bl-stroke-lower" d="M 461 151 Q 470 156 479 151" />
-    <rect class="bl-person" x="441" y="170" width="58" height="88" rx="16" />
-    <rect class="bl-person" x="414" y="192" width="14" height="48" rx="7" />
-    <rect class="bl-person" x="502" y="192" width="14" height="48" rx="7" />
-    <rect class="bl-person" x="449" y="254" width="14" height="46" rx="7" />
-    <rect class="bl-person" x="477" y="254" width="14" height="46" rx="7" />
-
-    <path class="bl-arrow-inner" d="M 470 106 A 88 100 0 1 1 382 206" marker-end="url(#bl-arrow-lower)" />
-    <text class="bl-sub bl-text-lower" x="560" y="262">{copy.inner}</text>
-    <text class="bl-name bl-text-lower" x="470" y="325" text-anchor="middle">{copy.userName}</text>
-
-    <text class="bl-flow bl-text-upper" x="218" y="176" text-anchor="middle">{copy.upper}</text>
-    <text class="bl-sub bl-text-upper" x="218" y="228" text-anchor="middle">{copy.upperSub}</text>
-
-    <path class="bl-arrow-observe" d="M 380 334 C 330 392, 240 392, 182 306" marker-end="url(#bl-arrow-lower)" />
-    <text class="bl-sub bl-text-lower" x="300" y="392" text-anchor="middle">{copy.observe}</text>
+    <path class="bl-arrow-observe" d="M 400 250 C 320 296, 120 300, 86 164" marker-end="url(#bl-arrow-lower)" />
+    <text class="bl-sub bl-text-lower" x="350" y="310" text-anchor="middle">{copy.observe}</text>
   </svg>
 </figure>
 
@@ -147,6 +140,10 @@ const copy = {
     font-weight: 600;
   }
 
+  .bl-idx {
+    font-size: 0.72em;
+  }
+
   .bl-name {
     font-size: 10.5px;
     font-weight: 700;
@@ -174,35 +171,21 @@ const copy = {
   .bl-machine {
     fill: var(--color-bg-raised);
     stroke: var(--color-accent);
-    stroke-width: 2;
+    stroke-width: 1.8;
   }
 
   .bl-person {
-    fill: color-mix(in srgb, var(--color-warm) 10%, var(--color-bg-raised));
+    fill: color-mix(in srgb, var(--color-warm) 12%, var(--color-bg-raised));
     stroke: var(--color-warm);
-    stroke-width: 2;
-  }
-
-  .bl-fill-upper {
-    fill: var(--color-accent);
-  }
-
-  .bl-fill-lower {
-    fill: var(--color-warm);
+    stroke-linejoin: round;
+    stroke-width: 1.8;
   }
 
   .bl-stroke-upper {
     fill: none;
     stroke: var(--color-accent);
     stroke-linecap: round;
-    stroke-width: 2;
-  }
-
-  .bl-stroke-lower {
-    fill: none;
-    stroke: var(--color-warm);
-    stroke-linecap: round;
-    stroke-width: 2;
+    stroke-width: 1.8;
   }
 
   .bl-node {
@@ -217,17 +200,21 @@ const copy = {
     stroke-width: 1.4;
   }
 
-  .bl-jet {
-    fill: none;
-    opacity: 0.5;
-    stroke: var(--color-accent);
-    stroke-linecap: round;
-    stroke-width: 2;
-  }
-
   .bl-building {
     fill: var(--color-accent);
-    opacity: 0.28;
+    opacity: 0.26;
+  }
+
+  .bl-building-back {
+    opacity: 0.14;
+  }
+
+  .bl-antenna {
+    fill: none;
+    opacity: 0.26;
+    stroke: var(--color-accent);
+    stroke-linecap: round;
+    stroke-width: 1.4;
   }
 
   .bl-ground {
@@ -244,21 +231,22 @@ const copy = {
   .bl-arrow-upper {
     fill: none;
     stroke: var(--color-accent);
-    stroke-width: 2.4;
+    stroke-linecap: round;
+    stroke-width: 2.6;
   }
 
   .bl-arrow-inner {
     fill: none;
     stroke: var(--color-warm);
-    stroke-dasharray: 7 5;
-    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-width: 1.6;
   }
 
   .bl-arrow-observe {
     fill: none;
     stroke: var(--color-warm);
     stroke-dasharray: 3 4;
-    stroke-width: 2;
+    stroke-width: 1.8;
   }
 
   .bl-marker-upper {
@@ -275,6 +263,10 @@ const copy = {
   }
 
   :root[data-theme='dark'] .bl-building {
-    opacity: 0.35;
+    opacity: 0.34;
+  }
+
+  :root[data-theme='dark'] .bl-building-back {
+    opacity: 0.18;
   }
 </style>

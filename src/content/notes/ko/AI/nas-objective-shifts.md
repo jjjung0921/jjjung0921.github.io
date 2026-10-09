@@ -18,7 +18,7 @@ tags: ["nas", "automl", "multi-objective", "hardware-aware", "dense-prediction",
 # 정확도 다음의 NAS: 무엇을 새 목적함수로 삼았나?
 
 ## 작성 배경
-이 글은 내가 Notion에 작성한 [MnasNet](https://app.notion.com/p/340fb10f650181848f00ecc267ad87a4), [ProxylessNAS](https://app.notion.com/p/340fb10f650181008f36d76369aab1f3), [FBNet](https://app.notion.com/p/340fb10f650181d2b993f13714216570), [Auto-DeepLab](https://app.notion.com/p/340fb10f6501810395b4f6fee226c88c), [OFA](https://app.notion.com/p/340fb10f6501816c9485f7cfe9c51717), [NAS-BERT](https://app.notion.com/p/340fb10f650181048a30daf64e25176b), [NASWoT](https://app.notion.com/p/340fb10f650181c18c65d688d05fcde0) 리뷰를 바탕으로 썼다. 논문 선택과 핵심 해석은 내 원문에서 출발했으며, GPT로 여러 리뷰를 하나의 문제 변화로 재구성한 뒤 원문과 원 논문을 대조해 직접 검수했다. 각 방법이 실제로 바꾼 objective와 evaluator의 범위는 원 논문을 다시 대조해 보완했다.
+이 글은 내가 Notion에 작성한 [MnasNet](https://app.notion.com/p/340fb10f650181848f00ecc267ad87a4), [ProxylessNAS](https://app.notion.com/p/340fb10f650181008f36d76369aab1f3), [FBNet](https://app.notion.com/p/340fb10f650181d2b993f13714216570), [Auto-DeepLab](https://app.notion.com/p/340fb10f6501810395b4f6fee226c88c), [OFA](https://app.notion.com/p/340fb10f6501816c9485f7cfe9c51717), [NAS-BERT](https://app.notion.com/p/340fb10f650181048a30daf64e25176b), [NASWoT](https://app.notion.com/p/340fb10f650181c18c65d688d05fcde0) 리뷰를 바탕으로 썼다. 논문 선택과 핵심 해석은 내 원문에서 출발했다. GPT로 여러 리뷰를 하나의 문제 변화로 재구성한 뒤 원문과 원 논문을 대조해 직접 검수했다. 각 방법이 실제로 바꾼 objective와 evaluator의 범위는 원 논문을 다시 대조해 보완했다.
 
 ## 출발점: 정확도가 가장 높은 architecture
 초기 NAS는 대체로 다음 문제에 가까웠다.
@@ -59,11 +59,11 @@ $$
 \mathrm{LAT}(\alpha)
 $$
 
-새 task는 "가장 정확한 network"가 아니라 **주어진 device budget 안에서 가장 좋은 network**를 찾는 것이다.
+새 task는 **주어진 device budget 안에서 가장 좋은 network**를 찾는 것이다.
 
 ## 2. Task-aware topology NAS: 분류 cell 밖을 찾는다
 ### Auto-DeepLab
-semantic segmentation은 high-resolution spatial detail과 low-resolution semantic feature를 함께 유지해야 한다. Auto-DeepLab은 cell operation뿐 아니라 feature resolution이 network를 따라 어떻게 오르내리는지까지 탐색한다.
+semantic segmentation은 high-resolution spatial detail과 low-resolution semantic feature를 함께 유지해야 한다. Auto-DeepLab은 cell operation과 함께 feature resolution이 network를 따라 어떻게 오르내리는지까지 탐색한다.
 
 $$
 \min_{\alpha,\beta}
@@ -77,7 +77,7 @@ $$
 - $\alpha$: cell 내부 operation
 - $\beta$: network-level resolution transition
 
-여기서 새 task는 classification cell search가 아니라 **dense prediction을 위한 hierarchical topology search**다.
+여기서 문제는 classification cell search에서 **dense prediction을 위한 hierarchical topology search**로 바뀐다.
 
 ## 3. Once-for-all NAS: 하나가 아니라 subnet family를 만든다
 OFA는 device마다 architecture를 다시 search하고 retrain하는 비용을 문제로 봤다. 큰 supernet 하나를 학습한 뒤 depth, width, kernel size, resolution이 다른 subnet을 꺼낸다.
@@ -93,14 +93,14 @@ a_c^*
 \mathrm{Cost}(a)\le c
 $$
 
-제약 $c$가 바뀔 때마다 subnet $a_c^*$도 달라진다. 목적은 단일 optimum이 아니라 **여러 deployment constraint를 덮는 model family**다.
+제약 $c$가 바뀔 때마다 subnet $a_c^*$도 달라진다. OFA는 단일 optimum 대신 **여러 deployment constraint를 덮는 model family**를 목표로 한다.
 
 ## 4. Pretraining-aware NAS: downstream 하나가 아니라 범용 표현을 찾는다
-NAS-BERT는 특정 supervised task의 accuracy만으로 architecture를 고르지 않는다. BERT-like supernet을 pretraining objective로 학습하고, knowledge distillation과 evolutionary search로 작은 architecture를 찾는다.
+NAS-BERT는 특정 supervised task의 accuracy만으로 architecture를 고르지 않는다. BERT-like supernet을 pretraining objective로 학습하고 knowledge distillation과 evolutionary search로 작은 architecture를 찾는다.
 
 새 질문은 다음에 가깝다.
 
-> 하나의 downstream task에 맞는 구조가 아니라, pretraining으로 얻은 표현을 여러 NLU task에 전이하면서도 효율적인 구조는 무엇인가?
+> 하나의 downstream task에만 맞추지 않는다면 어떤 구조가 pretraining으로 얻은 표현을 여러 NLU task에 전이하면서도 효율적인가?
 
 이 변화는 NAS의 평가 대상을 task-specific classifier에서 pretrained foundation encoder로 옮긴다.
 
@@ -111,7 +111,7 @@ $$
 s(a)=\log\det K_a
 $$
 
-$K_a$는 sample 사이 activation code의 유사성을 담는 kernel이다. 이 방법은 downstream objective를 없앤 것이 아니다. **그 objective를 근사하는 evaluator를 training-free proxy로 바꾼 것**이다. 그래서 새 task는 "좋은 모델"뿐 아니라 "학습 없이 유망 후보를 얼마나 잘 순위화할 것인가"가 된다.
+$K_a$는 sample 사이 activation code의 유사성을 담는 kernel이다. 이 방법은 downstream objective를 없앤 것이 아니다. **그 objective를 근사하는 evaluator를 training-free proxy로 바꾼 것**이다. 이제 "좋은 모델"을 찾는 일에 "학습 없이 유망 후보를 얼마나 잘 순위화할 것인가"라는 질문이 더해진다.
 
 ## 6. Architecture + recipe joint search: 구조만 고정해서는 부족하다
 FBNetV3는 architecture와 training recipe를 함께 탐색한다.
@@ -127,7 +127,7 @@ $$
 \mathrm{Latency}(a)\le T
 $$
 
-같은 architecture도 optimizer, augmentation, resolution, regularization에 따라 성능이 크게 달라진다. 따라서 새 task는 architecture search를 **training policy와 결합한 joint AutoML**로 확장한다.
+같은 architecture도 optimizer, augmentation, resolution, regularization에 따라 성능이 크게 달라진다. 그래서 FBNetV3는 architecture search를 **training policy와 결합한 joint AutoML**로 확장한다.
 
 ## 새로 세운 목표를 한 표로 보기
 | 새 목표 | 대표 연구 | 최적화 대상의 변화 |
@@ -152,9 +152,9 @@ $$
 그래서 한 개의 종합 점수만 보고하지 말고 accuracy, latency, memory, energy, search cost를 분리해 Pareto frontier로 남기는 편이 안전하다. target device 측정과 독립 재학습도 필요하다.
 
 ## 내가 NAS에서 가져온 것
-NAS는 내가 bi-level optimization이라는 구조를 처음 또렷하게 알게 하고, 그 자체에 관심을 갖게 한 분야다. DARTS를 읽으며 "학습되는 내부 변수"와 "그 학습 결과를 보고 선택하는 외부 변수"를 분리해서 보는 관점을 얻었다.
+NAS는 내가 bi-level optimization이라는 구조를 처음 또렷하게 알게 되고 그 자체에 관심을 두게 된 분야다. DARTS를 읽으며 "학습되는 내부 변수"와 "그 학습 결과를 보고 선택하는 외부 변수"를 분리해서 보는 관점을 얻었다.
 
-그 관점은 이후 Staged DDA를 구상할 때도 계기가 되었다. stage 안에서 나타나는 player response와 stage 사이에서 조정하는 difficulty policy를 같은 층의 변수로 섞지 않고, lower-level과 upper-level로 나누어 formulate해 볼 수 있겠다고 생각하게 된 것이다. NAS에서 출발한 관심이 Staged DDA에 bi-level optimization을 접목하는 연구 질문으로 이어졌다.
+그 관점은 이후 Staged DDA를 구상할 때도 계기가 되었다. stage 안에서는 player response가 나타나고 stage 사이에서는 difficulty policy를 조정한다. 이 둘을 같은 층의 변수로 섞지 않고 lower-level과 upper-level로 나누어 formulate해 볼 수 있겠다고 생각하게 된 것이다. NAS에서 출발한 관심이 Staged DDA에 bi-level optimization을 접목하는 연구 질문으로 이어졌다.
 
 ## 참고자료
 - [MnasNet](https://arxiv.org/abs/1807.11626)

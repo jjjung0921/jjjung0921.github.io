@@ -1,0 +1,49 @@
+<svg viewBox="0 0 680 300" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="t d">
+  <title id="t">한 step MAML의 계산 그래프</title>
+  <desc id="d">θ가 항등 경로 I와 걸음 경로 −α∇ℒ(·; 𝒟ᵢ)를 거쳐 θᵢ′가 되고, θᵢ′에서 ℒ(·; 𝒟ᵢ′)를 잰다. 역전파에서 v는 아래 경로(경로 1)로 v, 위 경로(경로 2)로 −αHᵢv가 되어 (I − αHᵢ)v로 합쳐진다.</desc>
+  <style>
+    text { font-family: 'Times New Roman', Times, 'Noto Serif', serif; fill: #1a1a18; }
+    .m { font-style: italic; }
+    .s18 { font-size: 18px; } .s16 { font-size: 16px; } .s12 { font-size: 12px; }
+    .node { fill: none; stroke: #1a1a18; stroke-width: 1.1; }
+    .fwd { fill: none; stroke: #1a1a18; stroke-width: 1.1; }
+    .bwd { fill: none; stroke: #6b6b66; stroke-width: 1.1; stroke-dasharray: 5 3; }
+    .bwd-t { fill: #6b6b66; }
+    .path { font-family: 'Pretendard', 'Noto Sans KR', sans-serif; font-size: 13px; font-style: normal; }
+    .head-f { fill: #1a1a18; } .head-b { fill: #6b6b66; }
+    @media (prefers-color-scheme: dark) {
+      text { fill: #f4f1ea; }
+      .node, .fwd { stroke: #f4f1ea; }
+      .bwd { stroke: #a9a59c; } .bwd-t { fill: #a9a59c; }
+      .head-f { fill: #f4f1ea; } .head-b { fill: #a9a59c; }
+    }
+  </style>
+  <defs>
+    <marker id="af" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="head-f" d="M0 1 L10 5 L0 9 z"/></marker>
+    <marker id="ab" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="head-b" d="M0 1 L10 5 L0 9 z"/></marker>
+  </defs>
+
+  <circle class="node" cx="80" cy="150" r="22"/>
+  <text class="m s18" x="80" y="150" text-anchor="middle" dominant-baseline="central">θ</text>
+  <rect class="node" x="180" y="72" width="140" height="36"/>
+  <text class="s16" x="250" y="90" text-anchor="middle" dominant-baseline="central">−α∇ℒ(· ; 𝒟<tspan class="s12" dy="4">i</tspan><tspan dy="-4">)</tspan></text>
+  <circle class="node" cx="420" cy="150" r="22"/>
+  <text class="m s18" x="420" y="150" text-anchor="middle" dominant-baseline="central">θ<tspan class="s12" dy="5">i</tspan><tspan dy="-5">′</tspan></text>
+  <rect class="node" x="520" y="132" width="120" height="36"/>
+  <text class="s16" x="580" y="150" text-anchor="middle" dominant-baseline="central">ℒ(· ; 𝒟<tspan class="s12" dy="4">i</tspan><tspan dy="-4">′)</tspan></text>
+
+  <line class="fwd" x1="102" y1="150" x2="396" y2="150" marker-end="url(#af)"/>
+  <text class="m s16" x="250" y="138" text-anchor="middle" dominant-baseline="central">I</text>
+  <line class="fwd" x1="99" y1="139" x2="178" y2="96" marker-end="url(#af)"/>
+  <line class="fwd" x1="320" y1="96" x2="400" y2="139" marker-end="url(#af)"/>
+  <line class="fwd" x1="442" y1="150" x2="518" y2="150" marker-end="url(#af)"/>
+
+  <path class="bwd" d="M578 170 C 560 205, 460 205, 432 171" marker-end="url(#ab)"/>
+  <text class="m s16 bwd-t" x="506" y="210" text-anchor="middle" dominant-baseline="central">v</text>
+  <path class="bwd" d="M412 172 C 380 245, 120 245, 88 172" marker-end="url(#ab)"/>
+  <text class="s16 bwd-t" x="250" y="244" text-anchor="middle" dominant-baseline="central"><tspan class="path">경로 1 · </tspan><tspan class="m">v</tspan></text>
+  <path class="bwd" d="M424 128 C 432 28, 68 28, 76 128" marker-end="url(#ab)"/>
+  <text class="s16 bwd-t" x="250" y="40" text-anchor="middle" dominant-baseline="central"><tspan class="path">경로 2 · </tspan><tspan class="m">−αH</tspan><tspan class="m s12" dy="4">i</tspan><tspan class="m" dy="-4"> v</tspan></text>
+
+  <text class="s16" x="340" y="280" text-anchor="middle" dominant-baseline="central"><tspan class="m">∇</tspan><tspan class="m s12" dy="4">θ</tspan><tspan dy="-4"> ℒ(θ</tspan><tspan class="s12" dy="4">i</tspan><tspan dy="-4">′ ; 𝒟</tspan><tspan class="s12" dy="4">i</tspan><tspan dy="-4">′) = (I − αH</tspan><tspan class="s12" dy="4">i</tspan><tspan dy="-4">) v</tspan></text>
+</svg>

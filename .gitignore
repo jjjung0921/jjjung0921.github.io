@@ -26,3 +26,7 @@ pnpm-debug.log*
 
 # Local AI Studio metadata
 assets/.aistudio/
+
+# Agent 산출물 (레포 자산 아님)
+Claude outputs/
+.agents/

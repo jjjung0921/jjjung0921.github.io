@@ -32,7 +32,6 @@ npm run build    # 정적 빌드 — 변경 후 필수 검증
 
 | 스킬 | 언제 |
 |---|---|
-| `decision-post` | 프로젝트에서 나온 설계 결정을 글로 정리 (모먼트 커피 시리즈 등) |
 | `astro-frontend-architect` | 페이지·컴포넌트·라우팅·컬렉션 구현 |
 | `web-design-system` | 토큰·타이포·레이아웃 등 비주얼 결정 |
 | `product-planning` | 페이지/기능이 리뷰어 동선·사이트 목표에 맞는지 판정 |
@@ -41,3 +40,15 @@ npm run build    # 정적 빌드 — 변경 후 필수 검증
 | `commit` | 이 레포의 모든 커밋. post 브랜치 콘텐츠 커밋 시 ko→en 번역 동반 강제 |
 
 여러 축에 걸치면 product-planning(무엇을) → web-design-system(어떻게 보일지) → astro-frontend-architect(구현) 순으로.
+
+## 전역 스킬
+
+| 스킬 | 언제 |
+|---|---|
+| `decision-post` | 프로젝트 레포의 `notes/`에 쌓인 CS·설계 질문을 시리즈형 기술 포스트로 변환 (모먼트 커피 시리즈 등). notes 항목 형식과 `noteSchema` 매핑, ko/en 패리티, series·order 관리를 담는다 |
+| `blog-coauthor` | AI-Tutor 워크스페이스(`~/study/<subject>/`)·질문 원장 학습을 마친 복습 정리본. 개념 서술을 포함한 완성 초안을 AI가 쓰고 사용자가 검토 |
+| `study-series` | 이월 스토리(`~/study/stories/story--*.md`)를 발견·개념·실험과 적용·회고 시리즈로 변환 |
+
+세 스킬의 초안은 절마다 `<!-- ai:draft -->` … `<!-- /ai:draft -->`로 감싸고 사용자가 검토·수정한 절에서 마킹을 걷는다. **마킹이나 `<!-- TODO: 확인 필요` 가 남은 글은 이 레포로 옮기거나 커밋하지 않는다** (`commit` 스킬이 검사).
+
+이 레포의 스킬이 아니라 계정 전역 스킬이다 — 소스 프로젝트(예: 모먼트 커피)에서 작업할 때도 같은 스킬이 잡혀야 하기 때문이다.

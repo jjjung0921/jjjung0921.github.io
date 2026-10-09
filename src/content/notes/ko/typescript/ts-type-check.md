@@ -23,7 +23,7 @@ tags: ["typescript", "javascript"]
 
 ## 문제
 
-이전 글에서는 JavaScript에는 일반적으로 실행 전 정적 타입 검사 단계가 없으며, TypeScript가 다음과 같은 과정을 추가한다고 설명했다.
+이전 글에서는 JavaScript에는 일반적으로 실행 전 정적 타입 검사 단계가 없으며 TypeScript가 다음과 같은 과정을 추가한다고 설명했다.
 
 ```
 TypeScript Source Code
@@ -42,7 +42,7 @@ TypeScript Source Code
 
 TS를 컴파일한 JS 파일에는 우리가 TS에서 선언한 type이 남지 않는 것을 알 수 있다.
 
-즉, TS는 JS 런타임에 새로운 타입 객체를 추가하는 방식으로 동작하지 않는다는 것을 의미한다. 대신, 프로그램이 실행될 때 각 표현식이 가질 수 있는 값을 정적으로 근사하고, 그 값에 수행하려는 연산이 안전한지를 검사한다.
+다시 말해 TS는 JS 런타임에 새로운 타입 객체를 추가하는 방식으로 동작하지 않는다. 대신, 프로그램이 실행될 때 각 표현식이 가질 수 있는 값을 정적으로 근사하고 그 값에 수행하려는 연산이 안전한지를 검사한다.
 
 위 과정을 이해하기 위해 총 6개의 단계로 나눠서 학습한다.
 
@@ -65,7 +65,7 @@ Type erasure
 6. TypeScript의 검사는 어디까지 신뢰할 수 있는가?
 
 ## 0. Overview
-TypeScript에서 type의 탄생은 아래와 같은 과정을 가진다.
+TypeScript에서 type의 탄생은 아래와 같은 과정을 거친다.
 ```
 JavaScript runtime values
         │
@@ -78,11 +78,11 @@ TypeScript types
 Potentially invalid operations
 ```
 
-TS에서의 type은 js의 runtime에서의 value 혹은 type 그 자체가 아니다.
+TS의 type은 js runtime의 value 혹은 type 그 자체가 아니다.
 
-그보다는 potentially invalid한 operation을 감지하기 위해 특정 표현식이 런타임에 가질 가능성이 있는 값들을 **정적으로 추상화(static abstraction)** 한 대상으로 이해해야 한다.
+그보다는 특정 표현식이 런타임에 가질 가능성이 있는 값들을 **정적으로 추상화(static abstraction)** 한 대상으로 이해해야 한다. 이 추상화는 potentially invalid한 operation을 감지하기 위한 것이다.
 
-예를 들어, 다음 변수의 런타임 값은 number type을 가지는 숫자 10이다.
+예를 들어, 다음 변수의 런타임 값은 number type인 숫자 10이다.
 ```ts
 const value:number = 10;
 ```
@@ -112,7 +112,7 @@ TypeScript Source
         ▼
 Type Check
 ```
-TS의 공식 문서에서는 이러한 개념을 **Erased Types**로 정의하며 type annotation은 JS의 일부가 아니며, TS에서 *대부분의 고유 타입 정보*는 emit 과정에서 제거된다고 설명한다. 이는 type annotation 자체가 프로그램 runtime에서의 동작에 영향을 주지 않음을 의미한다.
+TS의 공식 문서에서는 이러한 개념을 **Erased Types**로 정의하며 type annotation은 JS의 일부가 아니고 TS에서 *대부분의 고유 타입 정보*는 emit 과정에서 제거된다고 설명한다. 그러니 type annotation 자체는 프로그램의 runtime 동작에 영향을 주지 않는다.
 
 <details>
 <summary>필자의 생각</summary>
@@ -170,7 +170,7 @@ printPoint(labeledPoint); //10 20
 ```
 `labeledPoint`는 `Point`을 `implements`한다고 선언하지 않았다.
 
-하지만 `x:number`와 `y:number`라는 멤버를 가지고 있음으로써 `Point`가 요구하는 구조를 만족한다.따라서 결과는 `10 20`이 제대로 출력된다.
+하지만 `x:number`와 `y:number`라는 멤버가 있으므로 `Point`가 요구하는 구조를 만족한다. 그래서 결과는 `10 20`이 제대로 출력된다.
 
 우리는 이를 **structural subtyping**이라고 정의한다. 수식으로 정의하면 아래와 같다.
 
@@ -181,7 +181,7 @@ $$
 
 $S$는 $T$가 요구하는 모든 멤버에 호환 가능하므로 $S\preceq T$과 같은 할당이 가능하다. 우리는 이를 $S$와 $T$ 간의 **assignability 관계**를 표현했다고 한다.
 
-실제 JS runtime에서는 TS에서의 `Point`는 남지 않으며 `labeledPoint` 객체만 존재하고 필요한 멤버만 사용하게 된다.
+실제 JS runtime에서는 TS의 `Point`는 남지 않으며 `labeledPoint` 객체만 존재하고 필요한 멤버만 사용하게 된다.
 ```js
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
@@ -234,7 +234,7 @@ function printId(id: string | number) {
 
 이런 경우, `id`가 실제로는 `number`일 수 있으므로 호출이 허용되지 않는다.
 
-안전한 연산을 위해서는 가능한 연산의 집합은 교집합이 되어야 하는 것이다.
+안전한 연산을 하려면 가능한 연산의 집합은 교집합이 되어야 한다.
 
 $$
 [[\text{IDOps}]]=[[\text{string}]]\cap[[\text{number}]]
@@ -265,14 +265,14 @@ const count = 10;
 ````
 위 코드에서 우리는 `count`를 `number`라고 지정하지 않았지만 TS는 initializer인 `10`을 분석하여 `count`의 타입이 `number`임을 추론한다.
 
-`const`에서의 binding을 재할당이 불가능하기에 `count`를 literal type인 `10`으로 쉽게 추론할 수 있다. 하지만 binding의 재할당이 가능한 `let`의 경우를 살펴보자.
+`const`의 binding은 재할당이 불가능하기에 `count`를 literal type인 `10`으로 쉽게 추론할 수 있다. 하지만 binding의 재할당이 가능한 `let`의 경우를 살펴보자.
 
 ```ts
 let count = 10;
 count = 20;
 ```
 
-이 경우 `count`가 `10`에서 `20`으로 rebinding되므로 literal type인 `10`으로 추론하면 위험하다. 즉, 더 넓은 `number`타입으로 추론해야 된다.
+이 경우 `count`가 `10`에서 `20`으로 rebinding되므로 literal type인 `10`으로 추론하면 위험하다. 더 넓은 `number`타입으로 추론해야 된다.
 
 ### 4.1 Contextual typing
 타입 정보를 추론할 때 사용하는 데이터는 단방향으로 사용하지 않는다. 대신 "문맥(context)"를 사용하게 된다.
@@ -321,7 +321,7 @@ request.method = "POST";
 ```
 위 코드에는 문제가 없다. `request.method`는 `GET`이 아닌 `string`으로 추론되기 때문이다. `request`는 `const` 객체인데 어떻게 porperty인 `method`의 값은 `GET`이 아니라 더 넓은 type인 `string`으로 추론될까?
 
-객체와 변수가 할당될 때 동작하는 재바인딩을 생각해보면 된다. `const`에 의해 재바인딩에 제약을 받는 대상은 객체인 `request`이다. `request`의 속성인 `method`에 어떤 값이 할당(`assignment`)되는지는 고려하지 않는다. 즉, `method`는 `const`의 제약 바깥에 있는 대상이라는 의미이다.
+객체와 변수가 할당될 때 동작하는 재바인딩을 생각해보면 된다. `const`에 의해 재바인딩에 제약을 받는 대상은 객체인 `request`이다. `request`의 속성인 `method`에 어떤 값이 할당(`assignment`)되는지는 고려하지 않는다. `method`는 `const`의 제약 바깥에 있는 대상이다.
 
 만약 property를 `literal type`으로 지정하고 싶다면 `as const` 키워드를 사용하면 된다.
 ```ts
@@ -330,7 +330,7 @@ request:
   readonly method: "GET"
 }
 ```
-`readonly`는 TS에서의 문법일 뿐이며 실제 JS 수준에서의 제약 (eg. `Object.freeze()`)을 만들지는 않는다.
+`readonly`는 TS의 문법일 뿐이며 실제 JS 수준의 제약 (eg. `Object.freeze()`)을 만들지는 않는다.
 
 ## 5. Control-flow analysis: 타입은 코드 위치에 따라 달라진다
 아래 코드에서 `value`의 선언 타입은 `string | number`이다.
@@ -369,7 +369,7 @@ value: string | number
 ## 6. Soundness boundaries: TypeScript가 모든 오류를 막지는 않는다
 앞서 언급했듯, TS의 목적은 **JS의 자유성을 일부 제한하여 Runtime에서 발생할 수 있는 오류들을 미리 찾아내는 것**이다.
 
-하지만 타입에 의한 제약이 너무 강해지면 JS가 가지는 자유도에 대한 장점이 사라진다. 즉, 자유도와 제약성 간의 tradeoff를 잘 따져야 한다.
+하지만 타입에 의한 제약이 너무 강해지면 JS의 자유도라는 장점이 사라진다. 즉, 자유도와 제약성 간의 tradeoff를 잘 따져야 한다.
 
 이에 JS의 자유도를 확보하기 위해 TS의 보장이 약해지는 구간들이 일부 존재한다.
 
@@ -379,7 +379,7 @@ let value: any = 10;
 
 value.toUpperCase(); //No compile error! Yes Runtime error!
 ```
-`value`의 실제 런타임에서의 값은 숫자지만 TypeScript 오류가 발생하지 않는다.
+`value`의 실제 런타임 값은 숫자지만 TypeScript 오류가 발생하지 않는다.
 ```
 Static checking:
 value: any
@@ -392,9 +392,9 @@ Runtime:
 `any`는 정적 검사를 비활성화하기에 컴파일 에러가 발생하지 않는다.
 
 ### 6.2 Type Assertions
-**Type Assertions**는 컴파일러는 특정 변수 혹은 객체의 타입을 알 수 없지만 사용자는 대상의 타입을 알 수 있을 때 컴파일러에게 타입에 대한 정보를 주는 방식이다.
+**Type Assertions**는 컴파일러에게 타입에 대한 정보를 주는 방식이다. 컴파일러는 특정 변수 혹은 객체의 타입을 알 수 없지만 사용자는 대상의 타입을 알 수 있을 때 쓴다.
 
-이는 사용자가 TS 컴파일러에게 타입에 대한 정보를 주는 것이기에 실제 JS runtime 상에서의 타입을 보장하지 않는다. 즉, 런타임 상에서의 실제 변수를 우리가 선언한 타입으로 변환하지는 않는다는 것이다.
+이는 사용자가 TS 컴파일러에게 타입에 대한 정보를 주는 것이기에 실제 JS runtime의 타입을 보장하지 않는다. 런타임의 실제 변수를 우리가 선언한 타입으로 변환하지는 않는다는 뜻이다.
 
 ```ts
 const value = 10 as unknown as string;
@@ -426,7 +426,7 @@ console.log(user.name.toUpperCase());
   "name": 10
 }
 ```
-이러한 경우를 막기 위해서는 Runtime 상에서의 별도의 타입 검증 절차를 추가해줘야 한다.
+이러한 경우를 막으려면 Runtime에서 별도의 타입 검증 절차를 추가해줘야 한다.
 
 ```ts
 function isUser(value: unknown): value is User {
@@ -447,7 +447,7 @@ if (isUser(parsed)) {
 }
 ```
 ## 7. 연습
-아래 코드를 바탕으로 TS에서의 type이 어떻게 해석될지 생각해보자.
+아래 코드를 바탕으로 TS의 type이 어떻게 해석될지 생각해보자.
 ```ts
 type Message =
   | {
@@ -503,7 +503,7 @@ Soundness boundaries
 
 > TypeScript는 JavaScript 프로그램의 가능한 런타임 값을 정적으로 **근사**하고, 그 근사에 비추어 안전하지 않을 가능성이 있는 연산을 실행 전에 진단한다.
 
-TS은 새로운 런타임 시스템을 제공하기보다 JS의 엔진 위에서 구성된 **erasable structural static type system**이다. 모든 Runtime 상에서의 오류를 잡지는 못하지만 많은 부분에서의 오류를 컴파일 과정에서 찾아낼 수 있다.
+TS은 새로운 런타임 시스템을 제공하기보다 JS의 엔진 위에서 구성된 **erasable structural static type system**이다. 모든 Runtime 오류를 잡지는 못하지만 많은 부분의 오류를 컴파일 과정에서 찾아낼 수 있다.
 
 ## 연결
 
