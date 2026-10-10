@@ -182,7 +182,7 @@ $$
 
 계산은 어떻게 할까? 우선 $H_i$라는 $d \times d$ 행렬은 만들지 않는다. $v = \nabla\mathcal{L}_{\mathcal{D}_i'}(\theta_i')$로 두면 식 (8)은 $v - \alpha H_i v$이므로 우리가 구할 것은 Hessian-vector product $H_i v$ 하나뿐이다. 이 값은 $H_i v = \nabla_\theta\big(\nabla_\theta\mathcal{L}_{\mathcal{D}_i}(\theta)^\top v\big)$처럼 역전파를 한 번 더 돌려 $O(d)$ 메모리로 얻는다. 원문이 식 (1) 다음 문단에서 "gradient through a gradient"와 Hessian-vector product를 언급하는 곳이 바로 이 자리다.
 
-경로 2를 끊어 식 (7)를 $I$로 두는 방식을 **FOMAML**이라고 한다. 그러면 메타 기울기는 $\nabla\mathcal{L}_{\mathcal{D}_i'}(\theta_i')$, 곧 $\theta_i'$에서 잰 기울기를 $\theta$에 그대로 적용한 것이 된다. 2차 미분이 사라지니 계산은 싸진다. 원문은 MiniImagenet 분류 한 곳에서 이 근사를 비교했고, 신뢰구간 안에서 거의 같은 성능을 냈다고 보고한다(§5.2). 다만 논문은 이 근사가 성립하는 조건을 달지 않았다.
+경로 2를 끊어 식 (7)을 $I$로 두는 방식을 **FOMAML**이라고 한다. 그러면 메타 기울기는 $\nabla\mathcal{L}_{\mathcal{D}_i'}(\theta_i')$, 곧 $\theta_i'$에서 잰 기울기를 $\theta$에 그대로 적용한 것이 된다. 2차 미분이 사라지니 계산은 싸진다. 원문은 MiniImagenet 분류 한 곳에서 이 근사를 비교했고, 신뢰구간 안에서 거의 같은 성능을 냈다고 보고한다(§5.2). 다만 논문은 이 근사가 성립하는 조건을 달지 않았다.
 
 > [!interpretation] 내 해석
 > 원문에서는 FOMAML과 MAML의 성능을 실험적으로 비교했다. 그러나 나는 FOMAML이 버리는 항이 $-\alpha H_i v$이므로, $\alpha H_i$가 작을 때($\lVert\alpha H_i\rVert \ll 1$)에만 MAML과 가깝다고 본다. 곡률이 가장 큰 방향의 고윳값을 $\lambda$라 하면 기준은 $\alpha\lambda$다. 직접 돌려 보니 손실이 볼록이어도 $\alpha\lambda\gtrsim1$이면 FOMAML이 MAML과 갈라졌는데, 이 내용은 별도 글 [FOMAML은 언제 MAML과 갈라지나](/notes/optimization-fomaml-alpha-lambda/)에 정리했다.
