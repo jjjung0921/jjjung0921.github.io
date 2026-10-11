@@ -2,7 +2,8 @@
 import Base from '../../layouts/Base.astro';
 import PageHeader from '../../components/ui/PageHeader.astro';
 import Icon from '../../components/ui/Icon.astro';
-import BilevelFigure from '../../components/ui/BilevelFigure.astro';
+import finalGoalFigure from '../../../.bilevel-figure/personalized-agentic-ai.png';
+import ddaFigure from '../../../.bilevel-figure/dda-personalized-response-model.png';
 ---
 
 <Base
@@ -64,7 +65,16 @@ import BilevelFigure from '../../components/ui/BilevelFigure.astro';
         AI model customized to an individual user, dynamically adapting to them. Dynamic difficulty
         adjustment (DDA) is my first testing ground for this goal.
       </p>
-      <BilevelFigure lang="en" />
+      <figure class="home-figure">
+        <img
+          src={finalGoalFigure.src}
+          width={finalGoalFigure.width}
+          height={finalGoalFigure.height}
+          alt="A bi-level AI model learns an individual’s state and responses from interaction history, then adapts its next action to that person"
+          loading="lazy"
+          decoding="async"
+        />
+      </figure>
     </section>
 
     <section class="card">
@@ -75,12 +85,28 @@ import BilevelFigure from '../../components/ui/BilevelFigure.astro';
         difficulty parameters, reward weights, environment settings, or opponent policies, while
         at the lower level players and agents respond through behavioral adaptation.
       </p>
-      <div class="equation-card" aria-label="Bi-level objective">
-        <div class="equation-label">minimize over <span class="symbol-accent">lambda in Lambda</span>:</div>
-        <div class="equation-line">F(<span class="symbol-accent">lambda</span>, <span class="symbol-warm">x*(lambda)</span>)</div>
-        <div class="equation-label">subject to:</div>
-        <div class="equation-line"><span class="symbol-warm">x*(lambda)</span> in argmin over x in X f(x, <span class="symbol-accent">lambda</span>)</div>
-      </div>
+      <figure class="home-figure">
+        <img
+          src={ddaFigure.src}
+          width={ddaFigure.width}
+          height={ddaFigure.height}
+          alt="A DDA bi-level model in which a difficulty policy shapes interaction data used to fit a player response model and choose the next difficulty"
+          loading="lazy"
+          decoding="async"
+        />
+      </figure>
     </section>
   </div>
 </Base>
+
+<style>
+  .home-figure {
+    margin: 1.4rem 0 0;
+  }
+
+  .home-figure img {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+</style>

@@ -2,7 +2,8 @@
 import Base from '../layouts/Base.astro';
 import PageHeader from '../components/ui/PageHeader.astro';
 import Icon from '../components/ui/Icon.astro';
-import BilevelFigure from '../components/ui/BilevelFigure.astro';
+import finalGoalFigure from '../../.bilevel-figure/personalized-agentic-ai.png';
+import ddaFigure from '../../.bilevel-figure/dda-personalized-response-model.png';
 ---
 
 <Base
@@ -64,7 +65,16 @@ import BilevelFigure from '../components/ui/BilevelFigure.astro';
         사용자 개인에게 커스터마이징되어 동적으로 적응하는 AI 모델입니다. 동적 난이도 조절(DDA)은
         이 목표를 실험하는 첫 무대입니다.
       </p>
-      <BilevelFigure lang="ko" />
+      <figure class="home-figure">
+        <img
+          src={finalGoalFigure.src}
+          width={finalGoalFigure.width}
+          height={finalGoalFigure.height}
+          alt="개인의 상호작용 이력으로 상태와 반응을 학습하고, 다음 행동을 그 사람에게 맞춰 조정하는 AI 모델의 이중 최적화 구조"
+          loading="lazy"
+          decoding="async"
+        />
+      </figure>
     </section>
 
     <section class="card">
@@ -75,12 +85,28 @@ import BilevelFigure from '../components/ui/BilevelFigure.astro';
         보상 가중치, 환경 설정 또는 상대 정책을 선택하고, 하위 레벨에서는 플레이어나 에이전트가
         행동 적응으로 반응합니다.
       </p>
-      <div class="equation-card" aria-label="Bi-level objective">
-        <div class="equation-label">minimize over <span class="symbol-accent">lambda in Lambda</span>:</div>
-        <div class="equation-line">F(<span class="symbol-accent">lambda</span>, <span class="symbol-warm">x*(lambda)</span>)</div>
-        <div class="equation-label">subject to:</div>
-        <div class="equation-line"><span class="symbol-warm">x*(lambda)</span> in argmin over x in X f(x, <span class="symbol-accent">lambda</span>)</div>
-      </div>
+      <figure class="home-figure">
+        <img
+          src={ddaFigure.src}
+          width={ddaFigure.width}
+          height={ddaFigure.height}
+          alt="난이도 정책이 상호작용 데이터 분포를 만들고 그 데이터로 플레이어 모델을 학습해 다음 난이도를 정하는 DDA 이중 최적화 구조"
+          loading="lazy"
+          decoding="async"
+        />
+      </figure>
     </section>
   </div>
 </Base>
+
+<style>
+  .home-figure {
+    margin: 1.4rem 0 0;
+  }
+
+  .home-figure img {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+</style>
