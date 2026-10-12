@@ -289,7 +289,113 @@ svg {
   font-size: 0.7rem;
 }
 
-.prose [data-callout-body] > :first-child {
+/* 볼트(Obsidian) 노트와 같은 상자 어휘 — 색 의미는 ~/projects/LeeHaeBeom/.obsidian/snippets/reading-design.css 와 같다.
+   summary 한눈에 · abstract 튜터 정리(AI 초안) · todo 내가 쓸 칸 · done 끝낸 것 */
+.prose [data-callout][data-callout-type='abstract'] {
+  --callout-color: var(--tone-draft);
+}
+
+.prose [data-callout][data-callout-type='todo'] {
+  --callout-color: var(--tone-progress);
+}
+
+.prose [data-callout][data-callout-type='done'] {
+  --callout-color: var(--tone-stable);
+}
+
+.prose [data-callout][data-callout-type='summary'] > [data-callout-title]::before {
+  content: '\2261';
+}
+
+.prose [data-callout][data-callout-type='abstract'] > [data-callout-title]::before {
+  content: '\25C7';
+}
+
+.prose [data-callout][data-callout-type='todo'] > [data-callout-title]::before {
+  content: '\2192';
+}
+
+.prose [data-callout][data-callout-type='done'] > [data-callout-title]::before {
+  content: '\2713';
+}
+
+/* 접힌 상자(> [!type]-)는 <details>로 나온다 — 종류와 상관없이 배경 없이 조용하게 */
+.prose details[data-callout] {
+  background: transparent;
+  border-color: var(--color-line);
+  border-left-color: color-mix(in srgb, var(--callout-color) 50%, transparent);
+}
+
+.prose details[data-callout] > [data-callout-title] {
+  color: var(--color-muted);
+  cursor: pointer;
+  font-weight: 700;
+  list-style: none;
+}
+
+.prose details[data-callout] > [data-callout-title]::-webkit-details-marker {
+  display: none;
+}
+
+.prose details[data-callout] > [data-callout-title]::after {
+  content: '\25B8';
+  margin-left: 0.4rem;
+}
+
+.prose details[data-callout][open] > [data-callout-title]::after {
+  content: '\25BE';
+}
+
+/* remark-callout가 본문 앞에 남기는 빈 문단 */
+.prose [data-callout-body] > p:empty {
+  display: none;
+}
+
+/* "한눈에" 표처럼 머리 칸이 모두 빈 표는 머리 줄을 숨긴다 */
+.prose thead:not(:has(th:not(:empty))) {
+  display: none;
+}
+
+/* 한눈에 표: 왼쪽 칸은 이름표, 오른쪽 칸이 내용 */
+.prose [data-callout-type='summary'] table {
+  display: table;
+}
+
+.prose [data-callout-type='summary'] td {
+  border-left: none;
+  border-right: none;
+  padding: 0.5rem 0.75rem;
+}
+
+.prose [data-callout-type='summary'] tr:last-child td {
+  border-bottom: none;
+}
+
+.prose [data-callout-type='summary'] td:first-child {
+  color: var(--color-muted);
+  font-size: var(--text-xs);
+  font-weight: 700;
+  white-space: nowrap;
+  width: 1%;
+}
+
+.prose .contains-task-list {
+  list-style: none;
+  padding-left: 0.25rem;
+}
+
+.prose .task-list-item input {
+  accent-color: var(--color-accent);
+  margin-right: 0.5rem;
+}
+
+.prose .task-list-item:has(input:checked) {
+  color: var(--color-muted);
+  text-decoration: line-through;
+}
+
+.prose [data-callout-body] > :first-child,
+.prose [data-callout-body] > p:empty + * {
   margin-top: 0.55rem;
 }
 
