@@ -11,7 +11,7 @@ projects: []
 status: reading
 summary: "Guarino, Oberle & Staab(2009)의 Definition 2.1–2.4를 따라, 개념화를 extensional relational structure (D, R)로 볼 때 생기는 문제와 이를 가능 세계 W 위의 함수로 고친 conceptualization C = (D, W, ℛ)를 회사 예시로 정리한다." # AI 제안 — 검토 필요
 problem: 직원 한 명의 보고 관계가 바뀔 때마다 '개념화가 바뀌었다'고 해야 하는가?
-coreIdea: "관계의 의미는 지금 그 관계를 맺은 튜플의 목록이 아니라, 세계 상태마다 외연을 돌려주는 함수다. 그래서 보고 관계가 바뀌어도 바뀌는 것은 세계이고 개념화는 그대로다." # AI 제안 — 검토 필요
+coreIdea: "관계의 의미는 지금 그 관계를 맺은 튜플의 목록이 아니라, 세계 상태마다 extension을 돌려주는 함수다. 그래서 보고 관계가 바뀌어도 바뀌는 것은 세계이고 개념화는 그대로다." # AI 제안 — 검토 필요
 connection: "개념화와 세계의 구분은 구현에서 TBox(모든 세계에 통하는 규칙)와 ABox(지금 세계의 사실)의 분리로 나타난다. 시리즈 뒤편에서 jobs.ttl을 만들 때 이 구분을 그대로 쓴다." # AI 제안 — 검토 필요
 tags:
   - ontology
@@ -19,7 +19,6 @@ tags:
   - possible worlds
   - knowledge representation
 ---
-
 # CS에서의 ontology
 
 철학에서의 존재론(Ontology, 해당 시리즈 마지막에서 알아보겠다.)은 존재하는 것들의 본성과 구조를 탐구하는 학문이다. 반면 CS(Computer Science)에서의 ontology는 학문이 아니라 하나의 information object 혹은 computational artifact를 가리킨다. 즉, 만들어 쓰는 산출물이다. 여기서 '존재한다'는 말도 실용적으로 쓰인다. AI 시스템에게 존재하는 것은 표현할 수 있는 것이다(Gruber, Guarino et al. 2009).
@@ -75,7 +74,7 @@ a와 b가 서로 협력하고 b와 c도 서로 협력한다고 하자. 두 쌍 $
 
 가 된다. Person, Manager, Researcher는 개체 하나에 대한 단항 관계(개념)이고, cooperates-with와 reports-to는 두 개체 사이의 이항 관계다.
 
-그리고 이 $(D, R)$을 *extensional relational structure*라고 부른다. Genesereth & Nilsson은 바로 이 $(D, R)$을 개념화(conceptualization)로 정의했다. 이름에 extensional이 들어간 이유는 $R$의 원소 하나하나가 평범한 수학적 관계이기 때문이다. 즉, 지금 이 순간 그 관계를 맺고 있는 튜플들의 목록(외연, extension)이다. 이 목록은 특정한 세계 상태 하나를 반영한다.
+그리고 이 $(D, R)$을 *extensional relational structure*라고 부른다. Genesereth & Nilsson은 바로 이 $(D, R)$을 개념화(conceptualization)로 정의했다. 이름에 extensional이 들어간 이유는 $R$의 원소 하나하나가 평범한 수학적 관계이기 때문이다. 즉, 지금 이 순간 그 관계를 맺고 있는 튜플들의 목록(extension)이다. 이 목록은 특정한 세계 상태 하나를 반영한다.
 
 ### extensional relation structure는 개념화를 반영하지 못한다.
 
@@ -97,7 +96,7 @@ $\text{reports-to}$를 살펴보자.
 
 앞서 정의한 협력을 다시 보자. 협력의 의미는 지금 협력 중인 쌍의 목록이 아니었다. 목표 선언과 행동이라는 두 조건으로 협력 여부를 가르는 판정 규칙이었다. 원문은 이 규칙을 하나의 함수로 본다. 회사 전체의 행동 맥락(세계 상태)을 하나 받아 그 맥락에서 실제로 협력 중인 쌍의 목록을 돌려주는 함수다.
 
-이렇게 의미를 '세계 → 외연' 함수로 보는 방식은 Carnap에서 시작해 Montague 의미론으로 이어진 전통이다(왜 가능 세계여야 하는지는 2편에서 다룬다). 이 함수를 정식화하려면 먼저 입력이 될 세계 상태가 무엇인지 정해야 한다.
+이렇게 의미를 '세계 → extension' 함수로 보는 방식은 Carnap에서 시작해 Montague 의미론으로 이어진 전통이다(왜 가능 세계여야 하는지는 2편에서 다룬다). 이 함수를 정식화하려면 먼저 입력이 될 세계 상태가 무엇인지 정해야 한다.
 
 ### Define the World ($W$)
 
@@ -119,7 +118,7 @@ $\text{reports-to}$를 살펴보자.
 >
 > a가 d에게 새로 보고하게 되면 ABox에 사실 하나를 추가하면 된다. TBox는 그대로다. 앞에서 본 "바뀌는 것은 세계이지 개념화가 아니다"를 구현 쪽에서 본 모습이다.
 >
-> 다만 이것으로 계산 문제가 사라지지는 않는다. 추론은 공리를 만족하는 모든 해석을 따져야 하므로, 그 비용은 어떤 논리 언어를 쓰느냐로 정해진다(4·7편에서 다룬다).
+> 다만 이것으로 계산 문제가 사라지지는 않는다. 추론은 공리를 만족하는 모든 해석을 따져야 하므로, 그 비용은 어떤 논리 언어를 쓰느냐로 정해진다(3·6편에서 다룬다).
 >
 > 즉, 내가 헷갈린 것은 '의미를 정의하는 일'과 '그 의미로 계산하는 일'을 같은 일로 본 부분이었다.
 
@@ -136,7 +135,7 @@ extensional relation structure가 conceptualization에 적합하지 않은 이�
 - total function이므로 모든 $w$에 대해 출력이 정확히 하나 정해진다.
 - 원문은 $\langle D, W \rangle$ 쌍을 domain space라고 부른다. 세계 상태에 따라 $D$ 위의 관계가 어떻게 달라질 수 있는지, 그 변동의 범위를 정한다는 뜻이다.
 
-이렇게 하면 세계가 바뀔 때 바뀌는 것은 함수의 값 $\rho^n(w)$이다. 함수 $\rho^n$ 자체(개념)는 그대로다. extensional relation이 '외연 하나'라면 intensional relation은 '세계마다 외연을 정해 주는 규칙'이다.
+이렇게 하면 세계가 바뀔 때 바뀌는 것은 함수의 값 $\rho^n(w)$이다. 함수 $\rho^n$ 자체(개념)는 그대로다. extensional relation이 'extension 하나'라면 intensional relation은 '세계마다 extension을 정해 주는 규칙'이다.
 
 ### Intensional relational structure (conceptualization, $\mathbf{C}$)
 
@@ -158,15 +157,15 @@ a가 d에게 보고하기 전과 후의 두 상황은 이제 같은 $\mathbf{C}$
 
 두 값은 다르지만 함수 $\text{reports-to}^2$는 하나다. 그래서 개념화 $\mathbf{C}$도 하나다.
 
-원문은 단순화를 위해 $\text{Person}^1$, $\text{Manager}^1$, $\text{Researcher}^1$ 같은 단항 관계는 rigid하다고 가정한다. 즉, 모든 세계에서 같은 외연을 갖는다. 예를 들어 모든 $w \in W$에 대해 $\text{Person}^1(w) = D$다. 반면 $\text{reports-to}^2$와 $\text{cooperates-with}^2$에는 그런 가정을 두지 않는다. 보고 관계와 협력 관계는 세계마다 달라질 수 있다.
+원문은 단순화를 위해 $\text{Person}^1$, $\text{Manager}^1$, $\text{Researcher}^1$ 같은 단항 관계는 rigid하다고 가정한다. 즉, 모든 세계에서 같은 extension을 갖는다. 예를 들어 모든 $w \in W$에 대해 $\text{Person}^1(w) = D$다. 반면 $\text{reports-to}^2$와 $\text{cooperates-with}^2$에는 그런 가정을 두지 않는다. 보고 관계와 협력 관계는 세계마다 달라질 수 있다.
 
 # 결론
 
 처음 질문으로 돌아가 보자. 직원 한 명의 보고 관계가 바뀔 때 바뀌는 것은 개념화가 아니라 세계다.
 
-개념화를 $(D, R)$로 보면 튜플 하나에 개념화가 갈라진다. 반면 $\mathbf{C} = (D, W, \mathcal{R})$로 보면 같은 개념(함수 $\rho$)이 세계마다 다른 외연을 돌려줄 뿐이다.
+개념화를 $(D, R)$로 보면 튜플 하나에 개념화가 갈라진다. 반면 $\mathbf{C} = (D, W, \mathcal{R})$로 보면 같은 개념(함수 $\rho$)이 세계마다 다른 extension을 돌려줄 뿐이다.
 
-다만 이 정의는 아직 수학적 구조일 뿐이다. 의미를 왜 굳이 가능 세계에 대한 함수로 봐야 하는지는 2편에서, 이 구조를 언어의 기호로 가리키고 기호가 의도한 개념에 묶이게 하는 방법(두 번째 질문인 formal, explicit specification)은 3·4편에서 다룬다.
+다만 이 정의는 아직 수학적 구조일 뿐이다. 의미를 왜 굳이 가능 세계에 대한 함수로 봐야 하는지는 2편에서, 이 구조를 언어의 기호로 가리키고 기호가 의도한 개념에 묶이게 하는 방법(두 번째 질문인 formal, explicit specification)은 2·3편에서 다룬다.
 
 # 참고자료
 

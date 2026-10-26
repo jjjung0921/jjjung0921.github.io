@@ -114,7 +114,7 @@ Strictly speaking, a world is an ordered set of world states that the system pas
 >
 > When a starts reporting to d, we add one fact to the ABox. The TBox stays the same. This is the implementation-side view of what we saw earlier: what changes is the world, not the conceptualization.
 >
-> This does not make the computational problem disappear, however. Reasoning has to consider every interpretation that satisfies the axioms, so its cost is determined by which logical language we use (covered in Parts 4 and 7).
+> This does not make the computational problem disappear, however. Reasoning has to consider every interpretation that satisfies the axioms, so its cost is determined by which logical language we use (covered in Parts 3 and 6).
 >
 > In other words, my confusion came from treating "defining a meaning" and "computing with that meaning" as the same task.
 
@@ -159,7 +159,7 @@ Back to the opening question. When one employee's reporting line changes, what c
 
 If we view a conceptualization as $(D, R)$, a single tuple splits it in two. If we view it as $\mathbf{C} = (D, W, \mathcal{R})$, the same concept (the function $\rho$) simply returns a different extension in each world.
 
-Still, this definition is only a mathematical structure so far. Why meaning has to be a function over possible worlds is covered in Part 2. How to refer to this structure with the symbols of a language, and how to bind those symbols to the intended concepts (the second question, formal, explicit specification), is covered in Parts 3 and 4.
+Still, this definition is only a mathematical structure so far. Why meaning has to be a function over possible worlds is covered in Part 2. How to refer to this structure with the symbols of a language, and how to bind those symbols to the intended concepts (the second question, formal, explicit specification), is covered in Parts 2 and 3.
 
 # References
 
