@@ -19,9 +19,7 @@ connection: "JavaScript execution model, static type systems, TypeScript compile
 tags: ["typescript", "javascript"]
 ---
 
-# Introduction to TypeScript
-
-## Problem
+# Problem
 
 While mentoring frontend development for the **14th cohort of LikeLion**, I added a new TypeScript session. This post covers two topics:
 1. What kinds of problems can arise in plain JavaScript?
@@ -29,7 +27,7 @@ While mentoring frontend development for the **14th cohort of LikeLion**, I adde
 
 As of 2026/07/13 the dedicated JavaScript posts have not been written yet, but they will be added later, so this post assumes familiarity with JS.
 
-## 0. What was the problem with JS?
+# 0. What was the problem with JS?
 
 > JS is a <strong>dynamically typed language</strong>.
 
@@ -63,7 +61,7 @@ a.toUpperCase() //TypeError: a.toUpperCase is not a function
 ```
 TypeScript emerged to **statically model** the possible shapes of runtime values and how they are used, diagnosing some classes of errors before the code ever runs.
 
-## 1. Enter TypeScript
+# 1. Enter TypeScript
 
 As mentioned above, TypeScript is a language designed to model the shapes of runtime values and use that model to catch, ahead of time, some of the problems that could occur during "Expression Evaluation".
 
@@ -87,6 +85,6 @@ a.toUpperCase() //Property 'toUpperCase' does not exist on type '10'.
 
 In a typical TypeScript compilation, type information is erased and **JavaScript source code is emitted**. The generated JavaScript then runs in a JavaScript runtime such as a browser or Node.js.
 
-## Connection
+# Connection
 
 - Next question to explore: how does TypeScript's static type checking actually work on top of JavaScript?

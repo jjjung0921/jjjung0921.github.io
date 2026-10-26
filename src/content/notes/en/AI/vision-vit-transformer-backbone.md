@@ -15,21 +15,19 @@ connection: "This post pins down the point that ViT is a shift in backbone parad
 tags: ["vision-transformer", "transformer", "backbone", "classification", "detection-transfer"]
 ---
 
-# Is ViT a successor to CNNs, or a backbone shift?
-
-## Background
+# Background
 This post is based on my Notion write-ups [Convolution Network](https://app.notion.com/p/340fb10f650181e4bb75fd051bd432ae), [AlexNet](https://app.notion.com/p/340fb10f650181718180cd58468c6308), and [Computer Vision](https://app.notion.com/p/374fb10f6501808780eadc667ec72fee), restructured and rephrased with GPT and then reviewed by me against my notes and the original papers. ViT was not directly present in my Notion notes; this section extends the surrounding context and was revised against the original papers [ViT](https://arxiv.org/abs/2010.11929), [DETR](https://arxiv.org/abs/2005.12872), and [Swin Transformer](https://arxiv.org/abs/2103.14030).
 
 > The ViT / DETR / Swin sections here are not transcribed from my Notion notes; they extend the surrounding context and were revised against the original papers.
 
-## Problem
+# Problem
 CNNs capture local structure in images well.
 But modeling relations between more distant patches directly requires a different backbone.
 
 ViT solved that problem on the "classification backbone" before "detection."
 ViT is therefore not a linear successor to R-CNN or YOLO but a separate turning point that brought the Transformer into vision as a backbone.
 
-## Core idea
+# Core idea
 ViT's core is very simple.
 
 1. Cut the image into patches
@@ -40,8 +38,8 @@ ViT's core is very simple.
 
 The image is handled as a sequence rather than a convolution map.
 
-## Method
-### Patch embedding
+# Method
+## Patch embedding
 Splitting an image $x \in \mathbb{R}^{H \times W \times C}$ into $P \times P$ patches gives a patch count of:
 
 $$
@@ -50,7 +48,7 @@ $$
 
 Flattening each patch and passing it through a linear projection produces a token.
 
-### The input sequence
+## The input sequence
 ViT's input is usually written as:
 
 $$
@@ -63,7 +61,7 @@ where
 - $E$ is the patch embedding matrix
 - $E_{\text{pos}}$ is the positional embedding
 
-### Transformer encoder
+## Transformer encoder
 Each encoder block stacks attention and an MLP with residuals.
 
 $$
@@ -80,17 +78,17 @@ $$
 \mathrm{Attention}(Q, K, V) = \mathrm{softmax}\left(\frac{QK^\top}{\sqrt{d_k}}\right)V
 $$
 
-### Classification head
+## Classification head
 Final classification is performed from the CLS token's representation.
 ViT gathers all patches into a single global representation and then classifies.
 
-## Why ViT matters
+# Why ViT matters
 ViT's significance is not that it is "a slightly modified CNN."
 It lies in opening the possibility that a vision backbone can be a Transformer.
 
 The original paper says as much: applying a pure transformer directly to a sequence of image patches can yield a strong classification backbone, given large-scale pretraining.
 
-## The path into detection
+# The path into detection
 There is one important judgment to make here.
 
 - ViT is not a linear successor of R-CNN → YOLO
@@ -104,7 +102,7 @@ DETR and the Swin family are those successors.
 
 ViT is better read as a model that changed "the paradigm of vision backbones" rather than as a "detector."
 
-## Limitations
+# Limitations
 ViT is strong, but reading it as a straight replacement for CNNs misses a lot.
 
 - It is data hungry
@@ -112,7 +110,7 @@ ViT is strong, but reading it as a straight replacement for CNNs misses a lot.
 - It can underperform CNNs on small datasets
 - Patch tokenization coarsens fine spatial information
 
-## A simple idea for solving this
+# A simple idea for solving this
 When using ViT, think complement before full replacement.
 
 - Do not make patches too large
@@ -121,7 +119,7 @@ When using ViT, think complement before full replacement.
 
 Seen this way, ViT is not the end of CNNs but a different starting point for vision backbone design.
 
-## References
+# References
 - [Computer Vision Notion](https://app.notion.com/p/374fb10f6501808780eadc667ec72fee)
 - [Convolution Network Notion](https://app.notion.com/p/340fb10f650181e4bb75fd051bd432ae)
 - [AlexNet Notion](https://app.notion.com/p/340fb10f650181718180cd58468c6308)

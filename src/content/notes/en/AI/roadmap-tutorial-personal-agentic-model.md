@@ -15,11 +15,9 @@ connection: "Stages 1–5 take up, in order, the questions that come out of this
 tags: ["research-roadmap", "personalization", "agentic-model", "meta-learning", "performative-prediction", "bi-level-optimization", "nas"]
 ---
 
-# I want to build a model that adapts to one person
-
 > What is this series trying to answer by the end?
 
-## 0. Goal: what do I want to build?
+# 0. Goal: what do I want to build?
 
 This series starts from a one-sentence goal.
 
@@ -36,7 +34,7 @@ I picked up the language of bi-level in that period, so I meet it again in Stage
 
 The five stages deal with the same question even as the tools change. At the start of each stage, I come back to this sentence.
 
-## 1. Agentic model: what do I call agentic?
+# 1. Agentic model: what do I call agentic?
 
 In 2026, "agentic" usually brings to mind LLM agents that get work done by calling tools. The agentic we look at in this series is different. It is the loop of decisions and responses that passes between the model and the user.
 
@@ -48,7 +46,7 @@ Where each tool fits is set by the verbs in the definition: decide, observe, ada
 > [!interpretation] My interpretation
 > An LLM agent that calls tools also makes its own decisions. But it only stores the user's responses in memory and reads them back; the model itself stays the same. What I want to hold on to in this definition is the last verb of the loop. The loop closes only when the observed responses change the model in turn. That is why the first question of this series is "adapt."
 
-## 2. Splitting the goal into three questions
+# 2. Splitting the goal into three questions
 
 The goal sentence cannot be solved as it stands, so I split it into questions along its verbs.
 
@@ -60,11 +58,11 @@ The goal sentence cannot be solved as it stands, so I split it into questions al
 
 After that, Stage 4 covers a testbed for checking whether this shape actually works, and Stage 5 covers the question I ran into while trying to put MAML on that testbed.
 
-## 3. Why games?
+# 3. Why games?
 
 I need a testbed where both decisions and responses are observed. In a game, the user's response to the difficulty the model chose is left behind as wins, losses, and actions. Players can be simulated, so I can also run a whole scenario before bringing in real people (Stage 4). The testbed, staged-dda, splits a game into stages and picks the difficulty for each. The "stages" of this series use the word in the same sense.
 
-## 4. Stage map
+# 4. Stage map
 
 I ordered the series by how the questions lead into one another. Each stage runs "why this tool was needed → what the tool gave → what it left." What it left becomes the next stage's question.
 
@@ -88,7 +86,7 @@ I ordered the series by how the questions lead into one another. Each stage runs
 
 This series is the skeleton. The depth lives in the [NAS Foundations](/en/notes/nas-search-space-evolution/), MAML Task Paradigms(forthcoming), [Performative Prediction](/en/notes/performative-prediction/), Optimization Foundations(forthcoming), and Personalization as Optimization(forthcoming) series, and in the [DDA paper map](/en/notes/dda-research-map/). The `Connections` section at the end of each post leads into those series.
 
-## Connections
+# Connections
 
 - Related project: [General-purpose staged-DDA](/en/projects/dda-blackjack/)
 - Related experiments: none (E1 is in Stage 4)

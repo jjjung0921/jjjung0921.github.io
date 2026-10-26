@@ -15,27 +15,25 @@ connection: "This chronology is the reference axis for reading classification ba
 tags: ["computer-vision", "timeline", "cnn", "rcnn", "yolo", "backbone"]
 ---
 
-# A chronology before YOLO: from LeNet to Faster R-CNN
-
-## Background
+# Background
 This post is based on my Notion write-ups [Convolution Network](https://app.notion.com/p/340fb10f650181e4bb75fd051bd432ae), [AlexNet](https://app.notion.com/p/340fb10f650181718180cd58468c6308), [Yolo V1](https://app.notion.com/p/340fb10f650181978f97fe76928784db), and [Computer Vision](https://app.notion.com/p/374fb10f6501808780eadc667ec72fee), restructured and rephrased with GPT and then reviewed by me against my notes and the original papers. CNN, AlexNet, and YOLO summarize my Notion notes directly; the R-CNN section extends the same context and was revised against the source papers.
 
 > This post exists to establish, before explaining YOLO, the order in which vision models divided classification from detection.
 
-## Problem
+# Problem
 Memorizing the progress of vision models as a single line makes YOLO look like the next step of all detection. The actual chronology is different. CNNs built classification representations first, and the two-stage family that carried those representations into detection settled in before YOLO. YOLO is a separate one-stage choice that came afterward.
 
 So this post uses "before YOLO" as the boundary and reads the evolution of classification backbones separately from the evolution of detection pipelines.
 
-## The core chronology
-### 1. LeNet
+# The core chronology
+## 1. LeNet
 LeNet is the early model that showed convolution and pooling work for image classification.
 Its significance is proving first that extracting local patterns is viable instead of memorizing the whole image.
 
-### 2. AlexNet
+## 2. AlexNet
 AlexNet made deep CNNs actually trainable at ImageNet scale. With ReLU, dropout, data augmentation, and GPU training arriving together, "deep models are theoretically possible" became "deep models can actually be trained."
 
-### 3. VGG and GoogLeNet
+## 3. VGG and GoogLeNet
 Two directions emerged at once in this period.
 
 - VGG pushed expressiveness by stacking a simpler structure deeper
@@ -43,19 +41,19 @@ Two directions emerged at once in this period.
 
 Both strengthen the classification backbone, but neither redefines detection itself.
 
-### 4. R-CNN
+## 4. R-CNN
 R-CNN went beyond "recycling" a classifier as a detector and became the starting point of two-stage detectors: extract region proposals first, then classify those candidates with CNN features.
 The important point is that R-CNN took on the detection problem in earnest before YOLO.
 
-### 5. Fast R-CNN
+## 5. Fast R-CNN
 Fast R-CNN reduced the inefficiency of running a CNN repeatedly for each region proposal. Using RoI pooling on a single shared feature map, it classifies candidate regions quickly and performs bbox regression.
 
-### 6. Faster R-CNN
+## 6. Faster R-CNN
 Faster R-CNN turned region proposal itself into a learnable RPN.
 The front of the detection pipeline is no longer an external algorithm but a module inside the network.
 
-## Method and equations
-### The basic intuition of a CNN
+# Method and equations
+## The basic intuition of a CNN
 The output size of a convolution is usually written as:
 
 $$
@@ -65,7 +63,7 @@ $$
 where $I$ is the input size, $F$ the filter size, $P$ the padding, and $S$ the stride.
 The formula summarizes the CNN's intuition: process the whole image at once while preserving local structure.
 
-### The intuition of a two-stage detector
+## The intuition of a two-stage detector
 The R-CNN family is best understood in this order:
 
 $$
@@ -74,7 +72,7 @@ $$
 
 The key is deciding "where to look" first and "what it is" second.
 
-## Why this order matters
+# Why this order matters
 Read chronologically, vision models split along two axes.
 
 - the axis that keeps strengthening classification backbones
@@ -82,14 +80,14 @@ Read chronologically, vision models split along two axes.
 
 This post's timeline stops at Faster R-CNN. YOLO later opens a separate one-stage axis prioritizing speed and simplification, but its principles and loss function are covered in a separate post. YOLO is therefore less the "next version" of R-CNN than a re-solving of the same problem under different constraints.
 
-## Limitations
+# Limitations
 This post is good for grasping the flow, but it cannot capture every model's specific purpose.
 
 - LeNet, AlexNet, VGG, GoogLeNet, R-CNN, and YOLO each solved different problems
 - Bundling them into a one-line chronology blurs the finer distinctions
 - Treating R-CNN and YOLO as the same family makes their structural difference easy to miss
 
-## A simple idea for solving this
+# A simple idea for solving this
 It is better to read backbones and detection separately first.
 
 - backbone: LeNet, AlexNet, VGG, GoogLeNet
@@ -99,7 +97,7 @@ It is better to read backbones and detection separately first.
 
 Only after splitting them this way does it become clear why YOLO should be read as "faster detection."
 
-## References
+# References
 - [Convolution Network Notion](https://app.notion.com/p/340fb10f650181e4bb75fd051bd432ae)
 - [AlexNet Notion](https://app.notion.com/p/340fb10f650181718180cd58468c6308)
 - [Yolo V1 Notion](https://app.notion.com/p/340fb10f650181978f97fe76928784db)

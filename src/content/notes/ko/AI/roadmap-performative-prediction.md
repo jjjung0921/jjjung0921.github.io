@@ -15,19 +15,17 @@ connection: "DDA에서는 난이도 정책이 플레이 로그의 분포를 바�
 tags: ["research-roadmap", "performative-prediction", "distribution-shift", "personalization", "dda"]
 ---
 
-# 모델이 결정하면 사람이 달라진다
-
 [튜토리얼](/notes/roadmap-tutorial-personal-agentic-model/)에서 세운 목적은 이것이었다. **사용자 한 명에게 맞춰 가는 agentic model을 만든다.** 이번 스테이지는 결정과 그 결정이 바꾼 반응을 맡는다.
 
 > 개인에게 맞추는 모델이 상호작용 안에 놓이면 무엇이 깨지는가?
 
-## 0. Stage 1이 남긴 것: 움직이는 것은 모델뿐이었다
+# 0. Stage 1이 남긴 것: 움직이는 것은 모델뿐이었다
 
 [Stage 1](/notes/roadmap-personal-model-and-maml/)의 MAML에서 개인의 데이터는 고정되어 있었다. 모델이 적응할 뿐 사람은 그대로다.
 
 그런데 우리 모델은 결정을 내린다. 게임이라면 다음 스테이지의 난이도를 고른다. 같은 플레이어라도 난이도가 바뀌면 대응이 달라질 수 있다. 예를 들어 어려운 상대 앞에서는 더 오래 고민하거나 다른 수를 고를 수 있다. 모델이 관측하는 한 사람의 반응은 모델 자신이 내린 결정에 따라 달라진다.
 
-## 1. 고정 분포 가정: 결정이 데이터를 바꾸면 무엇이 무효가 되는가
+# 1. 고정 분포 가정: 결정이 데이터를 바꾸면 무엇이 무효가 되는가
 
 지도학습은 데이터 $Z$가 고정된 분포 $\mathcal{D}$를 따른다고 가정한다. 모델의 결정이 사람을 바꾸는 순간 이 가정은 무효이다. 분포가 모델 파라미터의 함수가 되기 때문이다. 이 상황을 다루는 틀이 **Performative Prediction**(PP)이다. 가정이 무너지는 과정은 [Performative Prediction: 변화를 예측하다.](/notes/performative-prediction/)에서 따라갔다. 여기서는 정의만 가져온다.
 
@@ -45,7 +43,7 @@ $$
 
 **Performative stability**(PS)는 고정점이다. 자기가 만든 분포에서 다시 학습해도 같은 모델이 나온다. **Performative optimality**(PO)는 모델–환경 쌍 가운데 손실이 가장 작은 점이다. 둘은 일반적으로 다르다.
 
-## 2. 상호작용의 두 방향: 누가 움직이는가
+# 2. 상호작용의 두 방향: 누가 움직이는가
 
 Stage 1과 나란히 놓아 보자.
 
@@ -80,23 +78,23 @@ DDA로 옮기면 $\theta$는 난이도 정책, $\mathcal{D}(\theta)$는 그 난�
 
 PP를 찾게 된 것은 DDA 때문이었다. 게임에서 난이도는 모델의 output이고 그 output에 따라 사용자의 input과 response가 달라진다. 이 문제를 이미 다루는 분야가 있는지 찾다가 PP를 만났다.
 
-## 3. 정리 — 무엇을 답했고 무엇이 남았는가
+# 3. 정리 — 무엇을 답했고 무엇이 남았는가
 
 지금까지의 내용을 짧게 정리하자.
 
 > 모델의 결정이 사람의 데이터를 바꾸면 고정 분포 가정은 무효이다. PP는 그 결합을 분포 사상 $\mathcal{D}(\theta)$로 쓰고 사람에게 $\varepsilon$-sensitivity만 요구한다.
 
-### 남은 문제 1: 두 도구가 한 방향씩 따로 있다
+## 남은 문제 1: 두 도구가 한 방향씩 따로 있다
 
 MAML은 사람을 고정하고 모델을 움직인다. PP는 사람이 움직이는 것을 다루지만 개인별 빠른 적응이 없다. agentic model에서는 두 방향이 한 고리 안에 있다. 둘을 한 문제로 쓸 수 있을까?
 
-### 남은 문제 2: 도달한 곳과 원하는 곳
+## 남은 문제 2: 도달한 곳과 원하는 곳
 
 재학습이 데려다주는 곳은 $\theta_{\text{PS}}$, 원하는 곳은 $\theta_{\text{PO}}$다. 둘의 거리는 Performative Prediction 시리즈에서 잇는다. stateful 설정에서도 이 거리에는 상한이 있다. 최적을 고정점 분포에서 잰 장기 손실로 정의하면 $\lVert\theta_{\text{OPT}}-\theta_{\text{S}}\rVert_2\le 2L_z\varepsilon/\big(\gamma(1-\varepsilon)\big)$이다(Brown et al. 2022, Theorem 6). partially performative 설정(Lee & Zrnic 2026)에서는 모델이 만든 이동에 외생적 drift가 섞인다. 이 설정에서는 고정점 대신 시간에 따라 움직이는 stable·optimal 점을 얼마나 잘 따라가는지(regret)를 본다.
 
 다음 스테이지에서는 남은 문제 1을 들고 MAML과 PP를 같은 언어로 다시 써 본다.
 
-## 연결
+# 연결
 
 - 관련 프로젝트: [범용 staged-DDA](/projects/dda-blackjack/)
 - 다음에 확인할 질문: 적응과 반응을 한 문제로 쓸 수 있는가? → [Stage 3 — 두 문제는 같은 모양이다](/notes/roadmap-bilevel-common-form/)

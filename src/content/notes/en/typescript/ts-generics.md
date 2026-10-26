@@ -19,9 +19,7 @@ connection: "types as sets, parametricity, bounded quantification, variance"
 tags: ["typescript", "javascript"]
 ---
 
-# Parametric polymorphism and bounded quantification
-
-## Problem
+# Problem
 
 `any` disables static type checking. The problems this causes come in **two kinds**, and distinguishing them is the starting point of this post.
 
@@ -51,7 +49,7 @@ The two problems have different causes, so they need different solutions. The so
 
 > How do we carry the type information available at the call site across the function boundary?
 
-## 0. Overview
+# 0. Overview
 
 This post proceeds in the following order.
 
@@ -62,7 +60,7 @@ Bounded quantification   → what a constraint buys and sells
 Types as sets            → the mechanism behind that trade
 ```
 
-## 1. Parametric polymorphism: taking a type as a parameter
+# 1. Parametric polymorphism: taking a type as a parameter
 
 The core of a generic is attaching **the same label** to the input and the output — think of it as treating a type as a kind of variable.
 
@@ -96,7 +94,7 @@ const d = identityAny("hi"); // any   — it evaporates at the boundary
 
 A generic is not a device for strengthening checks; it is **a device for passing information through without losing it**.
 
-## 2. Parametricity: the body is powerless in exchange
+# 2. Parametricity: the body is powerless in exchange
 
 That `T` could be any type means, in the body, **nothing can be assumed** about `T`. You cannot arbitrarily treat `T` as a `number` or a `string`.
 
@@ -113,7 +111,7 @@ This property is called **parametricity**. It looks inconvenient, but it is also
 
 ![The intersection of operations when T is unconstrained|520](generic-parametricity.svg "Each type's set of operations differs. When T covers every type, their intersection is nearly empty.")
 
-## 3. Bounded quantification: restricting T's range
+# 3. Bounded quantification: restricting T's range
 
 If nothing can be done in the body, there is no practical use. The function we actually want to write is this:
 
@@ -152,7 +150,7 @@ $$
 
 It means "for every T under this upper bound." The body can now assume `length`, while the caller's concrete type is still carried through to the return value by the generic.
 
-## 4. What this trade buys and sells
+# 4. What this trade buys and sells
 
 Adding a constraint to a generic moves the following two axes.
 
@@ -186,7 +184,7 @@ Going down the list, **what the body can do grows and what the caller can pass s
 
 ![Range and operations move inversely with the level of constraint|520](generic-tradeoff.svg "The tighter the constraint, the smaller T's range and the more operations available in the body.")
 
-## 5. Mechanism: a type is a set of values
+# 5. Mechanism: a type is a set of values
 
 The reason the two axes move in exactly opposite directions is explained by **types as sets** from the previous post.
 
@@ -239,7 +237,7 @@ This principle is not specific to generics. In the previous post I summarized th
 Variance is this principle applied to **assignability judgments**, and generic constraints are the same principle applied to **the expressiveness of the body**. We learn them in different chapters, but I think the root is one.
 </details>
 
-## 6. Exercise
+# 6. Exercise
 
 Consider how the type at each position below is determined, and which line will be an error.
 
@@ -259,7 +257,7 @@ function g<T>(x: T) {
 }
 ```
 
-## 7. Conclusion
+# 7. Conclusion
 
 ```
 Parametric polymorphism
@@ -286,7 +284,7 @@ In one sentence:
 
 > A generic is a device that **connects** rather than tightens, and a constraint is a trade that cuts T's possible range to enlarge the intersection of operations usable in the body.
 
-## Full code
+# Full code
 
 The code in this post, collected into a single file. Lines expected to error carry `@ts-expect-error`, so you can check that the whole thing passes under `tsc --strict`.
 
@@ -371,6 +369,6 @@ function g<T>(x: T) {
 }
 ```
 
-## Connections
+# Connections
 
 - Next question to check: when the type argument is omitted, as in `identity("hi")`, how does the compiler determine T?

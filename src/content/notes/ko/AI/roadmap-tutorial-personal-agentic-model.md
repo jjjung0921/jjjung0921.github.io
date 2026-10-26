@@ -15,11 +15,9 @@ connection: "Stage 1~5가 이 목적에서 나온 질문을 차례로 받는다.
 tags: ["research-roadmap", "personalization", "agentic-model", "meta-learning", "performative-prediction", "bi-level-optimization", "nas"]
 ---
 
-# 개인에게 맞춰 가는 모델을 만들고 싶다
-
 > 이 시리즈가 끝에 답하려는 것은 무엇인가?
 
-## 0. 목적: 무엇을 만들고 싶은가
+# 0. 목적: 무엇을 만들고 싶은가
 
 이 시리즈는 목적 한 문장에서 출발한다.
 
@@ -36,7 +34,7 @@ bi-level이라는 언어는 그때 얻은 것이라 Stage 3에서 다시 만난�
 
 다섯 스테이지는 도구가 바뀌어도 같은 질문을 다룬다. 각 스테이지 첫머리에서 이 문장을 되짚는다.
 
-## 1. Agentic model: 무엇을 agentic이라 부르는가
+# 1. Agentic model: 무엇을 agentic이라 부르는가
 
 2026년에 agentic이라고 하면 흔히 도구를 호출하며 일을 처리하는 LLM 에이전트를 떠올린다. 이 시리즈에서 우리가 보는 agentic은 그와 달리 모델과 사용자 사이를 오가는 결정과 반응의 고리다.
 
@@ -48,7 +46,7 @@ bi-level이라는 언어는 그때 얻은 것이라 Stage 3에서 다시 만난�
 > [!interpretation] 내 해석
 > 도구를 부르는 LLM 에이전트도 스스로 결정을 내린다. 다만 사용자의 반응은 메모리에 쌓아 두었다가 다시 읽을 뿐이고 모델은 그대로다. 내가 이 정의에서 붙잡고 싶은 것은 고리의 마지막 동사다. 관측한 반응이 다시 모델을 바꾸어야 고리가 닫힌다. 그래서 이 시리즈의 첫 질문은 '맞춤'이다.
 
-## 2. 목적을 세 질문으로 쪼개기
+# 2. 목적을 세 질문으로 쪼개기
 
 목적 문장은 그대로 풀리지 않아서 동사를 따라 질문으로 쪼갠다.
 
@@ -60,11 +58,11 @@ bi-level이라는 언어는 그때 얻은 것이라 Stage 3에서 다시 만난�
 
 그 뒤 Stage 4는 이 모양이 돌아가는지 볼 실험장을, Stage 5는 그 실험장에 MAML을 얹으려다 만난 질문을 다룬다.
 
-## 3. 왜 게임인가
+# 3. 왜 게임인가
 
 결정과 반응이 모두 관측되는 실험장이 필요하다. 게임에서는 모델이 결정한 난이도에 대한 사용자의 반응이 승패와 행동으로 남는다. 플레이어를 시뮬레이션할 수 있으니 사람을 부르기 전에 시나리오 전체를 돌려 볼 수도 있다(Stage 4). 실험장인 staged-dda는 게임을 stage 단위로 나누어 난이도를 고른다. 이 시리즈의 스테이지도 같은 말이다.
 
-## 4. 스테이지 지도
+# 4. 스테이지 지도
 
 시리즈는 질문이 이어지는 순서로 짰다. 각 스테이지는 "이 도구가 왜 필요했나 → 도구가 준 것 → 남긴 것"으로 진행한다. 남긴 것이 다음 스테이지의 질문이 된다.
 
@@ -88,7 +86,7 @@ bi-level이라는 언어는 그때 얻은 것이라 Stage 3에서 다시 만난�
 
 이 시리즈는 뼈대다. 깊은 내용은 [NAS Foundations](/notes/nas-search-space-evolution/), MAML Task Paradigms(예정), [Performative Prediction](/notes/performative-prediction/), Optimization Foundations(예정), Personalization as Optimization(예정) 시리즈와 [DDA 논문 지도](/notes/dda-research-map/)에 있다. 각 편 끝의 `연결`에서 그 시리즈로 들어갈 수 있다.
 
-## 연결
+# 연결
 
 - 관련 프로젝트: [범용 staged-DDA](/projects/dda-blackjack/)
 - 관련 실험: 없음(E1은 Stage 4)

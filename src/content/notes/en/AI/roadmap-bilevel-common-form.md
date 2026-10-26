@@ -15,17 +15,15 @@ connection: "Hypergradients and the IFT connect to the Jacobian and Hessian post
 tags: ["research-roadmap", "bi-level-optimization", "maml", "performative-prediction", "hypergradient"]
 ---
 
-# The two problems have the same shape
-
 In the [tutorial](/en/notes/roadmap-tutorial-personal-agentic-model/) I set the goal like this: **build an agentic model that adapts to a single user.** This stage ties the three verbs into one loop.
 
 > Can MAML and PP be written in one language?
 
-## 0. What Stage 2 left behind: two separate tools
+# 0. What Stage 2 left behind: two separate tools
 
 The two tools look in opposite directions. MAML moved the model, while PP in [Stage 2](/en/notes/roadmap-performative-prediction/) moved the person. The language that connects them is bi-level optimization.
 
-## 1. Bi-level optimization: a problem inside a problem
+# 1. Bi-level optimization: a problem inside a problem
 
 > [!info] Bi-level optimization
 > An optimization in which the upper-level objective reaches the upper variable $\lambda$ only through the lower-level solution $w^*(\lambda)$. $w^*(\lambda)$ is the coupling variable that links the two levels.
@@ -39,20 +37,20 @@ $$
 
 Franceschi et al. (2018) unify HPO and meta-learning under this single form. They approximate the lower-level problem with $T$ steps of gradient descent and then compute the hypergradient with reverse-mode differentiation.
 
-## 2. Rewriting the two tools as bi-level
+# 2. Rewriting the two tools as bi-level
 
-### 2.1 MAML: a lower level cut off after one step
+## 2.1 MAML: a lower level cut off after one step
 
 MAML already has this shape. The lower level is per-person adaptation $\phi_i=\theta-\alpha\nabla_\theta\mathcal{L}_i(\theta)$, and the upper level is the loss after adaptation (equation (2) in [Stage 1](/en/notes/roadmap-personal-model-and-maml/)). Because the lower level is cut off after one step, $\phi_i$ becomes an explicit expression in $\theta$, and the derivative of the coupling, $I-\alpha H_i$, can be used directly (B1(forthcoming), Jacobian and Hessian(forthcoming)).
 
-### 2.2 PP: by way of Stackelberg
+## 2.2 PP: by way of Stackelberg
 
 PO is a Stackelberg equilibrium ([Performative Prediction](/en/notes/performative-prediction/), Section 2.2). In a Stackelberg game, the leader decides first and the follower best-responds. The leader's problem is then $\min_{x_1}\{f_1(x_1,x_2)\mid x_2\in\arg\min_y f_2(x_1,y)\}$, which has the same bi-level form as equation (1) (Fiez et al. 2020). Lu (ICML 2023) explicitly writes a bilevel problem in which the upper-level distribution depends on the lower-level solution and the lower-level distribution depends on the upper variable. If the sensitivities of the two distribution maps are small enough, there is a unique bilevel performatively stable point, and retraining converges to it.
 
 > [!warning] "PP itself is bi-level" is not the claim
 > PS is a fixed point; what connects to bi-level is PO. Reading the follower as the person assumes that the person best-responds. Our lower-level $\arg\min$ belongs to the player model (the estimator).
 
-## 3. The same shape: where does the upper variable enter?
+# 3. The same shape: where does the upper variable enter?
 
 | | Upper variable | Lower variable | Where the upper variable enters |
 |---|---|---|---|
@@ -73,7 +71,7 @@ $$
 
 The lower level means "the model fits that person's logs as well as possible." All of the person's behavior lives in $\mathcal{D}(\psi)$. Solving this lower level quickly for a new player is what Stage 1 covers.
 
-## 4. Why this language: same shape, same tools
+# 4. Why this language: same shape, same tools
 
 The **hypergradient** $dF/d\lambda$, the gradient with respect to the upper variable, flows through the derivative of the coupling variable, $dw^*/d\lambda$. That derivative comes from applying the **implicit function theorem** (IFT) to the lower-level optimality condition $\partial_wG=0$.
 
@@ -89,19 +87,19 @@ MAML avoided the inverse by cutting the lower level short, but a bi-level proble
 
 NAS is where I first saw this language clearly. DARTS is a bi-level problem that solves the architecture $\alpha$ against the validation loss and the weights $w$ against the training loss ([The math of DARTS](/en/notes/nas-darts-bilevel-relaxation/)), and NAO moved architectures into a continuous space and moved them with gradients ([NAO](/en/notes/nas-nao-continuous-embedding/)). That is the NAS row of the table, and the language stayed with me after I left NAS.
 
-## 5. Summary — what was answered and what remains
+# 5. Summary — what was answered and what remains
 
 In one sentence:
 
 > MAML's adaptation and PP's response can both be written as bi-level problems, where an upper-level decision comes back through a lower-level solution, and then they use the same tools: hypergradients and the IFT.
 
-### Remaining problem: sharing a shape does not mean it is solved
+## Remaining problem: sharing a shape does not mean it is solved
 
 The first and last rows of the table differ. In HPO, $\lambda$ enters the lower-level loss, so the cross term $\partial^2_{w\lambda}G$ comes out of the loss formula. In our problem, $\psi$ enters through the distribution, so $d\phi^*/d\psi$ requires differentiating the data-generating process. The formulas also say nothing about the size of $\varepsilon$ or the gain from personalization. A testbed is needed.
 
 In the next stage I look at staged-dda, a testbed where both decisions and responses are observed.
 
-## Connections
+# Connections
 
 - Related project: [General-purpose staged-DDA](/en/projects/dda-blackjack/); the development of equation (2) is in Personalization as Optimization(forthcoming)
 - Next question: where should equation (2) be tested? → Stage 4(forthcoming)

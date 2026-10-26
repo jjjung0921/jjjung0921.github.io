@@ -19,9 +19,7 @@ connection: ""
 tags: ["typescript", "javascript"]
 ---
 
-# 타입스크립트의 정적 모델링
-
-## 문제
+# 문제
 
 이전 글에서는 JavaScript에는 일반적으로 실행 전 정적 타입 검사 단계가 없으며 TypeScript가 다음과 같은 과정을 추가한다고 설명했다.
 
@@ -64,7 +62,7 @@ Type erasure
 5. 조건문을 통과하면서 타입은 어떻게 달라지는가?
 6. TypeScript의 검사는 어디까지 신뢰할 수 있는가?
 
-## 0. Overview
+# 0. Overview
 TypeScript에서 type의 탄생은 아래와 같은 과정을 거친다.
 ```
 JavaScript runtime values
@@ -88,7 +86,7 @@ const value:number = 10;
 ```
 위 TS의 `number`는 별도의 런타임 객체가 아니다. `value`가 숫자 값 중 하나를 가진다는 정적 정보일 뿐이다.
 
-## 1. Type Erasure: TS에서의 type은 런타임에 남지 않는다.
+# 1. Type Erasure: TS에서의 type은 런타임에 남지 않는다.
 다음 TS 코드를 살펴보자.
 ```ts
 function greet(name: string): string {
@@ -148,7 +146,7 @@ var Direction;
 const direction = Direction.DOWN;
 //# sourceMappingURL=index.js.map
 ```
-## 2. Structural typing: 이름이 아니라 구조를 비교한다
+# 2. Structural typing: 이름이 아니라 구조를 비교한다
 TS는 type의 이름이 아닌 구조(structure)를 중심으로 동작한다. 아래 코드를 보자.
 ```ts
 interface Point {
@@ -197,7 +195,7 @@ printPoint(labeledPoint);
 //# sourceMappingURL=index.js.map
 ```
 
-## 3. Types as sets: 타입은 가능한 값의 집합이다
+# 3. Types as sets: 타입은 가능한 값의 집합이다
 개인적으로 type에 대한 이해를 꿰뚫는 가장 중요한 문장이 아닐까 한다. 타입을 가능한 값들의 집합(set of values)로 이해하면 유연한 사고가 가능해진다.
 
 예를 들어, `string`타입은 JS에서 가능한 모든 문자열 값의 집합으로, `number`는 JS에서 가능한 모든 숫자 값들의 집합으로 해석할 수 있다.
@@ -206,7 +204,7 @@ $$
 [[\text{number}]]=\{0, 1, -1, 3.14, \text{NaN} ...\}
 $$
 이제 우리는 type을 일종의 집합 연산으로 이해하며 계산할 수 있다.
-### 3.1 Union Type
+## 3.1 Union Type
 ```ts
 type ID = string | number;
 ```
@@ -224,7 +222,7 @@ const id2: ID = "user-10";
 
 하지만 `number`와 `string` 모두에 속하지 않는 `object`는 `ID` 타입을 가질 수 없다.
 
-### 3.2 type은 합집합, 연산은 교집합
+## 3.2 type은 합집합, 연산은 교집합
 ```ts
 function printId(id: string | number) {
   id.toUpperCase();
@@ -240,7 +238,7 @@ $$
 [[\text{IDOps}]]=[[\text{string}]]\cap[[\text{number}]]
 $$
 
-### 3.3 Type alias는 새로운 값 집합을 만들지 않는다
+## 3.3 Type alias는 새로운 값 집합을 만들지 않는다
 ```ts
 type UserId = string;
 type UserName = string;
@@ -259,7 +257,7 @@ id = name; // No Error!
 ```
 Type alias는 기존 타입에 이름을 붙일 뿐, 독립적인 nominal type identity를 생성하지 않는다.
 
-## 4. Type inference: compiler는 타입을 어떻게 추론하는가
+# 4. Type inference: compiler는 타입을 어떻게 추론하는가
 ```ts
 const count = 10;
 ````
@@ -274,7 +272,7 @@ count = 20;
 
 이 경우 `count`가 `10`에서 `20`으로 rebinding되므로 literal type인 `10`으로 추론하면 위험하다. 더 넓은 `number`타입으로 추론해야 된다.
 
-### 4.1 Contextual typing
+## 4.1 Contextual typing
 타입 정보를 추론할 때 사용하는 데이터는 단방향으로 사용하지 않는다. 대신 "문맥(context)"를 사용하게 된다.
 ```ts
 const names = ["Alice", "Bob"];
@@ -299,7 +297,7 @@ name: string
 ```
 이와 같이 표현식이 사용되는 시점에 타입이 정해지는 것을 **contextual typing**이라고 한다.
 
-### 4.2 Mutability와 타입 정밀도
+## 4.2 Mutability와 타입 정밀도
 ```ts
 let method = "GET";
 // string
@@ -332,7 +330,7 @@ request:
 ```
 `readonly`는 TS의 문법일 뿐이며 실제 JS 수준의 제약 (eg. `Object.freeze()`)을 만들지는 않는다.
 
-## 5. Control-flow analysis: 타입은 코드 위치에 따라 달라진다
+# 5. Control-flow analysis: 타입은 코드 위치에 따라 달라진다
 아래 코드에서 `value`의 선언 타입은 `string | number`이다.
 ```ts
 function normalize(value: string | number) {
@@ -366,14 +364,14 @@ value: string | number
 
 `typeof`의 경우, 타입에 따라 호출되는 함수의 호환성이 달라지므로 JS의 runtime에 영향을 미친다. 이런 이유로 `typeof`는 JavaScript에 남아 본인의 역할을 수행한다.
 
-## 6. Soundness boundaries: TypeScript가 모든 오류를 막지는 않는다
+# 6. Soundness boundaries: TypeScript가 모든 오류를 막지는 않는다
 앞서 언급했듯, TS의 목적은 **JS의 자유성을 일부 제한하여 Runtime에서 발생할 수 있는 오류들을 미리 찾아내는 것**이다.
 
 하지만 타입에 의한 제약이 너무 강해지면 JS의 자유도라는 장점이 사라진다. 즉, 자유도와 제약성 간의 tradeoff를 잘 따져야 한다.
 
 이에 JS의 자유도를 확보하기 위해 TS의 보장이 약해지는 구간들이 일부 존재한다.
 
-### 6.1 `any`
+## 6.1 `any`
 ```ts
 let value: any = 10;
 
@@ -391,7 +389,7 @@ Runtime:
 ```
 `any`는 정적 검사를 비활성화하기에 컴파일 에러가 발생하지 않는다.
 
-### 6.2 Type Assertions
+## 6.2 Type Assertions
 **Type Assertions**는 컴파일러에게 타입에 대한 정보를 주는 방식이다. 컴파일러는 특정 변수 혹은 객체의 타입을 알 수 없지만 사용자는 대상의 타입을 알 수 있을 때 쓴다.
 
 이는 사용자가 TS 컴파일러에게 타입에 대한 정보를 주는 것이기에 실제 JS runtime의 타입을 보장하지 않는다. 런타임의 실제 변수를 우리가 선언한 타입으로 변환하지는 않는다는 뜻이다.
@@ -408,7 +406,7 @@ const value = 10;
 
 value.toUpperCase();
 ```
-### 6.3 Input type mismatch
+## 6.3 Input type mismatch
 
 ```ts
 interface User {
@@ -446,7 +444,7 @@ if (isUser(parsed)) {
   console.log(parsed.name.toUpperCase());
 }
 ```
-## 7. 연습
+# 7. 연습
 아래 코드를 바탕으로 TS의 type이 어떻게 해석될지 생각해보자.
 ```ts
 type Message =
@@ -475,7 +473,7 @@ const message = {
 console.log(formatMessage(message));
 ```
 
-## 8. 결론
+# 8. 결론
 가장 중요한 점은 대부분의 경우 TS의 타입 시스템은 JS Runtime에서 새로운 타입 객체를 추가하지 않는다는 점이다.
 
 대신, JavaScript 표현식이 가질 수 있는 값을 정적으로 추상화한다.
@@ -505,6 +503,6 @@ Soundness boundaries
 
 TS은 새로운 런타임 시스템을 제공하기보다 JS의 엔진 위에서 구성된 **erasable structural static type system**이다. 모든 Runtime 오류를 잡지는 못하지만 많은 부분의 오류를 컴파일 과정에서 찾아낼 수 있다.
 
-## 연결
+# 연결
 
 - 다음에 확인할 질문: TypeScript에서의 basic type

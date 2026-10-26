@@ -15,17 +15,15 @@ connection: "NAO and DARTS both use continuous optimization, but NAO moves a lea
 tags: ["nas", "nao", "continuous-optimization", "architecture-embedding", "surrogate-model"]
 ---
 
-# In what continuous space did NAO move discrete architectures?
-
-## Background
+# Background
 This post is based on my Notion write-up, [NAO review](https://app.notion.com/p/333fb10f6501803aaa88e2e4fd89fecb). The paper selection and the core interpretation come from my own notes; I used GPT to restructure and rephrase them for the blog, then reviewed the result myself against my notes and the original paper. The objective functions and the meaning of the gradient step were revised after another pass over the NeurIPS paper.
 
-## Problem: a discrete structure has no coordinates to differentiate
+# Problem: a discrete structure has no coordinates to differentiate
 Suppose an architecture $a$ is a sequence of operation tokens and connection tokens. Changing part of $a$ produces an entirely different graph, so $\nabla_a f(a)$ in the usual sense is hard to define.
 
 Earlier performance predictors were mostly used to predict the performance of already-generated candidates and filter for good ones. NAO instead uses the predictor as a **gradient field for producing new candidates**.
 
-## Three modules
+# Three modules
 NAO passes an architecture through three stages.
 
 $$
@@ -46,7 +44,7 @@ $$
 
 The encoder and decoder use the architecture-as-sequence view. The predictor approximates a smooth surface over the latent vectors.
 
-## Training objectives
+# Training objectives
 The predictor has to reduce the gap between true and predicted performance.
 
 $$
@@ -80,7 +78,7 @@ $$
 \lambda\mathcal{L}_{rec}
 $$
 
-## Where the gradient is applied
+# Where the gradient is applied
 Writing the embedding of a trained architecture $a$ as $e_a$, NAO moves the latent vector in the direction where the predictor forecasts higher performance.
 
 $$
@@ -103,7 +101,7 @@ $$
 
 The evaluated $a'$ is added to the pool, and the encoder-predictor-decoder is retrained, repeating the cycle.
 
-## How this differs from DARTS
+# How this differs from DARTS
 | Aspect | NAO | DARTS |
 |---|---|---|
 | Continuous variable | embedding $e$ of the whole architecture | per-edge operation logits $\alpha$ |
@@ -113,7 +111,7 @@ The evaluated $a'$ is added to the pool, and the encoder-predictor-decoder is re
 
 Both convert discrete choices into continuous optimization, but they build the continuous space in different ways.
 
-## Limitations
+# Limitations
 NAO's gradient is not the gradient of the true accuracy surface. It is the gradient of the surface the predictor approximated.
 
 - If the initial architecture pool is narrow, the predictor fails to extrapolate
@@ -122,11 +120,11 @@ NAO's gradient is not the gradient of the true accuracy surface. It is the gradi
 - Nothing guarantees that structures near the same embedding actually perform similarly
 - Candidate evaluations are still needed to train the predictor
 
-## A simple mitigation
+# A simple mitigation
 Putting a trust region on the latent step, and sending candidates with high ensemble-predictor uncertainty back to real evaluation, is the natural approach. Decoder validity constraints and round-trip consistency $a\rightarrow e\rightarrow\hat a$ should be measured too.
 
 The point is not that a gradient was obtained, but recording **which surrogate and which data range that gradient is valid within**.
 
-## References
+# References
 - [Neural Architecture Optimization](https://proceedings.neurips.cc/paper/2018/hash/933670f1ac8ba969f32989c312faba75-Abstract.html)
 - [Neural Architecture Optimization PDF](https://proceedings.neurips.cc/paper/2018/file/933670f1ac8ba969f32989c312faba75-Paper.pdf)

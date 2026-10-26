@@ -19,9 +19,7 @@ connection: ""
 tags: ["typescript", "javascript"]
 ---
 
-# TypeScript's Static Modeling
-
-## Problem
+# Problem
 
 The previous post explained that JavaScript generally has no static type-checking phase before execution, and that TypeScript adds the following pipeline:
 
@@ -64,7 +62,7 @@ These six steps answer the following six questions:
 5. How does a type change as code passes through conditionals?
 6. How far can TypeScript's checking be trusted?
 
-## 0. Overview
+# 0. Overview
 In TypeScript, types come into being through the following process:
 ```
 JavaScript runtime values
@@ -88,7 +86,7 @@ const value:number = 10;
 ```
 The TS `number` above is not a separate runtime object. It is merely static information saying that `value` holds one of the possible number values.
 
-## 1. Type Erasure: TS types do not survive at runtime
+# 1. Type Erasure: TS types do not survive at runtime
 Consider the following TS code.
 ```ts
 function greet(name: string): string {
@@ -148,7 +146,7 @@ var Direction;
 const direction = Direction.DOWN;
 //# sourceMappingURL=index.js.map
 ```
-## 2. Structural typing: structure is compared, not names
+# 2. Structural typing: structure is compared, not names
 TS operates on the structure of a type, not its name. Look at the code below.
 ```ts
 interface Point {
@@ -197,7 +195,7 @@ printPoint(labeledPoint);
 //# sourceMappingURL=index.js.map
 ```
 
-## 3. Types as sets: a type is a set of possible values
+# 3. Types as sets: a type is a set of possible values
 Personally, I think this may be the single most important sentence for understanding types. Understanding a type as a set of possible values enables much more flexible reasoning.
 
 For example, the `string` type can be read as the set of all possible string values in JS, and `number` as the set of all possible numeric values in JS.
@@ -206,7 +204,7 @@ $$
 [[\text{number}]]=\{0, 1, -1, 3.14, \text{NaN} ...\}
 $$
 Now we can reason about types as a kind of set arithmetic.
-### 3.1 Union Type
+## 3.1 Union Type
 ```ts
 type ID = string | number;
 ```
@@ -224,7 +222,7 @@ const id2: ID = "user-10";
 
 But an `object`, which belongs to neither `number` nor `string`, cannot have the `ID` type.
 
-### 3.2 Types are unions, operations are intersections
+## 3.2 Types are unions, operations are intersections
 ```ts
 function printId(id: string | number) {
   id.toUpperCase();
@@ -240,7 +238,7 @@ $$
 [[\text{IDOps}]]=[[\text{string}]]\cap[[\text{number}]]
 $$
 
-### 3.3 Type aliases do not create new value sets
+## 3.3 Type aliases do not create new value sets
 ```ts
 type UserId = string;
 type UserName = string;
@@ -259,7 +257,7 @@ id = name; // No Error!
 ```
 A type alias merely names an existing type; it does not create an independent nominal type identity.
 
-## 4. Type inference: how does the compiler infer types?
+# 4. Type inference: how does the compiler infer types?
 ```ts
 const count = 10;
 ````
@@ -274,7 +272,7 @@ count = 20;
 
 Here `count` is rebound from `10` to `20`, so inferring the literal type `10` would be unsafe. It must be inferred as the wider `number` type instead.
 
-### 4.1 Contextual typing
+## 4.1 Contextual typing
 The information used for type inference does not flow in only one direction. The surrounding "context" is used as well.
 ```ts
 const names = ["Alice", "Bob"];
@@ -299,7 +297,7 @@ name: string
 ```
 Determining a type at the point where an expression is used like this is called **contextual typing**.
 
-### 4.2 Mutability and type precision
+## 4.2 Mutability and type precision
 ```ts
 let method = "GET";
 // string
@@ -332,7 +330,7 @@ request:
 ```
 `readonly` is TS-level syntax only; it creates no actual JS-level constraint (e.g. `Object.freeze()`).
 
-## 5. Control-flow analysis: types vary by code location
+# 5. Control-flow analysis: types vary by code location
 In the code below, the declared type of `value` is `string | number`.
 ```ts
 function normalize(value: string | number) {
@@ -366,14 +364,14 @@ Computing the possible types at each point based on JS control flow, as in the e
 
 In the case of `typeof`, which functions can be called depends on the type, so it affects the JS runtime. For this reason `typeof` remains in the emitted JavaScript and keeps doing its job.
 
-## 6. Soundness boundaries: TypeScript does not prevent every error
+# 6. Soundness boundaries: TypeScript does not prevent every error
 As mentioned earlier, TS's purpose is to **restrict some of JS's freedom in order to catch, ahead of time, errors that could occur at runtime**.
 
 But if type constraints become too strong, the advantages of JS's freedom disappear. That is, the tradeoff between freedom and restriction must be weighed carefully.
 
 To preserve JS's flexibility, there are some zones where TS's guarantees weaken.
 
-### 6.1 `any`
+## 6.1 `any`
 ```ts
 let value: any = 10;
 
@@ -391,7 +389,7 @@ Runtime:
 ```
 `any` disables static checking, so no compile error is raised.
 
-### 6.2 Type Assertions
+## 6.2 Type Assertions
 A **type assertion** is a way of giving the compiler type information when the compiler cannot know the type of a variable or object, but the user can.
 
 Since this is the user informing the TS compiler about a type, it guarantees nothing about the actual type in the JS runtime. That is, it does not convert the actual runtime value into the declared type.
@@ -408,7 +406,7 @@ const value = 10;
 
 value.toUpperCase();
 ```
-### 6.3 Input type mismatch
+## 6.3 Input type mismatch
 
 ```ts
 interface User {
@@ -446,7 +444,7 @@ if (isUser(parsed)) {
   console.log(parsed.name.toUpperCase());
 }
 ```
-## 7. Exercise
+# 7. Exercise
 Using the code below, think through how TS would interpret the types involved.
 ```ts
 type Message =
@@ -475,7 +473,7 @@ const message = {
 console.log(formatMessage(message));
 ```
 
-## 8. Conclusion
+# 8. Conclusion
 The most important point is that in most cases, TS's type system adds no new type objects to the JS runtime.
 
 Instead, it statically abstracts the values JavaScript expressions can hold.
@@ -505,6 +503,6 @@ Let's condense everything so far into one sentence:
 
 Rather than providing a new runtime system, TS is an **erasable structural static type system** built on top of the JS engine. It cannot catch every runtime error, but it catches a large share of them during compilation.
 
-## Connection
+# Connection
 
 - Next question to explore: TypeScript's basic types

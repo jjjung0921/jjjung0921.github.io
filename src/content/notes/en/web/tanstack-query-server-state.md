@@ -20,9 +20,7 @@ connection: "stale-while-revalidate, cache invalidation, observer pattern, state
 tags: ["react", "tanstack-query", "state-management", "moment-coffee"]
 ---
 
-# Server Data Is a Cache, Not a Value
-
-## 1. I adopted this library before I understood it
+# 1. I adopted this library before I understood it
 
 While writing up the frontend design for Moment Coffee, a cafe ordering app, I put together an ADR. I gave an AI the requirements specification and had it lay out the rationale for each stack decision. Under server state, this came back:
 
@@ -51,7 +49,7 @@ This note starts from that misunderstanding and follows the library down to the 
 
 ---
 
-## 2. The problems in the hand-rolled era
+# 2. The problems in the hand-rolled era
 
 Let's set the baseline first. Without TanStack Query, calling an API in React usually looks like this.
 
@@ -79,11 +77,11 @@ function MenuList({ storeId }: { storeId: string }) {
 
 It works. The problem is that this code **repeats once per screen**, and every repetition copies the defects below along with it.
 
-### 2.1 Three states synchronized by hand
+## 2.1 Three states synchronized by hand
 
 `data` · `loading` · `error` are really one state machine. If loading is in progress there should be no error; if there is an error, loading should be finished. But the code above keeps them as **three independent `useState` calls** and orders them by hand. Miss the `finally` and loading never ends. Forget `setError(null)` on refetch and a stale error lingers.
 
-### 2.2 A race condition hides quietly
+## 2.2 A race condition hides quietly
 
 If `storeId` flips from A to B quickly, two requests go out. Response order is not guaranteed.
 
@@ -96,19 +94,19 @@ setData(B)  →  setData(A)   result: the screen says B, the data is A
 
 That is why the code above carries a `cancelled` flag. But this defense **has to be written by hand every time, and omitting it still works most of the time.** It won't reproduce on a fast development network and only goes wrong occasionally in real user conditions. That is the least pleasant class of bug to chase.
 
-### 2.3 There is no cache
+## 2.3 There is no cache
 
 If both the cart screen and the menu screen need the same menu list, two requests go out. Switch tabs and come back, the component remounts and another one goes out. From the user's side, it's a screen they've already seen, showing a spinner again.
 
 The spec's "search results within 200ms" is a network problem in this state. With a cache you never reach the server, so it **shrinks to a rendering problem**. That's the difference at stake.
 
-### 2.4 Nothing in the code knows when to invalidate
+## 2.4 Nothing in the code knows when to invalidate
 
 Paying changes the reward balance. But in the structure above, **no code exists that knows** the reward screen's `data` is now stale. The checkout screen and the reward screen don't know about each other.
 
 So you usually reach for one of two workarounds: refetch unconditionally every time the reward screen mounts (which worsens 2.3), or lift the response into a global store and update it directly at checkout. Choosing the latter leads into the next section.
 
-### 2.5 Lifting it into a global store makes it worse
+## 2.5 Lifting it into a global store makes it worse
 
 Putting server responses into a client state store like Redux does solve 2.3 and 2.4 for the moment. In exchange, these questions appear.
 
@@ -121,7 +119,7 @@ There's a reason these have no good answer. The data was put in the wrong place 
 
 ---
 
-## 3. The root cause — treating server data like client state
+# 3. The root cause — treating server data like client state
 
 The defects in section 2 look like separate mistakes, but they share one cause: **treating data that came from the server as a value I own.**
 
@@ -143,7 +141,7 @@ In other words, server data carries **a time dimension: when is this from?** `us
 > [!tip] This note in one sentence
 > **Server data is not a value but a copy without authority.** Accept that, and the necessary features follow from it.
 
-### 3.1 This is not "attach an expiry to temporary data"
+## 3.1 This is not "attach an expiry to temporary data"
 
 At first I understood this as a TTL cache: it's temporary data, so attach an expiry and discard it when the time passes. Two things are off.
 
@@ -176,7 +174,7 @@ Putting it together:
 
 ---
 
-## 4. How it solves the problems in section 2
+# 4. How it solves the problems in section 2
 
 Translating section 3's perspective into code yields two tools: **giving the cache an address** (`queryKey`) and **giving the cache a lifetime** (`staleTime`). Here is how each defect disappears.
 
@@ -188,17 +186,17 @@ const { data, isPending, isError } = useQuery({
 });
 ```
 
-### 4.1 The library owns the state machine (2.1)
+## 4.1 The library owns the state machine (2.1)
 
 `isPending` · `isError` · `data` are derived from a single state machine. I never synchronize the three. This is where a requirement becomes a matter of **use** rather than implementation.
 
-### 4.2 The race condition disappears structurally (2.2)
+## 4.2 The race condition disappears structurally (2.2)
 
 When `storeId` changes, the `queryKey` changes. A different key is **a different cache entry**, so A's response has no path into B's slot. The hand-written `cancelled` guard is absorbed into key design.
 
 That's the first role of `queryKey`. A key is not an argument, it's **an address**.
 
-### 4.3 Screens on the same key see the same data (2.3)
+## 4.3 Screens on the same key see the same data (2.3)
 
 Same `queryKey` means the same cache entry. Therefore:
 
@@ -206,7 +204,7 @@ Same `queryKey` means the same cache entry. Therefore:
 - leaving and returning to a tab paints the cached value **immediately**
 - the menu is already cached, so search never hits the server — 200ms shrinks from a network problem to a rendering problem
 
-### 4.4 Invalidation gets a channel (2.4, 2.5)
+## 4.4 Invalidation gets a channel (2.4, 2.5)
 
 ```ts
 // on checkout completion
@@ -217,7 +215,7 @@ queryClient.invalidateQueries({ queryKey: ["tenant", tenantKey, "reward"] });
 
 The unanswered questions from 2.5 resolve here too. "How old is it" is held by `dataUpdatedAt`, "does it need refetching" is decided by `staleTime`, and "two screens on different points in time" can't arise because they share one cache entry.
 
-### 4.5 The mental model shifts from imperative to declarative
+## 4.5 The mental model shifts from imperative to declarative
 
 This ends up being the biggest change.
 
@@ -228,7 +226,7 @@ This ends up being the biggest change.
 
 The same reason explains why `refetchInterval: 5000` is all it takes for order-status polling. I write only **what is needed**, and the cache's freshness rules decide when to fetch it.
 
-### 4.6 Conversely, what it does not do
+## 4.6 Conversely, what it does not do
 
 Drawing the boundary is part of making the perspective precise.
 
@@ -246,7 +244,7 @@ So in the Moment Coffee design, three axes stand apart.
 
 ---
 
-## 5. The mechanism — what is a singleton and what isn't
+# 5. The mechanism — what is a singleton and what isn't
 
 Here I got it wrong a second time. Having learned the cache is shared, I thought:
 
@@ -254,7 +252,7 @@ Here I got it wrong a second time. Having learned the cache is shared, I thought
 
 It isn't. Some layers are singletons and some aren't, and knowing that boundary was the last piece of understanding this library.
 
-### 5.1 The object graph
+## 5.1 The object graph
 
 ```
 QueryClient                       ← one per app (singleton)
@@ -282,7 +280,7 @@ Summarized:
 
 **The data is shared; the result object is not.** That is precisely where I was confused.
 
-### 5.2 Where it lives
+## 5.2 Where it lives
 
 The cache lives in an ordinary JavaScript object **outside** the React tree.
 
@@ -298,7 +296,7 @@ There's a structurally important detail here. **What `QueryClientProvider` passe
 
 Putting data directly into Context re-renders the entire subscribing tree whenever the value changes — the classic problem with using Context API for shared state. TanStack Query passes down **only the address** through Context and has each `useQuery` subscribe to its own key, structurally sidestepping that trap. When the menu cache updates, the reward screen does not re-render.
 
-### 5.3 What the observer layer makes possible
+## 5.3 What the observer layer makes possible
 
 Because `Query` (shared) and `QueryObserver` (per-call) are separate, components can look at the same data and still behave differently.
 
@@ -316,13 +314,13 @@ const { data: count } = useQuery({
 
 Options like `staleTime` · `enabled` · `refetchInterval` are per-observer too. That's why **polling on the order status screen only** works while other screens don't. Polling isn't a property of the data — it's a property of how that screen looks at the data.
 
-### 5.4 Structural sharing
+## 5.4 Structural sharing
 
 If a refetch comes back **deeply equal** to the previous value, the previous reference is kept. The reference doesn't change, so subtrees behind `React.memo` or a `useMemo` dependency don't re-render.
 
 A design that checks staleness often also revalidates often, and if every revalidation minted a new object the whole screen would flicker. This optimization is closer to a precondition for using stale-while-revalidate in practice.
 
-### 5.5 It disappears on refresh
+## 5.5 It disappears on refresh
 
 The cache lives in memory, so a page refresh empties it. But this isn't a defect — it's the **natural consequence** of section 3's perspective. The original is on the server, so there's no reason to pin a copy to disk. Fetching again is enough, and it's more accurate anyway.
 
@@ -335,7 +333,7 @@ The same reason splits the persistence policy in the Moment Coffee design.
 
 ---
 
-## 6. What's left
+# 6. What's left
 
 New questions appeared where the understanding ended. I don't have answers yet.
 
@@ -343,7 +341,7 @@ New questions appeared where the understanding ended. I don't have answers yet.
 - **On what basis do you pick a `staleTime` value?** Five minutes feels right for menus, but that five minutes is a hunch
 - How far the rollback handling actually reaches when using optimistic updates in a real implementation
 
-## 7. Closing
+# 7. Closing
 
 Most of the time it took to understand this library was not spent learning the API. It was spent changing my view of **what server data is**.
 

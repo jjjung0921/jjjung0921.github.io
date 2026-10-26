@@ -19,9 +19,7 @@ connection: "JavaScript 실행 모델, 정적 타입 시스템, TypeScript 컴�
 tags: ["typescript", "javascript"]
 ---
 
-# 타입스크립트를 들어가며
-
-## 문제
+# 문제
 
 **14기 멋쟁이사자처럼 프론트엔드 멘토**를 진행하며 새롭게 TypeScript 세션을 추가하게 되었다. 해당 포스트는 아래 2가지 주제를 다룬다.
 1. 기존의 JavaScript에서는 어떤 문제가 발생할 수 있는가?
@@ -29,7 +27,7 @@ tags: ["typescript", "javascript"]
 
 2026/07/13인 현재 Javascript의 구체적인 포스트는 아직 작성하지 않았지만 추후 추가할 예정이기에 JS에 대해서는 알고 있다는 가정 하에 진행한다.
 
-## 0. JS에는 무슨 문제가 있었는가?
+# 0. JS에는 무슨 문제가 있었는가?
 
 > JS는 <strong>동적 타입 언어(Dynamically Typed Language)</strong>이다.
 
@@ -62,7 +60,7 @@ a.toUpperCase() //TypeError: a.toUpperCase is not a function
 ```
 TypeScript는 가능한 런타임 값의 형태와 사용 관계를 **정적으로 모델링**하고 코드가 실행되기 전에 일부 오류 가능성을 진단하기 위해 등장했다.
 
-## 1. TypeScript의 등장
+# 1. TypeScript의 등장
 
 TypeScript는 앞서 말했듯 런타임 값의 형태를 모델링해서 "Expression Evaluation"에서 발생할 수 있는 일부 문제를 미리 찾기 위해 등장한 언어이다.
 
@@ -86,6 +84,6 @@ a.toUpperCase() //Property 'toUpperCase' does not exist on type '10'.
 
 일반적인 TypeScript 컴파일 과정에서는 타입 정보가 제거되고 **JavaScript 소스 코드가 출력**된다. 이후 생성된 JavaScript가 브라우저나 Node.js 등의 JavaScript 런타임에서 실행된다.
 
-## 연결
+# 연결
 
 - 다음에 확인할 질문: TypeScript의 정적 타입 검사는 JavaScript 위에서 어떻게 동작하는가?

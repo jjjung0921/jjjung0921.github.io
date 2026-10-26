@@ -19,9 +19,7 @@ connection: "type inference, unification, structural typing, infer"
 tags: ["typescript", "javascript"]
 ---
 
-# Inference and unification
-
-## Problem
+# Problem
 
 In the [previous post](/en/notes/ts-generics) we defined generic functions, yet when calling them we never wrote a type argument.
 
@@ -38,7 +36,7 @@ The type inference covered in the earlier post computed a variable's type from i
 
 > By what procedure does the compiler determine the value of `T`, and when does that procedure fail?
 
-## 0. Unification
+# 0. Unification
 
 Here is what happens in `identity("hi")`.
 
@@ -61,7 +59,7 @@ function pair<T>(x: T, y: T): T[] { return [x, y]; }
 pair("a", "b"); // candidates = { "a", "b" } → T := string
 ```
 
-### 0.1 A parameter type is a pattern
+## 0.1 A parameter type is a pattern
 
 If we are solving an equation, the answer depends on where the unknown is planted. Writing the parameter type as `T` and writing it as `T[]` are different equations.
 
@@ -107,7 +105,7 @@ Signatures like `T[]`, `Map<K, V>`, and `(x: T) => R` are all patterns saying **
 
 The rules by which `infer` extracts a piece are continued in the post on conditional types. This post focuses on value-level inference.
 
-## 1. What happens when candidates conflict
+# 1. What happens when candidates conflict
 
 Consider the following code.
 
@@ -163,7 +161,7 @@ Let me note the two situations where order intervenes so they are not confused. 
 | **No** qualified candidate | fix to the **first** candidate, then fail during argument checking |
 | **Several** qualified candidates | the **later** candidate is chosen, and it passes |
 
-## 2. But why do Dog and Cat fail?
+# 2. But why do Dog and Cat fail?
 
 Now the central case.
 
@@ -180,7 +178,7 @@ pair(new Dog(), new Cat()); // Error
 
 There are two reasons.
 
-### 2.1 Animal is never registered as a candidate
+## 2.1 Animal is never registered as a candidate
 
 Candidates are gathered only from **positions where `T` actually appears**. What came in as arguments was only `Dog` and `Cat`; `Animal` appears nowhere in the code.
 
@@ -219,7 +217,7 @@ pair<Animal>(new Dog(), new Cat()); // OK
 
 If `Animal` had been judged inappropriate and eliminated from type determination, specifying it explicitly should also be rejected. That the code above passes means it was **non-registration, not elimination**.
 
-### 2.2 So why not bring it in from outside?
+## 2.2 So why not bring it in from outside?
 
 Then why doesn't TypeScript fetch `Animal` on its own? Here is a decisive clue.
 
@@ -304,7 +302,7 @@ pair(exprCond, exprCond);           // one candidate, Cat | Dog → passes
 
 Passing the same `dog` and `cat`, **making them one lump at the expression stage passes, and passing them separately fails.** What makes the difference is not the content of the types but how many candidates arrive.
 
-### 2.3 At which stage are new types created?
+## 2.3 At which stage are new types created?
 
 Seen this way, the whole procedure of inference comes into view.
 
@@ -329,7 +327,7 @@ Every place a new type is created belongs to stage 0.
 
 When literals are mixed in, as in `["a", 1]`, the elements are widened to `string` and `number` before being merged. That widening is a separate rule covered in the earlier post, and it does not apply in the generic type argument position (`identity("hi")` → `"hi"`).
 
-### 2.4 And so it fails
+## 2.4 And so it fails
 
 The `T` in `pair<T>` must be **fixed to a single type**. But the candidate set `{Dog, Cat}` contains no candidate able to accept the rest, and the selection stage creates no new types. So it fails.
 
@@ -346,7 +344,7 @@ pair<Dog | Cat>(new Dog(), new Cat()); // OK
 
 So TypeScript **knows a safe answer and declines to produce it**. Why that rule was chosen is a question of language design rather than of the inference algorithm, so it is covered in a separate post.
 
-### 2.5 An aside: `infer` is the exception
+## 2.5 An aside: `infer` is the exception
 
 There is one exception to the conclusions so far. It is off the main thread but used later, so let us note it. In conditional types, `infer` has no expression at all, and yet when several candidates share a name they **really are merged**.
 
@@ -360,7 +358,7 @@ What matters is the implication this exception leaves. **The same compiler can m
 
 The rules by which `infer` merges candidates, and why it appeared in the first place, are covered in a separate post dealing properly with conditional types.
 
-## 3. When do constraints intervene?
+# 3. When do constraints intervene?
 
 Finally, let us see where `T extends X` fits into this procedure.
 
@@ -396,7 +394,7 @@ declare function g<T extends Animal>(x: T, y: T): T[];
 const r4 = g(puppy, animal);  // Animal[] — if the topmost satisfies the constraint, it is used as-is
 ```
 
-### 3.1 Marking the constraint's place in the procedure
+## 3.1 Marking the constraint's place in the procedure
 
 ```
 stage 0  compute the types of expressions
@@ -426,7 +424,7 @@ So **a constraint doubles as T's default**. When the candidates yield no answer,
 
 Most errors we run into arise at stage 3. That is, **it is not the candidate that is eliminated but the argument**. Even in `r3`, `T` was safely fixed to `Dog`, and the error came afterward, from trying to put `animal` into a `Dog` slot.
 
-## 4. Conclusion
+# 4. Conclusion
 
 ```
 Unification
@@ -474,7 +472,7 @@ In one sentence:
 
 > TypeScript transcribes candidates only from positions where T actually appears, and when no answer exists among them — even if a safe answer exists outside, unless it is unique — it chooses failure over guessing.
 
-## Full code
+# Full code
 
 The code in this post, collected into a single file. Lines expected to error carry `@ts-expect-error`, so you can check that the whole thing passes under `tsc --strict`.
 
@@ -578,7 +576,7 @@ declare function h2<T>(): T[];
 const r6 = h2(); // unknown[]
 ```
 
-## Connections
+# Connections
 
 - Next question to check: why does TypeScript decline to produce a safe answer it knows? The same kind of choice appears in arrays and methods.
 - A later question: how to **ask conditions about** a type, and by what rules `infer` extracts a piece → "Asking conditions of a type: conditional types and infer"
