@@ -85,6 +85,10 @@ svg {
   padding-bottom: 0.45rem;
 }
 
+.note-prose > h1:first-child {
+  margin-top: 0 !important;
+}
+
 .note-prose h2 {
   border-bottom: 0;
   font-size: 1rem;
