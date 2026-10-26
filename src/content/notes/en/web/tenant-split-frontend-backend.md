@@ -20,9 +20,7 @@ connection: "build-time constants, blast radius, resource pooling, tenant isolat
 tags: ["architecture", "multi-tenancy", "vite", "moment-coffee"]
 ---
 
-# Split the Frontend Per Tenant, Merge the Backend Into One
-
-## 1. About this series
+# 1. About this series
 
 Moment Coffee is a cafe ordering service. Users browse and order menu items before or during a store visit, accumulate rewards based on their order history, and find nearby stores. And this app is **used by multiple merchants, each under their own brand.**
 
@@ -35,7 +33,7 @@ The first post covers the one decision every other decision depends on: **where 
 
 ---
 
-## 2. What the requirements force
+# 2. What the requirements force
 
 Four clauses in the specification actually constrain this decision. The rest can be built under any structure, so they don't inform the judgment.
 
@@ -52,7 +50,7 @@ One business condition sits underneath: the target is **small business owners.**
 
 ---
 
-## 3. The decision — an asymmetric structure
+# 3. The decision — an asymmetric structure
 
 Starting with the conclusion:
 
@@ -69,9 +67,9 @@ Same service, different answers per layer. This looked inconsistent at first, bu
 
 ---
 
-## 4. Why asymmetric — duplication costs differ
+# 4. Why asymmetric — duplication costs differ
 
-### 4.1 Static assets cost nothing when idle, even duplicated
+## 4.1 Static assets cost nothing when idle, even duplicated
 
 A frontend build output is a pile of HTML, JS, and CSS files. Put it in object storage and **it consumes nothing while nobody uses it.** It occupies storage, and that's a few megabytes per bundle.
 
@@ -79,7 +77,7 @@ Ten merchants means ten bundles. But what grew tenfold is **only disk usage** �
 
 In other words, duplication on the frontend is nearly free. When that's true, it pays to take whatever duplication can buy you.
 
-### 4.2 Server processes incur residency cost per copy
+## 4.2 Server processes incur residency cost per copy
 
 The backend is the opposite. Spin up an instance and it occupies memory, holds a DB connection pool, answers health checks, and keeps a runtime resident — **even with zero requests.**
 
@@ -90,7 +88,7 @@ Merging produces the opposite effect.
 - **Resource pooling.** Peak hours differ per store. An office-district store peaks in the morning, a campus-area store in the afternoon. When one instance absorbs these waves together, the capacity you must provision for peak is smaller than the sum of individual peaks
 - **Shared connection pool.** DB connections are an expensive resource, and holding a separate pool per instance wastes a lot of them
 
-### 4.3 Summary
+## 4.3 Summary
 
 > **Split the layer where duplication is cheap; merge the layer where duplication is expensive.**
 
@@ -98,7 +96,7 @@ What splitting the frontend buys — module gating, brand separation, deployment
 
 ---
 
-## 5. The means — Vite was adopted as the bundler
+# 5. The means — Vite was adopted as the bundler
 
 What does "splitting" the frontend actually amount to? Injecting tenant configuration into the source at build time and **removing the modules that merchant doesn't use from the bundle entirely.** That is precisely what C2 demands.
 
@@ -120,11 +118,11 @@ The common argument — "N merchants means N servers" — is refuted by the firs
 
 ---
 
-## 6. Stability — isolation and propagation are traded against each other
+# 6. Stability — isolation and propagation are traded against each other
 
 On the resource axis the decision looks settled, but on the stability axis the two layers have **opposite properties.** This was the most interesting part of the design.
 
-### 6.1 Frontend: buys isolation, sells propagation
+## 6.1 Frontend: buys isolation, sells propagation
 
 Per-merchant builds have a small blast radius. With independent builds in a CI matrix, **a configuration error in tenant A doesn't block tenant B's deployment.** Rollback also happens per tenant.
 
@@ -134,7 +132,7 @@ With N merchants, N versions coexist in production. A may be current while B sit
 
 It's dangerous precisely because the failure is invisible. Nobody sees an error.
 
-### 6.2 Backend: buys propagation, sells isolation
+## 6.2 Backend: buys propagation, sells isolation
 
 A single instance is exactly the reverse. Deploy a patch and **it applies to every tenant at once.** Version drift cannot structurally occur.
 
@@ -143,7 +141,7 @@ In exchange, the blast radius is everything. An instance failure is an outage fo
 - **Tenant data isolation becomes the code's responsibility.** Miss the tenant condition in one query and another merchant's data is exposed. Nothing is physically separated, so a mistake is an incident
 - **Noisy neighbor.** A traffic spike from one merchant affects response times for others
 
-### 6.3 So each layer defends differently
+## 6.3 So each layer defends differently
 
 | Layer | Risk | Defense |
 |---|---|---|
@@ -155,7 +153,7 @@ In exchange, the blast radius is everything. An instance failure is an outage fo
 The third one matters most. Once you decide to merge the backend, **isolation becomes the responsibility of code rather than infrastructure.** Let the client assert its own tenant and isolation collapses at that moment.
 
 
-### 6.4 An extension path left open — hardware isolation
+## 6.4 An extension path left open — hardware isolation
 
 "Blast radius is everything" from 6.2 is the largest unresolved item in this design. One common misconception is worth naming here.
 
@@ -173,7 +171,7 @@ We are not adopting this at the current scale. It stays a card to play once the 
 
 ---
 
-## 7. Trade-offs
+# 7. Trade-offs
 
 | | Gains | Losses |
 |---|---|---|
@@ -186,7 +184,7 @@ Compressed into one line:
 
 ---
 
-## 8. Conditions under which this design breaks
+# 8. Conditions under which this design breaks
 
 Being right now doesn't mean staying right. Here are the indicators to watch, written down in advance.
 
@@ -196,7 +194,7 @@ Being right now doesn't mean staying right. Here are the indicators to watch, wr
 
 ---
 
-## 9. Next post
+# 9. Next post
 
 Once this decision is fixed, everything else depends on it. Routing has to build its route array from build constants, style tokens have to split into per-tenant CSS variables, and state management gets redesigned on the premise that the server is the source of truth.
 

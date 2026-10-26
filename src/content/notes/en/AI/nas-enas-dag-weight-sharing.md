@@ -15,12 +15,10 @@ connection: "Weight sharing cut NAS's compute dramatically, but it created a new
 tags: ["nas", "enas", "weight-sharing", "supernet", "dag", "ranking"]
 ---
 
-# How did ENAS share weights across many networks in a single DAG?
-
-## Background
+# Background
 This post is based on my Notion write-up, [ENAS review](https://app.notion.com/p/331fb10f650180dfb36fe480228ae9e4). The paper selection and the core interpretation come from my own notes; I used GPT to restructure and rephrase them for the blog, then reviewed the result myself against my notes and the original paper. The discussion of ranking bias and the meaning of the follow-up methods was revised against the source paper and the evaluation literature.
 
-## Problem: every candidate restarts training
+# Problem: every candidate restarts training
 The dominant cost in early NAS was not the controller update but the process of obtaining a reward. Each sampled architecture $a$ required training child weights $w_a$ and measuring validation accuracy.
 
 $$
@@ -31,7 +29,7 @@ $$
 
 ENAS's question is simple: if candidates share convolutions or hidden-state transformations, can those parameters be reused too?
 
-## Supernet DAG and subgraphs
+# Supernet DAG and subgraphs
 ENAS places all possible architectures inside one large DAG.
 
 $$
@@ -46,7 +44,7 @@ $$
 
 $m_a$ can be thought of as a mask turning on only the edges and operations that architecture $a$ selected. When different subgraphs choose the same edge operation, they continue from the same parameters.
 
-## Two kinds of parameters, trained alternately
+# Two kinds of parameters, trained alternately
 ENAS has two parameter sets.
 
 - the shared child weights $w$
@@ -70,7 +68,7 @@ $$
 
 In practice neither optimum is solved exactly; the two are updated alternately at mini-batch granularity. ENAS should therefore not be equated with DARTS's explicit differentiable bi-level objective. ENAS alternates policy gradients with shared-weight training.
 
-## What actually got cheaper
+# What actually got cheaper
 What ENAS reduced was not the number of candidates generated but the **cost of evaluating a candidate**.
 
 - Weights are not trained from scratch per candidate
@@ -79,7 +77,7 @@ What ENAS reduced was not the number of candidates generated but the **cost of e
 
 But that reward is not standalone performance; it is a proxy obtained with weights borrowed inside the supernet.
 
-## The ranking problem weight sharing created
+# The ranking problem weight sharing created
 The ranking we actually want is:
 
 $$
@@ -111,7 +109,7 @@ Nothing guarantees the two agree. There are several causes.
 
 ENAS is therefore closer to "candidates were compared with a proxy obtained from one training run" than to "every candidate was completed cheaply."
 
-## What the follow-up work fixed
+# What the follow-up work fixed
 | Method | Key change | Problem addressed |
 |---|---|---|
 | SPOS | activate only a single path per step | reduce path coupling |
@@ -121,7 +119,7 @@ ENAS is therefore closer to "candidates were compared with a proxy obtained from
 
 None of these guarantee ranking automatically either. Fair sampling is closer to a necessary condition, and standalone retraining of the final candidate remains a separate verification step.
 
-## Limitations and next ideas
+# Limitations and next ideas
 Experiments that use weight sharing should report at least three scores separately.
 
 1. The search-time score inside the supernet
@@ -130,7 +128,7 @@ Experiments that use weight sharing should report at least three scores separate
 
 It also matters to report Kendall or Spearman correlation of candidate rankings, and to keep a random-search baseline at the same budget. The central task of weight-sharing NAS is to tighten the evaluation contract in proportion to the speed gained.
 
-## References
+# References
 - [Efficient Neural Architecture Search via Parameter Sharing](https://arxiv.org/abs/1802.03268)
 - [Evaluating the Search Phase of Neural Architecture Search](https://arxiv.org/abs/1902.08142)
 - [Single Path One-Shot Neural Architecture Search](https://arxiv.org/abs/1904.00420)

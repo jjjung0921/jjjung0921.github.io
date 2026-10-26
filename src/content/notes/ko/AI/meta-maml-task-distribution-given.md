@@ -15,14 +15,12 @@ connection: "알고리즘은 그대로 쓰고 task를 묶는 기준을 연구 �
 tags: ["meta-learning", "maml", "task-distribution", "few-shot"]
 ---
 
-# MAML은 task 분포를 주어진 것으로 놓았다
-
-## 한 문장 요약
+# 한 문장 요약
 
 <!-- 작성: MAML이 무엇을 학습하는지 한 문장. frontmatter summary와 같게 둔다. -->
 이전 연구들은 optimizer·metric·memory처럼 모델 밖의 장치로 빠른 학습을 꾀하거나, Task들의 집합($\mathcal{T}$)에서 평균적으로 좋은 성능을 내는 parameter에서 fine-tuning을 시작했다. 하지만 MAML은 가장 빠른 fine-tuning이 가능한 지점이 좋은 meta parameter라고 정의하고 그 지점을 찾는 기법으로 MAML을 제시한다. MAML은 gradient descent를 활용하는 모델이라면 제약 없이(model-agnostic) 사용 가능하다.
 
-## 1. 이전 방식의 한계
+# 1. 이전 방식의 한계
 
 <!-- 공통 질문 1. 직전 방식(메트릭 기반·블랙박스/메모리 기반 메타러닝, 사전학습 후 fine-tuning)이 못 한 것을 한 문장으로. 근거는 원문 Introduction·Related Work. -->
 적은 데이터로 빠른 학습(few-shot learning)을 꾀하는 기법에는 네 가지 방법이 있었다.
@@ -43,7 +41,7 @@ tags: ["meta-learning", "maml", "task-distribution", "few-shot"]
 
     "적응"이라는 개념이 배제된다. 여러 사인파에 적응한 모델은 catastrophic overfitting에 의해 적은 데이터를 통한 fine-tuning으로는 새로운 task에 적응하지 못한다.
 
-## 2. 핵심 아이디어: 무엇을 최적화하나
+# 2. 핵심 아이디어: 무엇을 최적화하나
 
 <!-- 공통 질문 2의 답은 4절에 온다. 2·3절은 그 가정을 이해하는 데 필요한 만큼만. -->
 모델 학습이 gradient descent based fine-tune 방식으로 진행된다면 gradient descent가 빠르게 진행될 수 있는 지점을 찾는다. 그러면 적은 step 수만으로도 새로운 task에 빠르게 적응한다. 이 방법은 gradient descent를 사용하는 모델이라면 제약 없이 동작할 수 있다.
@@ -117,11 +115,11 @@ MAML에서는 아래 3가지에 유의한다.
 
 일반적인 bi-level 문제는 하위 문제를 끝까지 풀어 최적해를 쓰지만 MAML은 하위 문제를 정해진 몇 걸음에서 끊는다. 그래서 $\theta_i'$가 $\theta$의 명시적인 식으로 나오고 식 (2)를 그대로 미분할 수 있다.
 
-## 3. 메타 기울기는 어떻게 계산하나
+# 3. 메타 기울기는 어떻게 계산하나
 
 <!-- 점검: 실제 계산은 H가 아니라 HVP(Hv)다 (오개념 1). FOMAML은 αH 항을 버리는 근사이고, α→0이면 MAML 자체가 joint training으로 바뀐다 (오개념 3). -->
 
-### 큰 흐름: chain rule의 두 조각
+## 큰 흐름: chain rule의 두 조각
 
 이제부터 두 손실은 데이터로 구분해 적응 쪽을 $\mathcal{L}_{\mathcal{D}_i}$, 평가 쪽을 $\mathcal{L}_{\mathcal{D}_i'}$로 쓴다. $f_\theta$ 대신 파라미터를 바로 인자로 넣는다.
 
@@ -139,7 +137,7 @@ $$
 
 그림 1은 이 흐름을 한 장에 담은 지도다. 실선은 $\theta$가 두 경로로 $\theta_i'$에 들어가는 순전파로, ①이 바로 이 두 경로에서 나온다. 점선은 역전파다. $\theta_i'$에서 잰 기울기 $v$(②)가 같은 두 경로를 거꾸로 밟아 $\theta$로 돌아오는데, 이것이 위 식의 곱이다. 경로 1·경로 2가 무엇인지는 바로 다음 소절에서 식으로 확인하자.
 
-### ① $\theta$가 $\theta_i'$를 움직이는 정도: 두 경로
+## ① $\theta$가 $\theta_i'$를 움직이는 정도: 두 경로
 
 식 (2)는 $\theta$만의 식이다. 식 (3)의 기울기도 $\theta$로 미분해야 한다. 그런데 손실을 재는 곳은 $\theta_i'$이다. 그래서 우리는 먼저 $\theta$를 조금 옮겼을 때 $\theta_i'$가 어떻게 변하는지부터 구해야 한다.
 
@@ -167,7 +165,7 @@ $$
 \qquad (7)
 $$
 
-### ② $\theta_i'$에서 잰 기울기를 $\theta$로 되돌리기
+## ② $\theta_i'$에서 잰 기울기를 $\theta$로 되돌리기
 
 이제 chain rule을 적용하면 task $i$의 메타 기울기를 다음과 같이 쓸 수 있다. $H_i$가 대칭이므로 전치는 붙지 않는다.
 
@@ -178,7 +176,7 @@ $$
 
 두 인자는 재는 자리가 서로 다르다. 뒤의 기울기는 적응한 **뒤**의 $\theta_i'$에서 $\mathcal{D}_i'$로 재고 앞의 Hessian은 적응 **전**의 $\theta$에서 $\mathcal{D}_i$로 잰다. 식 (8)은 $\theta_i'$에서 잰 기울기를 $(I-\alpha H_i)$로 $\theta$의 좌표로 되돌려 쓸 뿐이다. 
 
-### ③ Hessian 없이 계산하기, 그리고 FOMAML
+## ③ Hessian 없이 계산하기, 그리고 FOMAML
 
 계산은 어떻게 할까? 우선 $H_i$라는 $d \times d$ 행렬은 만들지 않는다. $v = \nabla\mathcal{L}_{\mathcal{D}_i'}(\theta_i')$로 두면 식 (8)은 $v - \alpha H_i v$이므로 우리가 구할 것은 Hessian-vector product $H_i v$ 하나뿐이다. 이 값은 $H_i v = \nabla_\theta\big(\nabla_\theta\mathcal{L}_{\mathcal{D}_i}(\theta)^\top v\big)$처럼 역전파를 한 번 더 돌려 $O(d)$ 메모리로 얻는다. 원문이 식 (1) 다음 문단에서 "gradient through a gradient"와 Hessian-vector product를 언급하는 곳이 바로 이 자리다.
 
@@ -190,7 +188,7 @@ $$
 
 손실이 이차식인 여러 task에서 MAML·FOMAML·합동 학습이 각각 어느 점을 찾아가고 어떤 경로를 밟는지는 [실험실의 MAML 이차 task 예시](/lab/maml-quadratic-tasks/)에서 직접 움직여 볼 수 있다.
 
-## 4. 논문이 주어진 것으로 놓은 것
+# 4. 논문이 주어진 것으로 놓은 것
 
 Algorithm 1의 첫 줄은 `Require: p(T)`다. 즉, task 분포는 알고리즘이 받는 **입력**이다. 논문은 이 분포를 만들지도 고르지도 배우지도 않는다. §2.1을 살펴보면 task를 손실 $\mathcal{L}$, 초기 관측 분포 $q(\mathbf{x}_1)$, 전이 분포 $q(\mathbf{x}_{t+1}\mid\mathbf{x}_t,\mathbf{a}_t)$, 에피소드 길이 $H$의 묶음으로 정의한 뒤 "모델이 적응하길 바라는 task들의 분포 $p(\mathcal{T})$"를 생각한다고만 적혀 있다("we consider a distribution over tasks $p(\mathcal{T})$ that we want our model to be able to adapt to").
 
@@ -204,7 +202,7 @@ Algorithm 1의 첫 줄은 `Require: p(T)`다. 즉, task 분포는 알고리즘�
 > Figure 1은 세 task의 최적해가 한 갈림길 근처에 모여 있는 모습으로 그려져 있다. 출발점 하나로 충분하다는 전제는 이 그림에 기대고 있다고 본다.
 
 
-## 5. 남긴 빈틈
+# 5. 남긴 빈틈
 
 <!-- 점검: task family의 범위와 task별 최적해 집합의 지름을 구분한다 (오개념 4). -->
 
@@ -216,12 +214,12 @@ Algorithm 1의 첫 줄은 `Require: p(T)`다. 즉, task 분포는 알고리즘�
 
 이 방식은 왜 잘 될까? 여기에도 원 논문은 직관(손실이 파라미터 변화에 민감한 지점을 찾는다)만 건넨다. 그 설명은 후속 연구들이 나눠서 채웠다. 메커니즘은 Nichol et al.(2018)의 Taylor 전개가, 수렴은 Fallah et al.(2020)이, 일반화는 Khodak et al.(2019)과 Raghu et al.(2020)이 맡는다.
 
-## 같은 질문의 다른 답
+# 같은 질문의 다른 답
 
 - **Reptile**(Nichol et al., 2018): 1차 근사는 안쪽 학습의 **계산**만 바꿨을 뿐 task 분포 가정은 건드리지 않았다. Algorithm 1은 매 반복 task를 뽑는 데서 출발하며 분석의 기대값도 같은 $p(\tau)$ 위에서 취한다. 업데이트 $\theta \leftarrow \theta + \epsilon(\theta_i' - \theta)$는 $\theta$를 적응한 지점 쪽으로 당긴다. 안쪽이 한 걸음이면 합동 학습의 SGD와 같아진다. MAML과 나란히 놓을 짝은 Reptile이 아니라 FOMAML이다.
 - **Probabilistic MAML**(Finn et al., 2018): 분포는 **초기화**에 둔다. task 분포에는 두지 않는다. $p(\mathcal{T})$는 여전히 주어지고 균등하게 뽑히며 모든 task가 하나의 Gaussian prior를 공유한다. 적은 데이터로는 task를 하나로 정할 수 없을 때가 있다. 그때의 불확실성, 곧 task 하나 안의 모호성만 달라졌다.
 
-## 참고자료
+# 참고자료
 
 - [Model-Agnostic Meta-Learning for Fast Adaptation of Deep Networks](https://arxiv.org/abs/1703.03400) — Finn, Abbeel, Levine. ICML 2017
 - [On First-Order Meta-Learning Algorithms](https://arxiv.org/abs/1803.02999) — Nichol, Achiam, Schulman. 2018

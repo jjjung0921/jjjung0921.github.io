@@ -20,9 +20,7 @@ tags:
   - knowledge representation
 ---
 
-# 관계가 하나 바뀌면 개념도 바뀌는가
-
-## CS에서의 ontology
+# CS에서의 ontology
 
 철학에서의 존재론(Ontology, 해당 시리즈 마지막에서 알아보겠다.)은 존재하는 것들의 본성과 구조를 탐구하는 학문이다. 반면 CS(Computer Science)에서의 ontology는 학문이 아니라 하나의 information object 혹은 computational artifact를 가리킨다. 즉, 만들어 쓰는 산출물이다. 여기서 '존재한다'는 말도 실용적으로 쓰인다. AI 시스템에게 존재하는 것은 표현할 수 있는 것이다(Gruber, Guarino et al. 2009).
 
@@ -45,9 +43,9 @@ Guarino et al.(2009)은 이 정의를 세 부분으로 쪼개 3가지 질문을 
 
 본 글에서는 첫 번째 질문에 대해서 알아본다.
 
-## 개념화(*Conceptualization*)란 무엇인가?
+# 개념화(*Conceptualization*)란 무엇인가?
 
-### 일상에서의 개념화
+## 일상에서의 개념화
 
 
 회사 안에 직원 a, b, c, d 4명이 있다고 하자.
@@ -61,7 +59,7 @@ Guarino et al.(2009)은 이 정의를 세 부분으로 쪼개 3가지 질문을 
 
 a와 b가 서로 협력하고 b와 c도 서로 협력한다고 하자. 두 쌍 $(a,b)$와 $(b,c)$는 서로 다른 관계가 아니라 협력이라는 하나의 관계에 속하는 두 사례(튜플)다. 즉, 협력이라는 단어 아래에는 공통적으로 내재된 "개념"이 존재한다. 이 개념이 어떤 두 사람이 협력 중인지를 가른다.
 
-### 논리학으로 표현한 개념화
+## 논리학으로 표현한 개념화
 
 앞서 살펴본 예시를 논리학으로 표현한다.
 
@@ -79,7 +77,7 @@ a와 b가 서로 협력하고 b와 c도 서로 협력한다고 하자. 두 쌍 $
 
 그리고 이 $(D, R)$을 *extensional relational structure*라고 부른다. Genesereth & Nilsson은 바로 이 $(D, R)$을 개념화(conceptualization)로 정의했다. 이름에 extensional이 들어간 이유는 $R$의 원소 하나하나가 평범한 수학적 관계이기 때문이다. 즉, 지금 이 순간 그 관계를 맺고 있는 튜플들의 목록(외연, extension)이다. 이 목록은 특정한 세계 상태 하나를 반영한다.
 
-#### extensional relation structure는 개념화를 반영하지 못한다.
+### extensional relation structure는 개념화를 반영하지 못한다.
 
 $\text{reports-to}$를 살펴보자.
 
@@ -95,13 +93,13 @@ $\text{reports-to}$를 살펴보자.
 
 이를 해결하기 위해 세계 상태(world state, $w$)를 정의하고 그 위에서 intensional relation을 정의해 conceptualization을 한다.
 
-#### 의미는 판정 규칙이다
+### 의미는 판정 규칙이다
 
 앞서 정의한 협력을 다시 보자. 협력의 의미는 지금 협력 중인 쌍의 목록이 아니었다. 목표 선언과 행동이라는 두 조건으로 협력 여부를 가르는 판정 규칙이었다. 원문은 이 규칙을 하나의 함수로 본다. 회사 전체의 행동 맥락(세계 상태)을 하나 받아 그 맥락에서 실제로 협력 중인 쌍의 목록을 돌려주는 함수다.
 
 이렇게 의미를 '세계 → 외연' 함수로 보는 방식은 Carnap에서 시작해 Montague 의미론으로 이어진 전통이다(왜 가능 세계여야 하는지는 2편에서 다룬다). 이 함수를 정식화하려면 먼저 입력이 될 세계 상태가 무엇인지 정해야 한다.
 
-#### Define the World ($W$)
+### Define the World ($W$)
 
 우선은 World에 대한 정의를 내려보자.
 
@@ -125,7 +123,7 @@ $\text{reports-to}$를 살펴보자.
 >
 > 즉, 내가 헷갈린 것은 '의미를 정의하는 일'과 '그 의미로 계산하는 일'을 같은 일로 본 부분이었다.
 
-#### Intensional relation (conceptual relation, $\mathcal{R}$)
+### Intensional relation (conceptual relation, $\mathcal{R}$)
 
 extensional relation structure가 conceptualization에 적합하지 않은 이유는 World State에 따라서 relation의 정의가 바뀌기 때문이었다. 
 
@@ -140,7 +138,7 @@ extensional relation structure가 conceptualization에 적합하지 않은 이�
 
 이렇게 하면 세계가 바뀔 때 바뀌는 것은 함수의 값 $\rho^n(w)$이다. 함수 $\rho^n$ 자체(개념)는 그대로다. extensional relation이 '외연 하나'라면 intensional relation은 '세계마다 외연을 정해 주는 규칙'이다.
 
-#### Intensional relational structure (conceptualization, $\mathbf{C}$)
+### Intensional relational structure (conceptualization, $\mathbf{C}$)
 
 Intensional relation을 활용하여 conceptualization을 진행한다면 
 
@@ -150,7 +148,7 @@ Intensional relation을 활용하여 conceptualization을 진행한다면
 
 여기서 $D$는 universe of discourse, $W$는 가능한 세계들의 집합, $\mathcal{R}$은 domain space $\langle D, W \rangle$ 위의 conceptual relation들의 집합이다.
 
-#### 다시 reports-to로: 하나의 개념화, 두 개의 세계
+### 다시 reports-to로: 하나의 개념화, 두 개의 세계
 
 a가 d에게 보고하기 전과 후의 두 상황은 이제 같은 $\mathbf{C}$ 안의 서로 다른 두 세계 $w_1, w_2$로 설명된다.
 
@@ -162,7 +160,7 @@ a가 d에게 보고하기 전과 후의 두 상황은 이제 같은 $\mathbf{C}$
 
 원문은 단순화를 위해 $\text{Person}^1$, $\text{Manager}^1$, $\text{Researcher}^1$ 같은 단항 관계는 rigid하다고 가정한다. 즉, 모든 세계에서 같은 외연을 갖는다. 예를 들어 모든 $w \in W$에 대해 $\text{Person}^1(w) = D$다. 반면 $\text{reports-to}^2$와 $\text{cooperates-with}^2$에는 그런 가정을 두지 않는다. 보고 관계와 협력 관계는 세계마다 달라질 수 있다.
 
-## 결론
+# 결론
 
 처음 질문으로 돌아가 보자. 직원 한 명의 보고 관계가 바뀔 때 바뀌는 것은 개념화가 아니라 세계다.
 
@@ -170,7 +168,7 @@ a가 d에게 보고하기 전과 후의 두 상황은 이제 같은 $\mathbf{C}$
 
 다만 이 정의는 아직 수학적 구조일 뿐이다. 의미를 왜 굳이 가능 세계에 대한 함수로 봐야 하는지는 2편에서, 이 구조를 언어의 기호로 가리키고 기호가 의도한 개념에 묶이게 하는 방법(두 번째 질문인 formal, explicit specification)은 3·4편에서 다룬다.
 
-## 참고자료
+# 참고자료
 
 - [Guarino, N., Oberle, D., & Staab, S. (2009). What Is an Ontology? In S. Staab & R. Studer (Eds.), *Handbook on Ontologies* (2nd ed., pp. 1–17). Springer.](https://doi.org/10.1007/978-3-540-92673-3_0)
 - [Gruber, T. R. (1993). A Translation Approach to Portable Ontology Specifications. *Knowledge Acquisition*, 5(2), 199–220.](https://doi.org/10.1006/knac.1993.1008)

@@ -20,9 +20,7 @@ connection: "DDA에서 사용자의 실력을 향상시키는 방향으로 Oppon
 tags: ["optimization", "performative prediction", "fixed-point", "convergence", "distribution-shift"]
 ---
 
-# 우리의 결정은 환경을 변화시킨다.
-
-## 0. GMS theorem: 우리의 예측이 정확할 수 있는가
+# 0. GMS theorem: 우리의 예측이 정확할 수 있는가
 
 기존의 Machine Learning의 기법은 **Data($Z$)의 분포($D$)가 fixed**($Z\sim D$)된 환경에서 동작하도록 설계되었다.
 
@@ -36,9 +34,9 @@ $$
 
 다만 GMS는 해의 존재성만을 증명하며 스칼라값에서만 동작한다. 이를 분포로 확장하고 해를 구하는 방식으로 확장한 ML 기법이 Performative Prediction(PP)이다.
 
-## 1. Performative Prediction: 어떻게 정확한 예측값을 찾을 수 있는가
+# 1. Performative Prediction: 어떻게 정확한 예측값을 찾을 수 있는가
 
-### GMS Theorem formulate
+## GMS Theorem formulate
 
 앞서 간단하게 살펴본 GMS theorem의 문제를 정의해본다.
 
@@ -58,11 +56,11 @@ $$
 4. $R$을 안다고 가정한다.
    - GMS는 응답함수 $R$을 수학적으로 주어진 함수로 취급한다. ML에서는 $\mathcal{D}(\theta)$는 알 수 없다. 배포한 뒤 유한적인 데이터만을 관측할 수 있다.
 
-## 2. Extends GMS to PP
+# 2. Extends GMS to PP
 
 위 제약들을 해결하여 GMS를 ML로 확장한 것이 PP이다. 각 제약을 어떻게 풀어냈는지 살펴보자.
 
-### 2.0 **Distribution Map - "key conceptual device"**
+## 2.0 **Distribution Map - "key conceptual device"**
 
 모델 파라미터($\theta \in \Theta \subseteq \mathbb{R}^d$)를 선택하고 모델($f_\theta$)를 배포하면 그 결과로 데이터 분포 $\mathcal{D}(\theta)$가 형성된다.
 
@@ -92,7 +90,7 @@ PP가 묻는 질문은 이제 두 가지가 된다.
 
 우리는 위 두 질문에 대해 각각의 평가 기준을 세워서 평가하고자 한다.
 
-### 2.1 Performative Stability: GMS fixed Point
+## 2.1 Performative Stability: GMS fixed Point
 
 $$
 \theta_{\text{PS}}\in\argmin_\theta \mathbb{E}_{Z\sim \mathcal{D}(\theta_{\text{PS}})}\ell(Z;\theta)
@@ -114,7 +112,7 @@ $$
 
 $\theta_{\text{PS}}$가 만든 환경에서 $\theta$를 통해 생성된 모델을 평가한다. 평가되는 환경과 모델이 생성되는 환경이 동일하다면 **Performative stable**하다고 할 수 있다.
 
-### 2.2 Performative Optimality: Stackelberg equilibria
+## 2.2 Performative Optimality: Stackelberg equilibria
 
 $$
 \begin{aligned}
@@ -133,15 +131,15 @@ PR은 **모델이 탄생시킨 데이터 환경에서** 모델의 성능을 측�
 
 > [!warning] 두 해 개념은 일반적으로 **일치하지 않는다.** $\theta_{\text{PO}}$는 최선이지만 배포 후 재학습하면 다른 곳으로 옮겨가고(불안정), $\theta_{\text{PS}}$는 안정하지만 최선이 아니다. 이 간극을 재는 것은 다음 글의 주제이며, 이번 글은 **도달 가능한 쪽**인 $\theta_{\text{PS}}$에 집중한다.
 
-### PR와 DPR의 시각적 비교
+## PR와 DPR의 시각적 비교
 
 ![PR vs DPR|500](image.png "그림 1. PR은 모델이 만든 환경에서, DPR은 분리된 환경에서 성능을 측정한다.")
 
-## 3. How to find stable points?
+# 3. How to find stable points?
 
 이제 우리는 Performative Prediction 문제를 정의할 수 있게 되었다. 그렇다면 해는 어떻게 구할까? 이를 알려면 **수렴 가능성(convergence)** 을 먼저 판단해야 한다.
 
-### 3.0 Repeated risk minimization
+## 3.0 Repeated risk minimization
 
 Performative Prediction의 동작 과정을 복기해보자. 우리의 최적화 대상은 $\theta$이다.
 
@@ -158,7 +156,7 @@ $$
 
 수렴하려면 고정된 분포에서 risk minimization이 주는 안정화 효과가 모델 배포로 발생하는 distribution shift의 교란보다 강해야 한다.
 
-### 3.1 $\varepsilon$-sensitivity
+## 3.1 $\varepsilon$-sensitivity
 
 분포의 변화량을 확인하기 위해 Wasserstein-1 distance($W_1$)을 도입한다. 이를 $L_2$를 적용한 $\theta$ 변화량과 비교하여 분포 변화의 민감도를 구한 것이 $\varepsilon$-sensitivity이다.
 
@@ -168,7 +166,7 @@ $$
 
 > [!info] Wasserstein distance는 확률 분포 간의 거리를 측정하는 방법이다.
 
-### 3.2 $\gamma$-strongly convex
+## 3.2 $\gamma$-strongly convex
 
 > [!tip] 볼록성과 관련된 내용은 최적화와 밀접한 관련이 있기에 따로 정리해보고자 한다.
 
@@ -186,7 +184,7 @@ $$
 \forall \theta,\theta'\in\Theta,\; z\in\mathcal Z.
 $$
 
-### 3.3 $\beta$-jointly smooth
+## 3.3 $\beta$-jointly smooth
 
 $$
 \left\|
@@ -222,7 +220,7 @@ $\theta$와 $z$에 대한 $\nabla_\theta\ell(z;\theta)$의 $\beta$-Lipschitz를 
 
 > [!tip] Lipschitz는 **축약사상(contraction map)** 에 대한 개념과 연관이 있으므로 축약 사상과 함께 따로 다뤄보겠다.
 
-### 3.4 Convergence of RRM
+## 3.4 Convergence of RRM
 
 이제 수렴 증명을 위한 토대가 모두 준비되었다. loss function을 $\beta$-jointly smooth 하며 $\gamma$-strongly convex하다고 가정하자.
 
@@ -287,7 +285,7 @@ $$
 
 >[!tip] 세 가정 중 어느 하나만 제거해도 RRM이 발산하는 반례가 존재한다(Prop 3.6). 특히 볼록이지만 강볼록이 아닌 선형 손실에서는 sensitivity가  아무리 작아도 1, −1, 1, −1, 1, −1, 1, −1로 진동한다. 지도학습에서 속도만 좌우하던 강볼록성이, 성능성 환경에서는 수렴의 필요조건으로 격상된다.
 
-### 3.5 Repeated gradient descent
+## 3.5 Repeated gradient descent
 
 RRM은 매 반복마다 정확한 최소화 오라클(exact optimization oracle)을 필요로 한다. 실제로는 한 번의 학습조차 근사적으로 끝내는 것이 보통이므로 이를 **경사하강 한 스텝**으로 대체한 것이 **Repeated Gradient Descent(RGD)** 이다.
 
@@ -350,7 +348,7 @@ RRM과 RGD를 한 눈에 비교하면 아래와 같다.
 | 수렴            | 선형                       | 선형 (더 느림)                                          |
 | $\varepsilon=0$ | 1스텝에 수렴               | 고전 GD 수렴률                                          |
 
-## 4. 정리 — 무엇을 답했고 무엇이 남았는가
+# 4. 정리 — 무엇을 답했고 무엇이 남았는가
 
 이번 글은 한 가지 질문에 답했다. **"모델이 데이터 분포를 바꾸는 환경에서, 재학습은 한 점으로 수렴하는가?"**
 
@@ -368,11 +366,11 @@ $$
 
 그러나 여기까지는 **"재학습이 어디로 가는가"** 에 대한 답이다. 아직 두 가지가 남아 있다.
 
-### 남은 문제 1: 모집단 가정
+## 남은 문제 1: 모집단 가정
 
 위 논의는 모두 "모집단 수준(population level)"에서 이루어졌다. 즉 $\mathcal{D}(\theta_t)$에 대한 기댓값을 정확히 계산할 수 있다고 가정했다. 그러나 1장에서 지적했듯 현실에서 우리가 관측하는 것은 배포 이후의 **유한한 표본**뿐이다. 원 논문은 이 경우에도 고확률로 안정점 근방에 도달하고 그 안에 머문다는 것을 보인다(RERM/REGD).
 
-### 남은 문제 2: $\theta_{\text{PS}}$는 $\theta_{\text{PO}}$가 아니다
+## 남은 문제 2: $\theta_{\text{PS}}$는 $\theta_{\text{PO}}$가 아니다
 
 더 근본적인 문제가 남았다. 2장에서 우리는 해 개념을 **2가지**로 정의했다.
 
@@ -398,11 +396,11 @@ $\theta_{\text{PS}}$는 자신이 유발한 데이터로는 반박되지 않는�
 
 이 답까지 갖춰야 프레임워크가 완성된다.
 
-## 참고문헌
+# 참고문헌
 - Hardt, Moritz, and Celestine Mendler-Dünner. "Performative prediction: Past and future." Statistical Science 40.3 (2025): 417-436.
 - Perdomo, Juan, et al. "Performative prediction." International Conference on Machine Learning. PMLR, 2020.
 
-## 연결
+# 연결
 
 - 관련 프로젝트: staged DDA matgo
 - 관련 실험:

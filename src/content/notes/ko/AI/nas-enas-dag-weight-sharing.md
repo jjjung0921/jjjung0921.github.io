@@ -15,12 +15,10 @@ connection: "가중치 공유는 NAS의 계산량을 크게 줄였지만, search
 tags: ["nas", "enas", "weight-sharing", "supernet", "dag", "ranking"]
 ---
 
-# ENAS는 하나의 DAG에서 어떻게 여러 네트워크의 가중치를 공유했나?
-
-## 작성 배경
+# 작성 배경
 이 글은 내가 Notion에 작성한 [ENAS 리뷰](https://app.notion.com/p/331fb10f650180dfb36fe480228ae9e4)를 바탕으로 썼다. 논문 선택과 핵심 해석은 내 원문에서 출발했으며 GPT로 블로그에 맞게 구조와 표현을 재구성한 뒤 원문과 원 논문을 대조해 직접 검수했다. ranking bias와 후속 방법의 의미는 원 논문 및 평가 연구와 대조해 보완했다.
 
-## 문제: 후보마다 학습을 다시 시작한다
+# 문제: 후보마다 학습을 다시 시작한다
 초기 NAS의 가장 큰 비용은 controller update 자체보다 reward를 얻는 과정에 있었다. architecture $a$를 하나 뽑을 때마다 child weight $w_a$를 학습하고 validation accuracy를 재야 했기 때문이다.
 
 $$
@@ -31,7 +29,7 @@ $$
 
 ENAS의 질문은 단순하다. 후보가 convolution이나 hidden-state transformation을 공유한다면 그 parameter도 다시 쓸 수 있지 않을까?
 
-## Supernet DAG와 subgraph
+# Supernet DAG와 subgraph
 ENAS는 가능한 architecture를 하나의 큰 DAG 안에 넣는다.
 
 $$
@@ -46,7 +44,7 @@ $$
 
 $m_a$는 architecture $a$가 선택한 edge와 operation만 켜는 mask로 생각할 수 있다. 서로 다른 subgraph가 같은 edge operation을 선택하면 같은 parameter를 이어서 쓴다.
 
-## 두 종류의 parameter를 번갈아 학습한다
+# 두 종류의 parameter를 번갈아 학습한다
 ENAS에는 두 parameter 집합이 있다.
 
 - shared child weight $w$
@@ -70,7 +68,7 @@ $$
 
 실제로는 두 식의 optimum을 정확히 구하지 않고 mini-batch 단위로 번갈아 업데이트한다. ENAS를 DARTS의 명시적인 differentiable bi-level objective와 완전히 같은 것으로 보면 안 된다. ENAS는 policy gradient와 shared-weight training을 교대하는 구조다.
 
-## 무엇이 싸졌는가
+# 무엇이 싸졌는가
 ENAS는 **후보 평가 비용**을 줄였다. 후보 생성 수는 줄이지 않았다.
 
 - 후보마다 weight를 처음부터 학습하지 않는다
@@ -79,7 +77,7 @@ ENAS는 **후보 평가 비용**을 줄였다. 후보 생성 수는 줄이지 �
 
 하지만 이 reward는 독립 학습 성능이 아니라 supernet 안에서 빌린 weight로 얻은 proxy다.
 
-## 가중치 공유가 만든 ranking 문제
+# 가중치 공유가 만든 ranking 문제
 우리가 실제로 원하는 순위는 다음과 같다.
 
 $$
@@ -111,7 +109,7 @@ $$
 
 ENAS는 "모든 후보를 싸게 완성했다"가 아니라 "한 학습 과정에서 얻은 proxy로 후보를 비교했다"에 가깝다.
 
-## 후속 연구가 고친 것
+# 후속 연구가 고친 것
 | 방법 | 핵심 수정 | 해결하려는 문제 |
 |---|---|---|
 | SPOS | 한 step에 single path만 활성화 | path coupling 감소 |
@@ -121,7 +119,7 @@ ENAS는 "모든 후보를 싸게 완성했다"가 아니라 "한 학습 과정�
 
 이 방법들도 ranking을 자동으로 보장하지는 않는다. 공정한 sampling은 필요조건에 가깝다. 최종 후보의 standalone retraining은 여전히 별도 검증이다.
 
-## 한계와 다음 아이디어
+# 한계와 다음 아이디어
 weight sharing을 쓴 실험에서는 최소한 세 점수를 분리해서 보고해야 한다.
 
 1. supernet 안의 search-time score
@@ -130,7 +128,7 @@ weight sharing을 쓴 실험에서는 최소한 세 점수를 분리해서 보�
 
 후보 순위의 Kendall 또는 Spearman correlation을 함께 보고 random search와 동일 예산 baseline도 남겨야 한다. 속도를 얻은 만큼 평가 계약을 더 엄격하게 만드는 것이 weight-sharing NAS의 핵심 과제다.
 
-## 참고자료
+# 참고자료
 - [Efficient Neural Architecture Search via Parameter Sharing](https://arxiv.org/abs/1802.03268)
 - [Evaluating the Search Phase of Neural Architecture Search](https://arxiv.org/abs/1902.08142)
 - [Single Path One-Shot Neural Architecture Search](https://arxiv.org/abs/1904.00420)

@@ -15,13 +15,11 @@ connection: "Keep the algorithm as is and make the rule for grouping tasks the o
 tags: ["meta-learning", "maml", "task-distribution", "few-shot"]
 ---
 
-# MAML Takes the Task Distribution as Given
-
-## One-sentence summary
+# One-sentence summary
 
 Earlier work tried to learn fast through devices outside the model, such as optimizers, metrics, or memory, or started fine-tuning from a parameter that performs well on average over the set of tasks ($\mathcal{T}$). MAML instead defines a good meta parameter as the point from which fine-tuning is fastest, and proposes a method for finding that point. MAML can be used without restriction (model-agnostic) by any model trained with gradient descent.
 
-## 1. Limits of earlier approaches
+# 1. Limits of earlier approaches
 
 Methods for learning quickly from little data (few-shot learning) fell into four groups.
 
@@ -41,7 +39,7 @@ Methods for learning quickly from little data (few-shot learning) fell into four
 
     The notion of "adaptation" is left out. A model trained on many sine waves cannot adapt to a new task by fine-tuning on a few points, because of catastrophic overfitting.
 
-## 2. Core idea: what is optimized
+# 2. Core idea: what is optimized
 
 If a model is trained by gradient-descent-based fine-tuning, find the point from which gradient descent makes progress fastest. Then the model adapts to a new task in only a few steps. This works without restriction for any model that uses gradient descent.
 
@@ -111,9 +109,9 @@ Three points deserve attention in MAML.
 
 A general bi-level problem solves the inner problem to optimality, whereas MAML cuts the inner problem off after a fixed number of steps. That is why $\theta_i'$ comes out as an explicit expression in $\theta$ and (2) can be differentiated directly.
 
-## 3. How the meta-gradient is computed
+# 3. How the meta-gradient is computed
 
-### The big picture: two pieces of the chain rule
+## The big picture: two pieces of the chain rule
 
 From here on, the two losses are distinguished by their data: $\mathcal{L}_{\mathcal{D}_i}$ for adaptation and $\mathcal{L}_{\mathcal{D}_i'}$ for evaluation. Parameters are passed directly as arguments instead of $f_\theta$.
 
@@ -131,7 +129,7 @@ $$
 
 Figure 1 is a map of this flow. The solid lines are the forward pass in which $\theta$ enters $\theta_i'$ along two paths; ① comes from exactly these two paths. The dashed lines are the backward pass: the gradient $v$ measured at $\theta_i'$ (②) walks back along the same two paths to $\theta$, which is the product above. The next subsection identifies path 1 and path 2 in equations.
 
-### ① How much $\theta$ moves $\theta_i'$: two paths
+## ① How much $\theta$ moves $\theta_i'$: two paths
 
 Equation (2) is a function of $\theta$ alone, so the gradient in (3) must also be taken with respect to $\theta$. Yet the loss is measured at $\theta_i'$. So we first need to know how $\theta_i'$ changes when $\theta$ moves a little.
 
@@ -159,7 +157,7 @@ $$
 \qquad (7)
 $$
 
-### ② Bringing the gradient measured at $\theta_i'$ back to $\theta$
+## ② Bringing the gradient measured at $\theta_i'$ back to $\theta$
 
 Applying the chain rule now gives the meta-gradient of task $i$. Since $H_i$ is symmetric, no transpose appears.
 
@@ -170,7 +168,7 @@ $$
 
 The two factors are measured at different places. The gradient on the right is measured **after** adaptation at $\theta_i'$ on $\mathcal{D}_i'$, while the Hessian on the left is measured **before** adaptation at $\theta$ on $\mathcal{D}_i$. Equation (8) only rewrites the gradient measured at $\theta_i'$ in the coordinates of $\theta$ through $(I-\alpha H_i)$.
 
-### ③ Computing without the Hessian, and FOMAML
+## ③ Computing without the Hessian, and FOMAML
 
 How is it computed? First, the $d \times d$ matrix $H_i$ is never formed. Writing $v = \nabla\mathcal{L}_{\mathcal{D}_i'}(\theta_i')$, (8) becomes $v - \alpha H_i v$, so all we need is the Hessian-vector product $H_i v$. It is obtained with $O(d)$ memory by one more backward pass, $H_i v = \nabla_\theta\big(\nabla_\theta\mathcal{L}_{\mathcal{D}_i}(\theta)^\top v\big)$. This is where the paper, in the paragraph after equation (1), mentions "a gradient through a gradient" and Hessian-vector products.
 
@@ -181,7 +179,7 @@ Cutting path 2 and replacing (7) with $I$ is called **FOMAML**. The meta-gradien
 
 You can see which point MAML, FOMAML, and joint training each move to, and along which path, on several tasks with quadratic losses in the [MAML quadratic task example in the lab](/en/lab/maml-quadratic-tasks/).
 
-## 4. What the paper takes as given
+# 4. What the paper takes as given
 
 The first line of Algorithm 1 is `Require: p(T)`. The task distribution is an **input** to the algorithm. The paper neither builds, chooses, nor learns it. §2.1 defines a task as a loss $\mathcal{L}$, an initial observation distribution $q(\mathbf{x}_1)$, a transition distribution $q(\mathbf{x}_{t+1}\mid\mathbf{x}_t,\mathbf{a}_t)$, and an episode length $H$, and then only says it considers "a distribution over tasks $p(\mathcal{T})$ that we want our model to be able to adapt to".
 
@@ -194,7 +192,7 @@ In practice, then, the experimenter sets $p(\mathcal{T})$: the amplitude range $
 > [!interpretation] My interpretation
 > Figure 1 of the paper draws the optima of three tasks gathered near a single fork. I think the premise that one starting point is enough leans on this picture.
 
-## 5. The gaps it left
+# 5. The gaps it left
 
 The paper moved past three questions without asking them.
 
@@ -204,12 +202,12 @@ The paper moved past three questions without asking them.
 
 Why does this approach work at all? Here too the original paper offers only an intuition (it finds a point where the loss is sensitive to parameter changes). Later work filled in the explanation piece by piece: the mechanism through the Taylor expansion of Nichol et al. (2018), convergence through Fallah et al. (2020), and generalization through Khodak et al. (2019) and Raghu et al. (2020).
 
-## Other answers to the same question
+# Other answers to the same question
 
 - **Reptile** (Nichol et al., 2018): the first-order approximation changed only the **computation** of the inner loop and left the task-distribution assumption untouched. Algorithm 1 starts each iteration by drawing a task, and the expectations in the analysis are taken over the same $p(\tau)$. The update $\theta \leftarrow \theta + \epsilon(\theta_i' - \theta)$ pulls $\theta$ toward the adapted point. With a single inner step it coincides with SGD on joint training. MAML's counterpart for comparison is FOMAML, not Reptile.
 - **Probabilistic MAML** (Finn et al., 2018): the distribution is placed on the **initialization**, not on tasks. $p(\mathcal{T})$ is still given and sampled uniformly, and all tasks share one Gaussian prior. Sometimes a few data points cannot pin down a single task; only that uncertainty, the ambiguity within one task, changed.
 
-## References
+# References
 
 - [Model-Agnostic Meta-Learning for Fast Adaptation of Deep Networks](https://arxiv.org/abs/1703.03400) — Finn, Abbeel, Levine. ICML 2017
 - [On First-Order Meta-Learning Algorithms](https://arxiv.org/abs/1803.02999) — Nichol, Achiam, Schulman. 2018

@@ -15,13 +15,11 @@ connection: "MAML covers only the direction in which the model adapts to the per
 tags: ["research-roadmap", "personalization", "meta-learning", "maml", "few-shot"]
 ---
 
-# A model that fits one person must first learn how to learn fast
-
 In the [tutorial](/en/notes/roadmap-tutorial-personal-agentic-model/) I set the goal: **build an agentic model that adapts to a single user.** Of the three verbs, this stage takes on "adapt."
 
 > What capability does a model that fits a single user need, and what does it become when written as a learning problem?
 
-## 0. Personal data: why ordinary learning gets stuck
+# 0. Personal data: why ordinary learning gets stuck
 
 The data we get from one person is scarce, and it differs from person to person. When both properties hold, ordinary supervised learning gets stuck whichever way we go.
 
@@ -35,7 +33,7 @@ If I train a separate model for each person, individual differences survive but 
 
 Today's LLM agents handle this problem with **memory**. They store the user's history and read it back into the context every time. The result does fit the person, but the parameters stay the same. As the history grows, the context to read gets longer and the compute grows with it. The model I want fits the person without reading more.
 
-## 1. Person = task: turning the dilemma into a learning problem
+# 1. Person = task: turning the dilemma into a learning problem
 
 So can we take only the strengths of both approaches? We can, if we view one person not as one data point but as one **task**. Then "learn, from many people, how to learn a new person quickly" becomes a learning problem.
 
@@ -52,7 +50,7 @@ Shared starting point θ
 That individual's parameters φ
 ```
 
-## 2. MAML: putting adaptation inside the objective
+# 2. MAML: putting adaptation inside the objective
 
 Meta-learning also has branches that learn an optimizer, branches that learn a metric space, and branches that add a memory structure. Among them, **Model-Agnostic Meta-Learning** (MAML) fits my goal for two reasons. It treats adaptation as a few gradient descent steps, so it works with any model trained by gradient descent. And it puts the loss **after** adaptation into the objective. I repeat the one-sentence summary from B1 (forthcoming).
 
@@ -77,23 +75,23 @@ $\mathcal{L}_i$ is the loss on person $i$'s adaptation data, and $\mathcal{L}_i'
 > [!interpretation] My interpretation
 > As I wrote in the [tutorial](/en/notes/roadmap-tutorial-personal-agentic-model/), NAS had to search for an architecture per person, and that compute was out of reach. MAML finds a single starting point $\theta$ shared by everyone, and each person only takes a few steps from there. The expensive search happens once in meta-train, and the cost for one individual drops to a few gradient steps. The shape of equation (2) is also familiar. It is a two-level structure: $\theta$ on the outside, per-person $\phi_i$ on the inside. This is the same shape as DARTS splitting architecture and weights into two levels. I return to this shape in Stage 3.
 
-## 3. Summary: what was answered and what remains
+# 3. Summary: what was answered and what remains
 
 In one sentence:
 
 > The ability to fit an individual is learning quickly from few observations, and with each individual as a task it becomes the problem of finding a starting point that makes the post-adaptation loss small, which is MAML.
 
-### Open problem 1: only one direction
+## Open problem 1: only one direction
 
 In equation (2), only the model moves. It assumes person $i$'s data stays the same no matter what the model does. MAML covers only the direction in which the model adapts to the person. But an agentic model makes decisions, and those decisions change the person.
 
-### Open problem 2: who gets grouped into one distribution
+## Open problem 2: who gets grouped into one distribution
 
 The sum in equation (2) is taken over a distribution of people $p(\mathcal{T})$. MAML only receives this distribution as an input. It says nothing about which individuals to group into one distribution. I set this question aside and pick it up again in Stage 5.
 
 In the next stage I take open problem 1 and look at what breaks when the model's decisions change the person's data.
 
-## Connections
+# Connections
 
 - Related project: [General staged-DDA](/en/projects/dda-blackjack/) — the second level, which treats players as tasks (Stage 4)
 - Related experiments: none. I follow the two-level gradient computation in MAML Task Paradigms B1 (forthcoming).

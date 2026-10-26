@@ -20,9 +20,7 @@ connection: "dependency graph, ESM static structure, constant folding, dead code
 tags: ["architecture", "bundler", "vite", "webpack", "moment-coffee"]
 ---
 
-# What Does a Bundler Actually Remove?
-
-## 1. The question part 1 left open
+# 1. The question part 1 left open
 
 In [part 1](/en/notes/tenant-split-frontend-backend/) we decided to build the frontend separately per merchant. The basis was clause C2 of the specification.
 
@@ -38,7 +36,7 @@ That is what turned the bundler choice into an architectural decision, and we ad
 
 ---
 
-## 2. What bundlers were originally for
+# 2. What bundlers were originally for
 
 It started as a simple problem: **browsers didn't understand module systems.**
 
@@ -62,9 +60,9 @@ The third one is what matters to us: **the bundler knows the whole graph, so it 
 
 ---
 
-## 3. The mechanism — build a graph, shrink it, cut it
+# 3. The mechanism — build a graph, shrink it, cut it
 
-### 3.1 Build a graph from the entry point
+## 3.1 Build a graph from the entry point
 
 A bundler starts from one entry point and follows every `import`.
 
@@ -79,7 +77,7 @@ main.tsx
 
 When the traversal ends you have **the set of reachable modules.** A file not in that set doesn't enter the bundle even if it exists in the project. That is the first filter.
 
-### 3.2 Shake out unused exports — tree-shaking
+## 3.2 Shake out unused exports — tree-shaking
 
 Even within reachable modules, some parts go unused.
 
@@ -105,7 +103,7 @@ const fn = require("./utils")[name];   // only known at runtime
 
 What gets used is decided at runtime, so the bundler **can remove nothing.** This is the fundamental premise of tree-shaking: **it has to be statically determined before it can be removed.**
 
-### 3.3 Once a value is fixed, branches go too
+## 3.3 Once a value is fixed, branches go too
 
 This is where part 1's requirement connects directly. Bundlers also clean up conditionals whose value is settled.
 
@@ -124,7 +122,7 @@ if (DEBUG) { ... }        // fold DEBUG to false → if (false) → removed
 
 The crux is **whether it can be folded.** If the value flows through variables or comes from a function call, the bundler can't fold it — and without folding, the branch can't go.
 
-### 3.4 Cut into chunks
+## 3.4 Cut into chunks
 
 On encountering `import()`, the bundler makes a separate file (chunk) at that boundary. It's the mechanism for deferring code not needed on initial load.
 
@@ -138,7 +136,7 @@ Remove the branch and the `import()` inside goes with it. **It drops out of the 
 
 ---
 
-## 4. Where our requirement sits in this mechanism
+# 4. Where our requirement sits in this mechanism
 
 Now C2 can be placed onto the mechanism. All it needs is one thing: **make the module flag a literal.**
 
@@ -187,11 +185,11 @@ the reward chunk is never generated
 
 ---
 
-## 5. Where this actually breaks
+# 5. Where this actually breaks
 
 This is **a structure held together by discipline**, not something a library guarantees. It has failure modes, and two are overwhelmingly common.
 
-### F1. Passing the flag via `import.meta.env.VITE_*`
+## F1. Passing the flag via `import.meta.env.VITE_*`
 
 `.env` values are **always strings.**
 
@@ -202,7 +200,7 @@ if (import.meta.env.VITE_MODULE_REWARD) { ... }   // "false" is truthy
 
 The string `"false"` is truthy, so the branch is **never** removed. You need a real boolean literal via `define` + `JSON.stringify(boolean)`.
 
-### F2. Declaring the dynamic import at module top level
+## F2. Declaring the dynamic import at module top level
 
 ```ts
 // don't — the import is already in the graph
@@ -215,7 +213,7 @@ Erase the branch and the declaration above still stands, so 3.1 has already mark
 > [!warning] Why these two are especially dangerous
 > F1 and F2 **behave completely normally.** Screens render, routing works, tests pass. The only thing wrong is bundle size, and that is visible only by opening the bundle.
 
-### Hence the CI gate
+## Hence the CI gate
 
 Nobody can check this by hand every time, so automate it. Add a pipeline stage that inspects the build output for **any trace of inactive modules.**
 
@@ -230,9 +228,9 @@ Part 1 claimed C2 is satisfied; this is the device that **keeps that claim true 
 
 ---
 
-## 6. Where Vite and Webpack diverge
+# 6. Where Vite and Webpack diverge
 
-### 6.1 Dev server — to bundle or not
+## 6.1 Dev server — to bundle or not
 
 **Webpack** bundles during development too. Edit a file and it rebundles the affected range before serving. As the project grows, both cold start and updates slow down together.
 
@@ -240,7 +238,7 @@ Part 1 claimed C2 is satisfied; this is the device that **keeps that claim true 
 
 This difference is most of why Vite is known — but **it has nothing directly to do with our decision.** C2 is a production-build problem.
 
-### 6.2 Production build — the engine changed in Vite 8
+## 6.2 Production build — the engine changed in Vite 8
 
 This part shifted recently and is worth stating precisely.
 
@@ -254,13 +252,13 @@ On the Vite team's published 19,000-module benchmark, a production build went fr
 
 **That number carries specific weight in our context.** With N merchants, we run the build N times. Part 1 recorded "full build exceeding 15 minutes" as a review trigger, and build engine speed **directly postpones when that trigger fires.** In a typical project build time is developer convenience; in our structure it is a scaling limit.
 
-### 6.3 Tree-shaking quality
+## 6.3 Tree-shaking quality
 
 Rollup-family analysis over ESM graphs has long had a reputation for thoroughness, and comparisons of the same project tend to report smaller output from Vite than from Webpack. Webpack has kept improving tree-shaking since v5, but it has to support broad CommonJS interop, which pushes its judgments toward the conservative in places.
 
 That said, this is **a difference of degree, not of possible versus impossible.** The next point matters more.
 
-### 6.4 Configuration philosophy
+## 6.4 Configuration philosophy
 
 **Webpack can satisfy our requirement too.** `DefinePlugin` does the same job as `define`.
 
@@ -284,7 +282,7 @@ Webpack's large configuration surface is **not a weakness but a different purpos
 
 ---
 
-## 7. So why Vite for this project
+# 7. So why Vite for this project
 
 Two reasons.
 
@@ -296,7 +294,7 @@ Two reasons.
 
 ---
 
-## 8. When Vite is the wrong choice
+# 8. When Vite is the wrong choice
 
 The other side, for the record. If any of the following applies, don't carry this decision over.
 
@@ -309,7 +307,7 @@ Our project is new, its dependencies are modern, and it isn't a micro-frontend. 
 
 ---
 
-## 9. Next post
+# 9. Next post
 
 That closes the bundler thread. In summary:
 
@@ -319,7 +317,7 @@ The next post moves to the state layer. The moment the backend becomes the sourc
 
 ---
 
-## References
+# References
 
 - [Vite 8 Beta: The Rolldown-powered Vite](https://vite.dev/blog/announcing-vite8-beta) — Rolldown integration and benchmarks
 - [Rolldown Integration | Vite](https://v7.vite.dev/guide/rolldown) — the opt-in guide as of Vite 7

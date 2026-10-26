@@ -15,19 +15,17 @@ connection: "This post is the reference point for the design principles of one-s
 tags: ["object-detection", "one-stage-detection", "yolo", "regression", "real-time"]
 ---
 
-# How did YOLO v1 turn detection into a single regression problem?
-
-## Background
+# Background
 This post is based on my Notion write-ups [Yolo V1](https://app.notion.com/p/340fb10f650181978f97fe76928784db) and [Computer Vision](https://app.notion.com/p/374fb10f6501808780eadc667ec72fee), restructured and rephrased with GPT and then reviewed by me against my notes and the original papers. YOLO summarizes my Notion notes directly; the R-CNN family appears only as a comparison checked against the source papers.
 
-## Problem
+# Problem
 Solving detection the classifier way means producing candidates separately and then classifying them again.
 That process is good for accuracy but tends to hurt real-time performance.
 
 YOLO v1 changes that discomfort head-on.
 It rewrites detection as "one regression" rather than "classify, then localize."
 
-## Core idea
+# Core idea
 YOLO v1's idea fits in three lines.
 
 1. Divide the image into an $S \times S$ grid
@@ -36,12 +34,12 @@ YOLO v1's idea fits in three lines.
 
 This structure makes YOLO a one-stage detector — candidate generation and discrimination are never separated.
 
-## Method
-### Grid
+# Method
+## Grid
 Dividing the image into a grid makes the cell containing an object's center responsible for that object.
 That assignment of responsibility is YOLO's core.
 
-### Bounding boxes and class probabilities
+## Bounding boxes and class probabilities
 Each cell emits $B$ bounding boxes and $C$ class probabilities.
 
 $$
@@ -62,7 +60,7 @@ $$
 \Pr(\text{Class}_i \mid \text{Object}) \cdot \Pr(\text{Object}) \cdot \text{IoU}
 $$
 
-### Multi-part loss
+## Multi-part loss
 YOLO v1 learns localization, confidence, and class error as a single sum. Transcribing the paper's notation simply:
 
 $$
@@ -96,7 +94,7 @@ $\mathbb{1}_{ij}^{\mathrm{obj}}$ is 1 when the $j$-th box of the $i$-th cell is 
 
 The important point is that detection is not split into separate classification and localization pipelines; both are optimized together inside one regression objective.
 
-## The one-stage tradeoff
+# The one-stage tradeoff
 What YOLO gains is clear.
 
 - It is fast
@@ -111,7 +109,7 @@ So is the cost.
 
 YOLO gains speed and simplicity at the price of dense precision.
 
-## How to read the later versions
+# How to read the later versions
 When looking at later YOLO versions, the version number itself is not what matters.
 The core question is "how to reduce the coarseness of the grid and the assignment problem while keeping one-stage speed."
 
@@ -122,7 +120,7 @@ So the later improvements generally head in these directions.
 - Making assignment more precise
 - Strengthening the backbone and the head
 
-## Limitations
+# Limitations
 YOLO v1's limitations follow directly from its structure.
 
 - Grid-based responsibility assignment is rigid
@@ -130,7 +128,7 @@ YOLO v1's limitations follow directly from its structure.
 - Localization and classification are never fully separated
 - Real-time performance is good, but precision can lag two-stage methods
 
-## A simple idea for solving this
+# A simple idea for solving this
 If speed comes first, keep one-stage; if accuracy matters more, reinforce these first.
 
 - Add denser features and multi-scale representations
@@ -139,7 +137,7 @@ If speed comes first, keep one-stage; if accuracy matters more, reinforce these 
 
 This preserves YOLO's strengths while gradually reducing the grid's weaknesses.
 
-## References
+# References
 - [Yolo V1 Notion](https://app.notion.com/p/340fb10f650181978f97fe76928784db)
 - [Computer Vision Notion](https://app.notion.com/p/374fb10f6501808780eadc667ec72fee)
 - [Redmon et al., 2015, YOLO](https://arxiv.org/abs/1506.02640)

@@ -20,9 +20,7 @@ connection: "Fiber, JS heap, lifetime partitions, garbage collection, state owne
 tags: ["react", "fiber", "memory", "state-management", "moment-coffee"]
 ---
 
-# React Has No Memory of Its Own
-
-## 1. One sentence caught my eye
+# 1. One sentence caught my eye
 
 While working out where TanStack Query's cache lives in [part 3](/en/notes/server-state-as-cache/), I ran into this explanation:
 
@@ -34,7 +32,7 @@ But the sentence stuck. **If the data doesn't travel through Context, where does
 
 Context is a channel React provides. Not using that channel means going outside React — and I couldn't picture where exactly "outside React" was.
 
-## 2. So here was my guess
+# 2. So here was my guess
 
 > React must have **a memory layer of its own** that I don't know about. `useState` lives there, and library caches live in ordinary memory outside it.
 
@@ -51,9 +49,9 @@ Different lifetimes, I figured, must mean different places. And I assumed the na
 
 ---
 
-## 3. What's actually there
+# 3. What's actually there
 
-### 3.1 Physically, it's all one thing
+## 3.1 Physically, it's all one thing
 
 Half the guess collapses right away. **There is no React-only memory region.**
 
@@ -72,7 +70,7 @@ This boundary is real. DOM nodes are C++ objects owned by the browser engine, an
 
 But this isn't a boundary between React and everything else. It's a boundary between **all of JS and the DOM**.
 
-### 3.2 So where does `useState` live? Fiber.
+## 3.2 So where does `useState` live? Fiber.
 
 The other half of the guess is wrong too. **It isn't the virtual DOM.**
 
@@ -112,7 +110,7 @@ When a component unmounts, its fiber is discarded and the hook list hanging off 
 
 The diagram shows two things at once: that **hooks are found by position** (①②③), and that **state disappearing is a lost reference, not a cleanup routine.**
 
-### 3.3 So the real answer is lifetime partitions
+## 3.3 So the real answer is lifetime partitions
 
 There's no "React-only memory," but **partitions with different lifetimes genuinely exist.** Not physical separation — a difference in **who holds a reference, and for how long.**
 
@@ -135,7 +133,7 @@ One more thing surfaces here. **Module scope and the external store have bars of
 
 ---
 
-## 4. Where the guess broke
+# 4. Where the guess broke
 
 To summarize:
 
@@ -147,7 +145,7 @@ To summarize:
 
 The last one is the crux. I thought things were "managed specially because they sit in a special place." In fact it was entirely about **who is holding on to an ordinary object.**
 
-### Three behaviors explained by one table
+## Three behaviors explained by one table
 
 **The cache survives switching tabs and coming back**
 → The QueryCache is held by the `QueryClient` instance, which sits outside the fiber. Unmounting a component doesn't sever that reference.
@@ -158,7 +156,7 @@ The last one is the crux. I thought things were "managed specially because they 
 **A refresh does *not* wipe the cart**
 → Zustand's `persist` pushed the value down into the **browser storage** partition. That's outside the JS heap, so it outlives the page.
 
-### Leaks split here too
+## Leaks split here too
 
 **Fibers are cleaned up on unmount; nobody cleans up an external store.**
 
@@ -166,7 +164,7 @@ That's why TanStack Query has `gcTime` — entries whose subscribers are gone mu
 
 ---
 
-## 5. Consequences — how to decide where state goes
+# 5. Consequences — how to decide where state goes
 
 Once this table is in place, placing state stops being a matter of taste. The question collapses into one:
 
@@ -186,7 +184,7 @@ Conversely, the same table explains why there's no reason to put the menu cache 
 
 ---
 
-## 6. The next question
+# 6. The next question
 
 The guess broke, but a new question appeared.
 

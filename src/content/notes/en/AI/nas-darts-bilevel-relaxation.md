@@ -15,12 +15,10 @@ connection: "By stating architecture search as a train/validation bi-level probl
 tags: ["nas", "darts", "bi-level-optimization", "continuous-relaxation", "hypergradient"]
 ---
 
-# The math of DARTS: from mixed operations to bi-level gradients
-
-## Background
+# Background
 This post is based on my Notion write-up, [DARTS review](https://app.notion.com/p/336fb10f650180f3b126ddf4e00143a3). It starts from the derivations I wrote out while trying to understand the mathematics; I used GPT to restructure the notation and the order of explanation for the blog, then reviewed the result myself against my notes and the original paper. The distinction between the exact hypergradient and the approximation the paper actually uses was drawn after another pass over the DARTS paper.
 
-## 1. Writing a cell as a DAG
+# 1. Writing a cell as a DAG
 A DARTS cell consists of nodes $x^{(i)}$ and directed edges $(i,j)$. Each edge carries a set of candidate operations $\mathcal{O}$.
 
 $$
@@ -33,7 +31,7 @@ $$
 
 The problem is that choosing one $o^{(i,j)}\in\mathcal{O}$ is a discrete decision.
 
-## 2. Turning operation selection into a softmax mixture
+# 2. Turning operation selection into a softmax mixture
 Place an architecture logit $\alpha_o^{(i,j)}$ on each edge and operation.
 
 $$
@@ -51,7 +49,7 @@ $$
 
 Now every operation participates in the weighted sum, so the expression is differentiable in $\alpha$. The network during search is not one discrete architecture but a supernet mixing all candidates.
 
-## 3. Why bi-level
+# 3. Why bi-level
 DARTS has two kinds of variables.
 
 - $w$: network weights such as convolution kernels
@@ -73,7 +71,7 @@ $$
 
 Since the $w^*(\alpha)$ obtained at the lower level enters the upper-level validation loss, this is bi-level optimization.
 
-## 4. Exact hypergradient
+# 4. Exact hypergradient
 Writing the upper objective as
 
 $$
@@ -114,7 +112,7 @@ $$
 
 This exact hypergradient requires a Hessian inverse and a fully optimized $w^*$, so it is expensive to compute in its original form.
 
-## 5. DARTS's one-step approximation
+# 5. DARTS's one-step approximation
 Instead of the full lower-level optimization, DARTS unrolls a single gradient step.
 
 $$
@@ -163,7 +161,7 @@ $$
 
 This is the approximation usually called `second-order DARTS`. It does not mean the exact implicit gradient is being computed.
 
-## 6. First-order DARTS
+# 6. First-order DARTS
 The cheaper variant ignores the path through which $w$ depends on $\alpha$.
 
 $$
@@ -173,7 +171,7 @@ $$
 
 It looks only at the direct effect of $\alpha$ through the mixed operation, discarding how the lower-level update shifts with the architecture. It is faster but the gradient bias can be larger.
 
-## 7. Returning to a discrete architecture
+# 7. Returning to a discrete architecture
 When search finishes, each edge keeps the non-zero operation with the largest $\alpha$, and only the top incoming edges of each node are retained.
 
 $$
@@ -185,19 +183,19 @@ $$
 
 During search it was a mixture of operations; at evaluation it is a single discrete graph. That difference is the discretization gap.
 
-## Limitations
+# Limitations
 - A mixed operation does not faithfully represent standalone operation performance
 - Shared weights create co-adaptation between operations
 - Operations that are easy to optimize, such as skip connections, can dominate early
 - The one-step and first-order approximations can distort the true hypergradient
 - Even with a good validation loss, the argmax-extracted graph may rank differently under standalone retraining
 
-## A simple mitigation
+# A simple mitigation
 Rather than looking only at the magnitude of $\alpha$ during search, one can also measure the perturbation that removing an operation causes in the validation loss. Hessian-sharpness-based early stopping, separating operation from topology, partial channels, and stochastic categorical relaxation each reduce a different bottleneck.
 
 The most important verification is not the search supernet's performance but retraining the selected graph from scratch under an identical recipe and comparing against random search.
 
-## References
+# References
 - [DARTS: Differentiable Architecture Search](https://arxiv.org/abs/1806.09055)
 - [Understanding and Robustifying Differentiable Architecture Search](https://arxiv.org/abs/1909.09656)
 - [PC-DARTS](https://arxiv.org/abs/1907.05737)

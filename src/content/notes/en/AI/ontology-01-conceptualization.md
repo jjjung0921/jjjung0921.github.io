@@ -20,9 +20,7 @@ tags:
   - knowledge representation
 ---
 
-# If One Relation Changes, Does the Concept Change Too?
-
-## Ontology in CS
+# Ontology in CS
 
 In philosophy, Ontology (we will come back to it at the end of this series) is the discipline that studies the nature and structure of what exists. In CS (Computer Science), by contrast, an ontology is not a discipline but an information object or computational artifact — something we build and use. The word "exist" is also used pragmatically here: for an AI system, what exists is what can be represented (Gruber, quoted in Guarino et al. 2009).
 
@@ -42,9 +40,9 @@ Guarino et al. (2009) split this definition into three parts and ask three quest
 
 This post addresses the first question.
 
-## What Is a *Conceptualization*?
+# What Is a *Conceptualization*?
 
-### Conceptualization in everyday terms
+## Conceptualization in everyday terms
 
 
 Suppose a company has four employees: a, b, c, and d.
@@ -58,7 +56,7 @@ In other words, even if two people share a goal, we cannot say they "cooperate" 
 
 Suppose a and b cooperate, and b and c cooperate as well. The pairs $(a,b)$ and $(b,c)$ are not two different relations; they are two instances (tuples) of a single relation, cooperation. That is, underneath the word cooperation lies a shared "concept", and that concept is what decides whether two people are cooperating.
 
-### Conceptualization in logical terms
+## Conceptualization in logical terms
 
 Let us express the example above in logic. We define:
 
@@ -74,7 +72,7 @@ Person, Manager, and Researcher are unary relations (concepts) over a single ent
 
 This pair $(D, R)$ is called an *extensional relational structure*. Genesereth & Nilsson defined exactly this $(D, R)$ as a conceptualization. It is called extensional because each element of $R$ is an ordinary mathematical relation. That is, it is the list of tuples that stand in that relation right now (its extension). This list reflects one particular world state.
 
-#### An extensional relational structure does not capture a conceptualization
+### An extensional relational structure does not capture a conceptualization
 
 Consider $\text{reports-to}$.
 
@@ -90,13 +88,13 @@ But the concept of "reporting to" has not changed. What changed is only who curr
 
 To fix this, we define a world state ($w$), define intensional relations on top of it, and build the conceptualization from those.
 
-#### Meaning is a decision rule
+### Meaning is a decision rule
 
 Let us return to cooperation as defined above. The meaning of cooperation was not the list of pairs currently cooperating. It was a decision rule that tells, using two conditions — declaring a goal and acting on it — whether two people are cooperating. The paper treats this rule as a function: given one behavioral context of the whole company (a world state), it returns the list of pairs actually cooperating in that context.
 
 Treating meaning as a function from worlds to extensions is a tradition that began with Carnap and continued into Montague semantics (why it has to be possible worlds is covered in Part 2). To formalize this function, we first need to pin down what a world state, its input, is.
 
-#### Define the World ($W$)
+### Define the World ($W$)
 
 Let us start by defining a world.
 
@@ -120,7 +118,7 @@ Strictly speaking, a world is an ordered set of world states that the system pas
 >
 > In other words, my confusion came from treating "defining a meaning" and "computing with that meaning" as the same task.
 
-#### Intensional relation (conceptual relation, $\mathcal{R}$)
+### Intensional relation (conceptual relation, $\mathcal{R}$)
 
 An extensional relational structure is unsuitable as a conceptualization because the definition of a relation changes with the world state. 
 
@@ -135,7 +133,7 @@ The paper therefore defines a relation as a function rather than a set of tuples
 
 This way, when the world changes, what changes is the function's value $\rho^n(w)$. The function $\rho^n$ itself (the concept) stays the same. If an extensional relation is "one extension", an intensional relation is "a rule that assigns an extension to each world".
 
-#### Intensional relational structure (conceptualization, $\mathbf{C}$)
+### Intensional relational structure (conceptualization, $\mathbf{C}$)
 
 Building a conceptualization from intensional relations gives 
 
@@ -143,7 +141,7 @@ Building a conceptualization from intensional relations gives
 
 Here $D$ is the universe of discourse, $W$ is the set of possible worlds, and $\mathcal{R}$ is the set of conceptual relations on the domain space $\langle D, W \rangle$.
 
-#### Back to reports-to: one conceptualization, two worlds
+### Back to reports-to: one conceptualization, two worlds
 
 The two situations, before and after a starts reporting to d, are now explained as two different worlds $w_1, w_2$ within the same $\mathbf{C}$.
 
@@ -155,7 +153,7 @@ The two values differ, but there is only one function $\text{reports-to}^2$. So 
 
 For simplicity, the paper assumes that unary relations such as $\text{Person}^1$, $\text{Manager}^1$, and $\text{Researcher}^1$ are rigid. That is, they have the same extension in every world. For example, $\text{Person}^1(w) = D$ for every $w \in W$. No such assumption is made for $\text{reports-to}^2$ and $\text{cooperates-with}^2$: reporting and cooperation can differ from world to world.
 
-## Conclusion
+# Conclusion
 
 Back to the opening question. When one employee's reporting line changes, what changes is the world, not the conceptualization.
 
@@ -163,7 +161,7 @@ If we view a conceptualization as $(D, R)$, a single tuple splits it in two. If 
 
 Still, this definition is only a mathematical structure so far. Why meaning has to be a function over possible worlds is covered in Part 2. How to refer to this structure with the symbols of a language, and how to bind those symbols to the intended concepts (the second question, formal, explicit specification), is covered in Parts 3 and 4.
 
-## References
+# References
 
 - [Guarino, N., Oberle, D., & Staab, S. (2009). What Is an Ontology? In S. Staab & R. Studer (Eds.), *Handbook on Ontologies* (2nd ed., pp. 1–17). Springer.](https://doi.org/10.1007/978-3-540-92673-3_0)
 - [Gruber, T. R. (1993). A Translation Approach to Portable Ontology Specifications. *Knowledge Acquisition*, 5(2), 199–220.](https://doi.org/10.1006/knac.1993.1008)
