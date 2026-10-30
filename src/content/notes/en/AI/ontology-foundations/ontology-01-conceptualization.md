@@ -38,6 +38,8 @@ Guarino et al. (2009) split this definition into three parts and ask three quest
 2. What is proper *formal, explicit specification*?
 3. Why is *'shared'* of importance?
 
+This series uses the formalization of Guarino et al. (2009) as its lens. It is not the only definition of an ontology; the different view of Neuhaus (2018) is discussed in Part 5.
+
 This post addresses the first question.
 
 # What Is a *Conceptualization*?
@@ -90,7 +92,7 @@ To fix this, we define a world state ($w$), define intensional relations on top 
 
 ### Meaning is a decision rule
 
-Let us return to cooperation as defined above. The meaning of cooperation was not the list of pairs currently cooperating. It was a decision rule that tells, using two conditions — declaring a goal and acting on it — whether two people are cooperating. The paper treats this rule as a function: given one behavioral context of the whole company (a world state), it returns the list of pairs actually cooperating in that context.
+Let us return to cooperation as defined above. The meaning of cooperation was not the list of pairs currently cooperating. It was a decision rule that tells, using two conditions — declaring a goal and acting on it — whether two people are cooperating. Guarino et al. (2009) treat this rule as a function: given one behavioral context of the whole company (a world state), it returns the list of pairs actually cooperating in that context.
 
 Treating meaning as a function from worlds to extensions is a tradition that began with Carnap and continued into Montague semantics (why it has to be possible worlds is covered in Part 2). To formalize this function, we first need to pin down what a world state, its input, is.
 
@@ -98,12 +100,12 @@ Treating meaning as a function from worlds to extensions is a tradition that beg
 
 Let us start by defining a world.
 
-Given a system ($S$) that we model, assign one value to every observed variable that characterizes $S$. The single state determined this way is called a world state. Because it fixes everything that can be observed, the paper calls it a maximal observable state of affairs.
+Given a system ($S$) that we model, assign one value to every observed variable that characterizes $S$. The single state determined this way is called a world state. Because it fixes everything that can be observed, Guarino et al. (2009) call it a maximal observable state of affairs.
 
-Strictly speaking, a world is an ordered set of world states that the system passes through over time. For simplicity, however, the paper abstracts away from time and treats a world state and a world as the same thing. The set of possible worlds (a kind of set of all parallel worlds) is written $W$, and one of its elements is written $w \in W$.
+Strictly speaking, a world is an ordered set of world states that the system passes through over time. For simplicity, however, Guarino et al. (2009) abstract away from time and treats a world state and a world as the same thing. The set of possible worlds (a kind of set of all parallel worlds) is written $W$, and one of its elements is written $w \in W$.
 
 > [!interpretation] My interpretation: Doesn't adding W blow up the computation?
-> My first question on reading this definition was about computational cost. In the paper's example, with 50,000 employees and a single goal, each employee has two observed variables: does the employee have the goal, and is the employee actually acting to achieve it? We are not counting pairs of employees. Each employee contributes two Boolean values, so there are $50{,}000 + 50{,}000 = 100{,}000$ variables.
+> My first question on reading this definition was about computational cost. In the example of Guarino et al. (2009), with 50,000 employees and a single goal, each employee has two observed variables: does the employee have the goal, and is the employee actually acting to achieve it? We are not counting pairs of employees. Each employee contributes two Boolean values, so there are $50{,}000 + 50{,}000 = 100{,}000$ variables.
 >
 > A world state is one combination of values of these variables, so if every combination is allowed, $|W| = 2^{100000}$. The output side is large too. For finite $D$, $|D^n| = |D|^n$ and $|2^{D^n}| = 2^{|D|^n}$, so a binary relation over 50,000 employees is one of $2^{50000^2}$ candidates. If we had to fix such a relation for every world, the size would be far beyond anything computable.
 > 
@@ -122,14 +124,14 @@ Strictly speaking, a world is an ordered set of world states that the system pas
 
 An extensional relational structure is unsuitable as a conceptualization because the definition of a relation changes with the world state. 
 
-The paper therefore defines a relation as a function rather than a set of tuples. It is a total function that takes one world state $w$ as input and returns the single $n$-ary relation $\rho^n(w) \subseteq D^n$ that holds in that world. The paper calls this an intensional relation, or, to stress its link with conceptualizations, a conceptual relation.
+Guarino et al. (2009) therefore define a relation as a function rather than a set of tuples. It is a total function that takes one world state $w$ as input and returns the single $n$-ary relation $\rho^n(w) \subseteq D^n$ that holds in that world. They call this an intensional relation, or, to stress its link with conceptualizations, a conceptual relation.
 
 - $\rho^n: W \rightarrow 2^{D^n}$
 
 - $n$ is the arity of the relation (the number of arguments). Person has $n=1$, and reports-to has $n=2$.
 - $D^n$ is the Cartesian product, and $2^{D^n} = \mathcal{P}(D^n)$ is its power set (the set of all possible $n$-ary relations on $D$). This is not the output value but the codomain the output belongs to. The actual output is one element of it.
 - Because it is a total function, exactly one output is fixed for every $w$.
-- The paper calls the pair $\langle D, W \rangle$ a domain space, meaning that it fixes the range over which relations on $D$ can vary with the world state.
+- Guarino et al. (2009) call the pair $\langle D, W \rangle$ a domain space, meaning that it fixes the range over which relations on $D$ can vary with the world state.
 
 This way, when the world changes, what changes is the function's value $\rho^n(w)$. The function $\rho^n$ itself (the concept) stays the same. If an extensional relation is "one extension", an intensional relation is "a rule that assigns an extension to each world".
 
@@ -151,7 +153,7 @@ The two situations, before and after a starts reporting to d, are now explained 
 
 The two values differ, but there is only one function $\text{reports-to}^2$. So there is only one conceptualization $\mathbf{C}$.
 
-For simplicity, the paper assumes that unary relations such as $\text{Person}^1$, $\text{Manager}^1$, and $\text{Researcher}^1$ are rigid. That is, they have the same extension in every world. For example, $\text{Person}^1(w) = D$ for every $w \in W$. No such assumption is made for $\text{reports-to}^2$ and $\text{cooperates-with}^2$: reporting and cooperation can differ from world to world.
+For simplicity, Guarino et al. (2009) assume that unary relations such as $\text{Person}^1$, $\text{Manager}^1$, and $\text{Researcher}^1$ are rigid. That is, they have the same extension in every world. For example, $\text{Person}^1(w) = D$ for every $w \in W$. No such assumption is made for $\text{reports-to}^2$ and $\text{cooperates-with}^2$: reporting and cooperation can differ from world to world.
 
 # Conclusion
 
@@ -171,3 +173,4 @@ Still, this definition is only a mathematical structure so far. Why meaning has 
 - Carnap, R. (1956). *Meaning and Necessity: A Study in Semantics and Modal Logic* (2nd ed.). The University of Chicago Press.
 - Dowty, D. R., Wall, R. E., & Peters, S. (1981). *Introduction to Montague Semantics*. D. Reidel.
 - [Baader, F., Calvanese, D., McGuinness, D. L., Nardi, D., & Patel-Schneider, P. F. (Eds.). (2007). *The Description Logic Handbook* (2nd ed.). Cambridge University Press.](https://doi.org/10.1017/CBO9780511711787)
+- [Neuhaus, F. (2018). What is an Ontology? arXiv:1810.09171.](https://arxiv.org/abs/1810.09171)

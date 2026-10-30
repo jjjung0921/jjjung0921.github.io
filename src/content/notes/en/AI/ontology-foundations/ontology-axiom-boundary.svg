@@ -1,0 +1,60 @@
+<svg viewBox="0 0 680 380" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="t d">
+  <title id="t">The boundary drawn by axioms and the narrowing of a mapping</title>
+  <desc id="d">Three panels. Left: the commitment in the head points exactly at the extensions the concept allows among the candidates. Middle: the boundary of loose axioms lets in extensions that are not allowed. Right: the boundary of axioms that are too narrow cuts off some allowed extensions.</desc>
+  <style>
+    text { font-family: -apple-system, 'Apple SD Gothic Neo', 'Noto Sans KR', sans-serif; fill: #1a1a18; font-size: 12px; }
+    .h { font-size: 14px; font-weight: 500; }
+    .box { fill: none; stroke: #9b9b95; stroke-width: 0.8; }
+    .ok { fill: #E1F5EE; stroke: #0F6E56; stroke-width: 1; }
+    .ok-faint { fill: #E1F5EE; stroke: #0F6E56; stroke-width: 0.6; opacity: 0.6; }
+    .bd { fill: none; stroke: #534AB7; stroke-width: 1.5; stroke-dasharray: 5 4; }
+    .in { fill: #1D9E75; } .cut { fill: none; stroke: #1D9E75; stroke-width: 1.5; }
+    .no { fill: #888780; } .bad { fill: #D85A30; }
+    @media (prefers-color-scheme: dark) {
+      text { fill: #f4f1ea; } .box { stroke: #5c5a54; }
+      .ok, .ok-faint { fill: #085041; stroke: #5DCAA5; }
+      .bd { stroke: #AFA9EC; } .in { fill: #5DCAA5; } .cut { stroke: #5DCAA5; }
+      .no { fill: #888780; } .bad { fill: #F0997B; }
+    }
+  </style>
+  <text class="h" x="135" y="50" text-anchor="middle">ℐ in the head</text>
+  <text class="h" x="340" y="50" text-anchor="middle">Loose axioms</text>
+  <text class="h" x="545" y="50" text-anchor="middle">Axioms too narrow</text>
+  <rect class="box" x="40" y="64" width="190" height="200" rx="4"/>
+  <rect class="box" x="245" y="64" width="190" height="200" rx="4"/>
+  <rect class="box" x="450" y="64" width="190" height="200" rx="4"/>
+  <ellipse class="ok" cx="135" cy="164" rx="55" ry="45"/>
+  <ellipse class="ok-faint" cx="340" cy="164" rx="55" ry="45"/>
+  <ellipse class="ok-faint" cx="545" cy="164" rx="55" ry="45"/>
+  <ellipse class="bd" cx="340" cy="164" rx="80" ry="68"/>
+  <ellipse class="bd" cx="530" cy="159" rx="38" ry="32"/>
+  <g class="in">
+    <circle cx="105" cy="149" r="5"/><circle cx="140" cy="139" r="5"/><circle cx="165" cy="164" r="5"/><circle cx="120" cy="184" r="5"/><circle cx="150" cy="189" r="5"/><circle cx="100" cy="174" r="5"/>
+    <circle cx="310" cy="149" r="5"/><circle cx="345" cy="139" r="5"/><circle cx="370" cy="164" r="5"/><circle cx="325" cy="184" r="5"/><circle cx="355" cy="189" r="5"/><circle cx="305" cy="174" r="5"/>
+    <circle cx="515" cy="149" r="5"/><circle cx="550" cy="139" r="5"/><circle cx="530" cy="184" r="5"/><circle cx="510" cy="174" r="5"/>
+  </g>
+  <g class="cut"><circle cx="575" cy="164" r="5"/><circle cx="560" cy="189" r="5"/></g>
+  <g class="no">
+    <circle cx="65" cy="94" r="5"/><circle cx="195" cy="89" r="5"/><circle cx="210" cy="224" r="5"/><circle cx="60" cy="234" r="5"/><circle cx="55" cy="154" r="5"/><circle cx="215" cy="134" r="5"/><circle cx="135" cy="79" r="5"/><circle cx="175" cy="244" r="5"/>
+    <circle cx="73" cy="134" r="5"/><circle cx="190" cy="204" r="5"/><circle cx="135" cy="109" r="5"/>
+    <circle cx="270" cy="94" r="5"/><circle cx="400" cy="89" r="5"/><circle cx="415" cy="224" r="5"/><circle cx="265" cy="234" r="5"/><circle cx="260" cy="154" r="5"/><circle cx="420" cy="134" r="5"/><circle cx="340" cy="79" r="5"/><circle cx="380" cy="244" r="5"/>
+    <circle cx="475" cy="94" r="5"/><circle cx="605" cy="89" r="5"/><circle cx="620" cy="224" r="5"/><circle cx="470" cy="234" r="5"/><circle cx="465" cy="154" r="5"/><circle cx="625" cy="134" r="5"/><circle cx="545" cy="79" r="5"/><circle cx="585" cy="244" r="5"/>
+    <circle cx="483" cy="134" r="5"/><circle cx="600" cy="204" r="5"/><circle cx="545" cy="109" r="5"/>
+  </g>
+  <g class="bad"><circle cx="278" cy="134" r="5"/><circle cx="395" cy="204" r="5"/><circle cx="340" cy="109" r="5"/></g>
+  <text x="135" y="284" text-anchor="middle">Points exactly at them</text>
+  <text x="340" y="284" text-anchor="middle">Disallowed ones get in</text>
+  <text x="545" y="284" text-anchor="middle">Allowed ones drop out</text>
+  <rect class="box" x="60" y="304" width="16" height="12" rx="2"/>
+  <text x="84" y="314">All candidates 2^(Dⁿ)</text>
+  <circle class="in" cx="368" cy="310" r="5"/>
+  <text x="380" y="314">Extensions the concept allows ρ_P(w)</text>
+  <circle class="no" cx="68" cy="334" r="5"/>
+  <text x="84" y="338">Extensions not allowed</text>
+  <circle class="bad" cx="368" cy="334" r="5"/>
+  <text x="380" y="338">Extensions wrongly kept by axioms</text>
+  <line class="bd" x1="60" y1="358" x2="76" y2="358"/>
+  <text x="84" y="362">Boundary drawn by axioms Mod(O)</text>
+  <circle class="cut" cx="368" cy="358" r="5"/>
+  <text x="380" y="362">Extensions wrongly removed by axioms</text>
+</svg>

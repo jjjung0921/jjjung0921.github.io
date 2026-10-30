@@ -1,0 +1,48 @@
+<svg viewBox="0 0 680 500" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="t d">
+  <title id="t">Domain, codomain, and range of the cooperation rule, and the ambiguity of going back</title>
+  <desc id="d">The domain on the left is the world states ①②③, and the codomain on the right is the possible extensions. The cooperation rule sends ① to {(a,b),(b,a)} and both ② and ③ to the empty set. The range is {(a,b),(b,a)} and the empty set; {(a,c)} is in the codomain but outside the range. Going back from the empty set, we cannot tell whether it came from ② or ③, marked with question marks.</desc>
+  <style>
+    text { font-family: -apple-system, 'Apple SD Gothic Neo', 'Noto Sans KR', sans-serif; fill: #1a1a18; font-size: 12px; }
+    .h { font-size: 14px; font-weight: 500; } .big { font-size: 16px; font-weight: 500; } .q { font-size: 18px; font-weight: 500; fill: #534AB7; }
+    .el { fill: none; stroke: #1a1a18; stroke-width: 1.2; }
+    .rg { fill: none; stroke: #534AB7; stroke-width: 1.2; }
+    .fw { fill: none; stroke: #D85A30; stroke-width: 1.5; }
+    .bw { fill: none; stroke: #534AB7; stroke-width: 1.3; stroke-dasharray: 5 4; }
+    .hf { fill: #D85A30; } .hb { fill: #534AB7; }
+    .lead { stroke: #534AB7; stroke-width: 0.8; } .rgt { fill: #534AB7; }
+    @media (prefers-color-scheme: dark) {
+      text { fill: #f4f1ea; } .q { fill: #AFA9EC; } .el { stroke: #f4f1ea; }
+      .rg, .bw, .lead { stroke: #AFA9EC; } .rgt { fill: #AFA9EC; } .fw { stroke: #F0997B; }
+      .hf { fill: #F0997B; } .hb { fill: #AFA9EC; }
+    }
+  </style>
+  <defs>
+    <marker id="af" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="hf" d="M0 1 L10 5 L0 9 z"/></marker>
+    <marker id="ab" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="hb" d="M0 1 L10 5 L0 9 z"/></marker>
+  </defs>
+  <text class="h" x="345" y="30" text-anchor="middle">Cooperation rule ρ: cooperate if both declare the same goal and both act on it</text>
+  <ellipse class="el" cx="180" cy="200" rx="80" ry="150"/>
+  <ellipse class="el" cx="510" cy="200" rx="110" ry="150"/>
+  <ellipse class="rg" cx="510" cy="160" rx="90" ry="95"/>
+  <text class="big" x="180" y="100" text-anchor="middle">①</text>
+  <text class="big" x="180" y="175" text-anchor="middle">②</text>
+  <text class="big" x="180" y="255" text-anchor="middle">③</text>
+  <text class="h" x="510" y="114" text-anchor="middle">{(a,b), (b,a)}</text>
+  <text class="big" x="510" y="210" text-anchor="middle">∅</text>
+  <text class="h" x="510" y="310" text-anchor="middle">{(a,c)}</text>
+  <line class="fw" x1="198" y1="96" x2="462" y2="109" marker-end="url(#af)"/>
+  <line class="fw" x1="198" y1="171" x2="494" y2="201" marker-end="url(#af)"/>
+  <line class="fw" x1="198" y1="251" x2="494" y2="209" marker-end="url(#af)"/>
+  <path class="bw" d="M492 192 Q 350 136 204 162" marker-end="url(#ab)"/>
+  <path class="bw" d="M492 216 Q 350 280 204 258" marker-end="url(#ab)"/>
+  <text class="q" x="350" y="146" text-anchor="middle">?</text>
+  <text class="q" x="350" y="288" text-anchor="middle">?</text>
+  <line class="lead" x1="597" y1="128" x2="618" y2="108"/>
+  <text class="rgt" x="622" y="104">Range</text>
+  <text x="180" y="375" text-anchor="middle">Domain W (world states)</text>
+  <text x="510" y="375" text-anchor="middle">Codomain 2^(D²) (possible extensions)</text>
+  <text x="60" y="412">① a and b declare the same goal and both act on it</text>
+  <text x="60" y="432">② a and b declare the same goal, but b does not act</text>
+  <text x="60" y="452">③ a and b have different goals</text>
+  <text x="60" y="476">Dashed: going back from an extension to a world. From ∅ alone, we cannot tell ② from ③</text>
+</svg>
