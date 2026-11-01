@@ -24,5 +24,7 @@ export default defineConfig({
     '/en/notes/dda-personalized-imitation-rl': '/en/notes/dda-research-map/',
     '/notes/dda-player-state-mcts': '/notes/dda-research-map/',
     '/en/notes/dda-player-state-mcts': '/en/notes/dda-research-map/',
+    '/lab/bilevel-toy': '/lab/',
+    '/en/lab/bilevel-toy': '/en/lab/',
   },
 });

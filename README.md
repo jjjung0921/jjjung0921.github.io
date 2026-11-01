@@ -77,7 +77,7 @@ portfolio/
 - Public pages are static by default.
 - Content is stored in Astro content collections instead of hardcoded UI arrays.
 - KO/EN pages use route-based mirrors such as `/` and `/en/`.
-- Interactivity is isolated to small client-side surfaces, for example `BilevelToyDemo.astro`.
+- Interactivity is isolated to small client-side surfaces, for example `MamlQuadraticDemo.astro`.
 - No backend is required for the current public site.
 - Future backend/cloud services should be added only when a lab entry needs private credentials, persistence, queues, or server compute.
 
