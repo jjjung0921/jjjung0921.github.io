@@ -90,7 +90,7 @@ $\text{reports-to}$를 살펴보자.
 
 보고 관계 하나만 추가됐을 뿐인데 $R' = \{\text{Person}, \text{Manager}, \text{Researcher}, \text{cooperates-with}, \text{reports-to}'\}$이므로 $(D, R) \neq (D, R')$이다. Genesereth & Nilsson의 정의대로라면 튜플 하나 때문에 개념화 자체가 둘로 갈라진 셈이다.
 
-하지만 '보고한다'는 개념은 바뀌지 않았다. 바뀐 것은 지금 누가 누구에게 보고하는지(세계의 상태)뿐이다. Guarino et al. (2009)이 지적하듯 개념화는 세계가 바뀐다고 해서 바뀌어서는 안 된다.
+하지만 '보고한다'는 개념은 바뀌지 않았다. 바뀐 것은 지금 누가 누구에게 보고하는지(세계의 상태)뿐이다. Guarino (1998)가 지적하듯 개념화는 세계가 바뀐다고 해서 바뀌어서는 안 된다.
 
 이를 해결하기 위해 세계 상태(world state, $w$)를 정의하고 그 위에서 intensional relation을 정의해 conceptualization을 한다.
 
@@ -128,7 +128,7 @@ $\text{reports-to}$를 살펴보자.
 
 extensional relation structure가 conceptualization에 적합하지 않은 이유는 World State에 따라서 relation의 정의가 바뀌기 때문이었다. 
 
-Guarino et al. (2009)은 relation을 튜플의 집합 대신 함수로 정의한다. world state $w$ 하나를 입력으로 받아 그 세계에서 성립하는 $n$항 관계 하나 $\rho^n(w) \subseteq D^n$을 돌려주는 total function이다. 이를 intensional relation, 또는 개념화와의 연결을 강조해 conceptual relation이라고 부른다.
+Guarino (1998)는 relation을 튜플의 집합 대신 함수로 정의한다. world state $w$ 하나를 입력으로 받아 그 세계에서 성립하는 $n$항 관계 하나 $\rho^n(w) \subseteq D^n$을 돌려주는 total function이다. 이를 intensional relation, 또는 개념화와의 연결을 강조해 conceptual relation이라고 부른다.
 
 - $\rho^n: W \rightarrow 2^{D^n}$
 
@@ -172,6 +172,7 @@ Guarino et al. (2009)은 단순화를 위해 $\text{Person}^1$, $\text{Manager}^
 # 참고자료
 
 - [Guarino, N., Oberle, D., & Staab, S. (2009). What Is an Ontology? In S. Staab & R. Studer (Eds.), *Handbook on Ontologies* (2nd ed., pp. 1–17). Springer.](https://doi.org/10.1007/978-3-540-92673-3_0)
+- Guarino, N. (1998). Formal Ontology in Information Systems. In N. Guarino (Ed.), *Formal Ontology in Information Systems: Proceedings of FOIS'98* (pp. 3–15). IOS Press.
 - [Gruber, T. R. (1993). A Translation Approach to Portable Ontology Specifications. *Knowledge Acquisition*, 5(2), 199–220.](https://doi.org/10.1006/knac.1993.1008)
 - Borst, W. N. (1997). *Construction of Engineering Ontologies for Knowledge Sharing and Reuse*. PhD thesis, University of Twente.
 - [Studer, R., Benjamins, V. R., & Fensel, D. (1998). Knowledge Engineering: Principles and Methods. *Data & Knowledge Engineering*, 25(1–2), 161–198.](https://doi.org/10.1016/S0169-023X(97)00056-6)
