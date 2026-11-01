@@ -65,7 +65,7 @@ $$
 \text{Mod}(O) = \{\, M \mid \text{모든 } \varphi \in O \text{에 대해 } M \models \varphi \,\}
 $$
 
-ontology를 설계하는 목표는 이 집합이 intended model들의 집합에 최대한 가까워지게 하는 것이다.
+Guarino (1998)에 따르면 ontology를 설계하는 목표는 이 집합이 intended model들의 집합에 최대한 가까워지게 하는 것이다.
 
 $$
 \text{Mod}(O) \approx I_K(L)

@@ -65,7 +65,7 @@ $$
 \text{Mod}(O) = \{\, M \mid M \models \varphi \text{ for every } \varphi \in O \,\}
 $$
 
-The goal of designing an ontology is to make this set as close as possible to the set of intended models.
+Following Guarino (1998), the goal of designing an ontology is to make this set as close as possible to the set of intended models.
 
 $$
 \text{Mod}(O) \approx I_K(L)

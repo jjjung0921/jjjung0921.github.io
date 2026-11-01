@@ -86,7 +86,7 @@ Now suppose a and d also enter a new $\text{reports-to}$ relationship.
 
 Only one reporting line was added, yet $R' = \{\text{Person}, \text{Manager}, \text{Researcher}, \text{cooperates-with}, \text{reports-to}'\}$, so $(D, R) \neq (D, R')$. By Genesereth & Nilsson's definition, a single tuple has split the conceptualization in two.
 
-But the concept of "reporting to" has not changed. What changed is only who currently reports to whom — the state of the world. As Guarino et al. (2009) point out, a conceptualization should not change just because the world changes.
+But the concept of "reporting to" has not changed. What changed is only who currently reports to whom — the state of the world. As Guarino (1998) points out, a conceptualization should not change just because the world changes.
 
 To fix this, we define a world state ($w$), define intensional relations on top of it, and build the conceptualization from those.
 
@@ -124,7 +124,7 @@ Strictly speaking, a world is an ordered set of world states that the system pas
 
 An extensional relational structure is unsuitable as a conceptualization because the definition of a relation changes with the world state. 
 
-Guarino et al. (2009) therefore define a relation as a function rather than a set of tuples. It is a total function that takes one world state $w$ as input and returns the single $n$-ary relation $\rho^n(w) \subseteq D^n$ that holds in that world. They call this an intensional relation, or, to stress its link with conceptualizations, a conceptual relation.
+Guarino (1998) therefore defines a relation as a function rather than a set of tuples. It is a total function that takes one world state $w$ as input and returns the single $n$-ary relation $\rho^n(w) \subseteq D^n$ that holds in that world. They call this an intensional relation, or, to stress its link with conceptualizations, a conceptual relation.
 
 - $\rho^n: W \rightarrow 2^{D^n}$
 
@@ -166,6 +166,7 @@ Still, this definition is only a mathematical structure so far. Why meaning has 
 # References
 
 - [Guarino, N., Oberle, D., & Staab, S. (2009). What Is an Ontology? In S. Staab & R. Studer (Eds.), *Handbook on Ontologies* (2nd ed., pp. 1–17). Springer.](https://doi.org/10.1007/978-3-540-92673-3_0)
+- Guarino, N. (1998). Formal Ontology in Information Systems. In N. Guarino (Ed.), *Formal Ontology in Information Systems: Proceedings of FOIS'98* (pp. 3–15). IOS Press.
 - [Gruber, T. R. (1993). A Translation Approach to Portable Ontology Specifications. *Knowledge Acquisition*, 5(2), 199–220.](https://doi.org/10.1006/knac.1993.1008)
 - Borst, W. N. (1997). *Construction of Engineering Ontologies for Knowledge Sharing and Reuse*. PhD thesis, University of Twente.
 - [Studer, R., Benjamins, V. R., & Fensel, D. (1998). Knowledge Engineering: Principles and Methods. *Data & Knowledge Engineering*, 25(1–2), 161–198.](https://doi.org/10.1016/S0169-023X(97)00056-6)
