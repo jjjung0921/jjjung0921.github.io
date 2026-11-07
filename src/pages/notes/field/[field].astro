@@ -1,0 +1,29 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../../../layouts/Base.astro';
+import NotesIndexView from '../../../components/content/NotesIndexView.astro';
+import NoteRow from '../../../components/content/NoteRow.astro';
+import { filterByLang, sortByDateDesc } from '../../../lib/content/collections';
+import { getNoteFieldLabel, type NoteField } from '../../../lib/content/fields';
+import { fieldPath, getFieldLinks, notesPath } from '../../../lib/content/blog';
+
+export async function getStaticPaths() {
+  const allNotes = await getCollection('notes');
+  return getFieldLinks(allNotes, 'ko').map((link) => ({ params: { field: link.field }, props: { field: link.field } }));
+}
+
+const { field } = Astro.props as { field: NoteField };
+const allNotes = await getCollection('notes');
+const notes = sortByDateDesc(filterByLang(allNotes, 'ko').filter((note) => note.data.field === field));
+const recordCount = filterByLang(await getCollection('records'), 'ko').length;
+const label = getNoteFieldLabel(field, 'ko');
+const alternatePath = getFieldLinks(allNotes, 'en').some((link) => link.field === field)
+  ? fieldPath(field, 'en')
+  : notesPath('en');
+---
+
+<Base title={`${label} · 노트`} page="notes" lang="ko" alternatePath={alternatePath} wide>
+  <NotesIndexView lang="ko" allNotes={allNotes} recordCount={recordCount} title="노트" lede={`${label} 분야의 노트입니다.`} currentField={field}>
+    {notes.map((note) => <NoteRow note={note} showField={false} />)}
+  </NotesIndexView>
+</Base>

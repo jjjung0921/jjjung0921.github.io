@@ -40,12 +40,11 @@ A city, though, is never finished. Once residents move in, their patterns of mov
 - **Dasiro — Seoul Sinkhole Safety Map** *(team)* — deployed hackathon web app; D3.js + Kakao Maps risk visualization and safe-route guidance.
 - **DGU Spring Festival Site** *(team)* — React frontend; ~2.7K active users and ~57K events (Google Analytics).
 
-## Selected Notes
+## Selected Series
 
-- **Performative Prediction** — anticipating the distribution shift a model itself induces
-- **CMA-ES** — updating a search distribution for black-box optimization
-- **BERT** — why bidirectional representation was the central problem
-- **TypeScript type system** — how it statically models JavaScript
+- **[Ontology Foundations](/en/notes/ontology-01-conceptualization/)** (5 parts) — conceptualization, ontological commitment, axioms and intended models: what an ontology does and does not pin down
+- **[Research Roadmap](/en/notes/roadmap-tutorial-personal-agentic-model/)** (4 parts) — narrowing the goal of a model that adapts to one person, stage by stage, through MAML, performative prediction, and bi-level optimization
+- **[Moment Coffee](/en/notes/tenant-split-frontend-backend/)** (4 parts) — decisions from building a multi-tenant ordering app: tenant split, bundlers, server-state caching, and React's memory model
 
 ## Technical
 

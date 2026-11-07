@@ -1,0 +1,19 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import RecordArticle from '../../components/content/RecordArticle.astro';
+import { findTranslation, getEntryPath, getLocalizedStaticPaths } from '../../lib/content/collections';
+import { recordsPath } from '../../lib/content/blog';
+
+export async function getStaticPaths() {
+  return getLocalizedStaticPaths(await getCollection('records'), 'ko', 'record', 'records');
+}
+
+const { record } = Astro.props;
+const translation = findTranslation(await getCollection('records'), record, 'en');
+const alternatePath = translation ? getEntryPath('records', translation) : recordsPath('en');
+---
+
+<Base title={record.data.title} description={record.data.summary} page="notes" lang="ko" alternatePath={alternatePath} wide>
+  <RecordArticle record={record} />
+</Base>

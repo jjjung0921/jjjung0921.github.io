@@ -5,7 +5,7 @@ translationKey: "staged-dda"
 status: "active"
 problem: "상대가 플레이어의 몰입도를 극대화하기 위해 전략을 어떻게 동적으로 조정할 수 있을까?"
 role: "Research prototype designer"
-timeRange: "Active research direction"
+timeRange: "2026.06 – 진행 중"
 stack: ["Bi-level Optimization", "MCTS", "Player Modeling", "Simulation"]
 tags: ["Game", "AI", "Optimization"]
 summary: "동적 난이도 조절을 이중 최적화 문제로 모델링하는 연구형 프로젝트."

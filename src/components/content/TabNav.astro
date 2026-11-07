@@ -1,0 +1,29 @@
+---
+// 분야·기록 유형처럼 정적 경로로 나뉜 목록의 한 줄 탭. 클라이언트 필터가 아니라 링크다.
+interface Tab {
+  label: string;
+  href: string;
+  count: number;
+  current: boolean;
+}
+
+interface Props {
+  label: string;
+  tabs: Tab[];
+}
+
+const { label, tabs } = Astro.props;
+---
+
+<nav class="blog-tabs" aria-label={label}>
+  <ul>
+    {tabs.map((tab) => (
+      <li>
+        <a href={tab.href} aria-current={tab.current ? 'page' : undefined}>
+          {tab.label}
+          <span class="blog-count">{tab.count}</span>
+        </a>
+      </li>
+    ))}
+  </ul>
+</nav>

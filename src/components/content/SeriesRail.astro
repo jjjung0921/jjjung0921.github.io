@@ -1,0 +1,33 @@
+---
+import type { Lang } from '../../lib/content/collections';
+import { seriesIndexPath, type SeriesSummary } from '../../lib/content/blog';
+
+interface Props {
+  lang: Lang;
+  series: SeriesSummary[];
+  limit?: number;
+}
+
+const { lang, series, limit = 6 } = Astro.props;
+const shown = series.slice(0, limit);
+const t = lang === 'ko'
+  ? { heading: '시리즈', count: (n: number) => `${n}편`, latest: '최근', all: `시리즈 ${series.length}개 모두 보기` }
+  : { heading: 'Series', count: (n: number) => `${n} posts`, latest: 'Latest', all: `All ${series.length} series` };
+---
+
+{series.length > 0 && (
+  <aside class="blog-rail" aria-labelledby="series-rail-heading">
+    <h2 id="series-rail-heading" class="blog-rail-heading">{t.heading}</h2>
+    <ul class="blog-series-list">
+      {shown.map((item) => (
+        <li>
+          <a href={item.href}>
+            <span class="blog-series-name">{item.name}<span class="blog-count">{t.count(item.count)}</span></span>
+            <span class="blog-series-latest">{t.latest} · {item.latest.data.title}</span>
+          </a>
+        </li>
+      ))}
+    </ul>
+    {series.length > shown.length && <a class="blog-more-link" href={seriesIndexPath(lang)}>{t.all} →</a>}
+  </aside>
+)}

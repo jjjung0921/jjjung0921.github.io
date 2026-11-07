@@ -72,7 +72,11 @@ If a transformation is reused or tested independently, keep it outside the `.ast
 
 ### Content Translation on `post` Branch
 
-When committing on the `post` branch, every new or changed Korean entry under `src/content/` must have an English counterpart in the same commit, so the language toggle works:
+When committing on the `post` branch, every new or changed Korean entry under `src/content/` must have an English counterpart in the same commit, so the language toggle works. Exception: `src/content/records/` (public book notes and retrospectives) may stay Korean-only.
+
+- Content collections now include `records` (`src/content/records/{ko,en}/{slug}.md`, routes `/records/` and `/en/records/`). Notes lists use static field/series routes (`/notes/field/{field}/`, `/notes/series/{slug}/`) instead of client filters.
+- `npm run dev` also serves `/_write/` (dev-only writer, `src/dev/writer/`), injected by `src/dev/writer/integration.mjs` only when `command === 'dev'`; it is never part of the static build.
+
 
 - Path: replace the `ko/` segment with `en/`. `notes/ko/<field>/<slug>.md` → `notes/en/<field>/<slug>.md`; `projects/ko/<slug>.md` → `projects/en/<slug>.md`; same pattern for `lab/` and `cv/`.
 - Frontmatter: keep the same `translationKey`, set `lang: "en"`, and translate every text field (title, summary, problem, coreIdea, connection, etc.). Keep non-text fields (date, field, category, series, status, tags) aligned with the Korean entry.

@@ -1,0 +1,77 @@
+---
+// 독후감·회고 목록 틀. 기술 노트와 다른 컬렉션이며 분야·시리즈 없이 유형과 날짜로만 찾는다.
+import type { CollectionEntry } from 'astro:content';
+import { filterByLang, sortByDateDesc, type Lang } from '../../lib/content/collections';
+import {
+  getRecordKindLabel,
+  recordKindOrder,
+  recordKindPath,
+  recordsPath,
+  type RecordKind,
+} from '../../lib/content/blog';
+import BlogTypeLinks from './BlogTypeLinks.astro';
+import TabNav from './TabNav.astro';
+import RecordRow from './RecordRow.astro';
+
+interface Props {
+  lang: Lang;
+  allRecords: CollectionEntry<'records'>[];
+  noteCount: number;
+  currentKind: RecordKind | 'all';
+}
+
+const { lang, allRecords, noteCount, currentKind } = Astro.props;
+const records = sortByDateDesc(filterByLang(allRecords, lang));
+const shown = currentKind === 'all' ? records : records.filter((record) => record.data.kind === currentKind);
+const kindTabs = [
+  { label: lang === 'ko' ? '전체' : 'All', href: recordsPath(lang), count: records.length, current: currentKind === 'all' },
+  ...recordKindOrder
+    .map((kind) => ({
+      label: getRecordKindLabel(kind, lang),
+      href: recordKindPath(kind, lang),
+      count: records.filter((record) => record.data.kind === kind).length,
+      current: kind === currentKind,
+    }))
+    .filter((tab) => tab.count > 0),
+];
+const t = lang === 'ko'
+  ? {
+      title: '기록',
+      lede: '읽은 책과 지난 작업을 돌아보며 공개로 남긴 글입니다. 기술 노트와 따로 모읍니다.',
+      empty: '아직 공개한 기록이 없습니다.',
+      about: '기록에 대해',
+      aboutBody: '독후감과 회고는 기술 노트의 분야·시리즈 구조를 따르지 않습니다. 글 유형과 날짜로만 찾습니다.',
+    }
+  : {
+      title: 'Records',
+      lede: 'Public notes on books I read and work I looked back on, kept apart from the technical notes.',
+      empty: 'No English records yet.',
+      about: 'About records',
+      aboutBody: 'Records are mostly written in Korean only. English versions appear here when they exist.',
+    };
+---
+
+<div class="blog-page">
+  <header class="blog-head">
+    <h1 class="blog-title">{t.title}</h1>
+    <p class="blog-lede">{t.lede}</p>
+  </header>
+  <BlogTypeLinks lang={lang} current="records" noteCount={noteCount} recordCount={records.length} />
+  {kindTabs.length > 1 && <TabNav label={lang === 'ko' ? '글 유형' : 'Kinds'} tabs={kindTabs} />}
+  <div class="blog-columns has-rail">
+    <section class="blog-list" aria-label={t.title}>
+      {shown.length > 0
+        ? shown.map((record) => <RecordRow record={record} />)
+        : (
+          <p class="blog-empty">
+            {t.empty}
+            {lang === 'en' && <> <a href={recordsPath('ko')}>See the Korean records →</a></>}
+          </p>
+        )}
+    </section>
+    <aside class="blog-rail">
+      <h2 class="blog-rail-heading">{t.about}</h2>
+      <p class="blog-rail-text">{t.aboutBody}</p>
+    </aside>
+  </div>
+</div>

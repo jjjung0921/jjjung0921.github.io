@@ -1,0 +1,101 @@
+---
+// 기술 노트 상세 본문. ko/en 상세 페이지가 같이 쓴다.
+import KeepHyphens from './KeepHyphens.astro';
+import type { CollectionEntry } from 'astro:content';
+import {
+  getEntryPath,
+  getNoteSeriesNavigation,
+  getNoteSeriesPosition,
+} from '../../lib/content/collections';
+import { getNoteFieldLabel } from '../../lib/content/fields';
+import { fieldPath, formatDate, getReadingMinutes, notesPath, seriesPath } from '../../lib/content/blog';
+import CopyCode from './CopyCode.astro';
+import SeriesNavigation from './SeriesNavigation.astro';
+
+interface Props {
+  note: CollectionEntry<'notes'>;
+  allNotes: CollectionEntry<'notes'>[];
+}
+
+const { note, allNotes } = Astro.props;
+const { lang, field, series } = note.data;
+const { Content, headings } = await note.render();
+const date = note.data.lastUpdated ?? note.data.date;
+const minutes = getReadingMinutes(note.body, lang);
+const position = getNoteSeriesPosition(allNotes, note);
+const seriesNavigation = getNoteSeriesNavigation(allNotes, note);
+
+// 노트 본문은 h1부터 절을 시작한다. 가장 얕은 단계만 목차로 쓴다.
+const topDepth = Math.min(...headings.map((heading) => heading.depth));
+const toc = headings.filter((heading) => heading.depth === topDepth);
+
+const t = lang === 'ko'
+  ? {
+      back: '기술 노트',
+      minutes: `읽는 데 약 ${minutes}분`,
+      series: '시리즈',
+      position: position && `${position.index} / ${position.total}편`,
+      seriesAll: '시리즈 전체 보기',
+      toc: '이 글의 순서',
+      crumb: '위치',
+    }
+  : {
+      back: 'Technical notes',
+      minutes: `About ${minutes} min read`,
+      series: 'Series',
+      position: position && `${position.index} of ${position.total}`,
+      seriesAll: 'See the whole series',
+      toc: 'In this post',
+      crumb: 'Breadcrumb',
+    };
+---
+
+<div class:list={['note-layout', { 'has-toc': toc.length >= 3 }]}>
+  <article class="note-article">
+    <nav class="note-crumb" aria-label={t.crumb}>
+      <a href={notesPath(lang)}>← {t.back}</a>
+      <span aria-hidden="true">/</span>
+      <a href={fieldPath(field, lang)}>{getNoteFieldLabel(field, lang)}</a>
+    </nav>
+    <header class="note-head">
+      <h1 class="note-title"><KeepHyphens text={note.data.title} /></h1>
+      <p class="note-meta">
+        <time datetime={formatDate(date)}>{formatDate(date)}</time>
+        <span>{t.minutes}</span>
+      </p>
+      <p class="note-summary"><KeepHyphens text={note.data.summary} /></p>
+      {series && (
+        <a class="note-series-strip" href={seriesPath(series, lang)}>
+          <span>
+            <span class="note-series-label">{t.series} · {series}</span>
+            {t.position && <span class="note-series-position">{t.position}</span>}
+          </span>
+          <span class="note-series-all">{t.seriesAll} →</span>
+        </a>
+      )}
+    </header>
+    <div class="prose note-prose">
+      <Content />
+    </div>
+    <SeriesNavigation
+      lang={lang}
+      previous={seriesNavigation.previous && {
+        href: getEntryPath('notes', seriesNavigation.previous),
+        title: seriesNavigation.previous.data.title,
+      }}
+      next={seriesNavigation.next && {
+        href: getEntryPath('notes', seriesNavigation.next),
+        title: seriesNavigation.next.data.title,
+      }}
+    />
+  </article>
+  {toc.length >= 3 && (
+    <aside class="note-toc" aria-labelledby="note-toc-heading">
+      <h2 id="note-toc-heading">{t.toc}</h2>
+      <ol>
+        {toc.map((heading) => <li><a href={`#${heading.slug}`}>{heading.text}</a></li>)}
+      </ol>
+    </aside>
+  )}
+</div>
+<CopyCode />

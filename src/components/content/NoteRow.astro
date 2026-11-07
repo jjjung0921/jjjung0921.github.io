@@ -1,0 +1,26 @@
+---
+import KeepHyphens from './KeepHyphens.astro';
+import type { CollectionEntry } from 'astro:content';
+import { getEntryPath } from '../../lib/content/collections';
+import { getNoteFieldLabel } from '../../lib/content/fields';
+import { formatDate } from '../../lib/content/blog';
+
+interface Props {
+  note: CollectionEntry<'notes'>;
+  showField?: boolean;
+}
+
+const { note, showField = true } = Astro.props;
+const { lang, series, field } = note.data;
+const date = note.data.lastUpdated ?? note.data.date;
+---
+
+<a class="blog-row" href={getEntryPath('notes', note)}>
+  <h2 class="blog-row-title"><KeepHyphens text={note.data.title} /></h2>
+  <p class="blog-row-summary"><KeepHyphens text={note.data.summary} /></p>
+  <p class="blog-row-meta">
+    <time datetime={formatDate(date)}>{formatDate(date)}</time>
+    {showField && <span class="blog-row-field">{getNoteFieldLabel(field, lang)}</span>}
+    {series && <span>{series}</span>}
+  </p>
+</a>

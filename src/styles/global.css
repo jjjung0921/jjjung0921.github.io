@@ -189,7 +189,8 @@ svg {
   line-height: 0;
 }
 
-.prose pre:hover .copy-btn {
+.prose pre:hover .copy-btn,
+.prose pre .copy-btn:focus-visible {
   opacity: 1;
 }
 
