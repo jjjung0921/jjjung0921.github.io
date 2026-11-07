@@ -1,0 +1,478 @@
+/* 노트·기록 목록과 상세. Figma "블로그 디자인" 01–05 화면 기준. */
+
+/* 하이픈 단어(bi-level 등)는 줄 끝에서 가르지 않는다. KeepHyphens 참고. */
+.keep-word {
+  white-space: nowrap;
+}
+
+/* ── 목록 공통 ───────────────────────────── */
+.blog-page {
+  display: grid;
+  gap: 2rem;
+  min-width: 0;
+  padding-bottom: var(--space-page-y);
+}
+
+.blog-head {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.blog-title {
+  color: var(--color-ink);
+  font-family: var(--font-display);
+  font-size: var(--text-page-title);
+  font-weight: 650;
+  line-height: 1.2;
+  margin: 0;
+  text-wrap: balance;
+  word-break: keep-all;
+}
+
+.blog-lede {
+  color: var(--color-soft);
+  font-size: var(--text-lede);
+  line-height: 1.65;
+  margin: 0;
+  max-width: 44rem;
+  word-break: keep-all;
+}
+
+.blog-count {
+  color: var(--color-muted);
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  margin-left: 0.4rem;
+}
+
+.blog-type-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.blog-type-links a {
+  align-items: center;
+  border: 1px solid var(--color-line);
+  border-radius: 999px;
+  color: var(--color-soft);
+  display: inline-flex;
+  font-size: 0.875rem;
+  font-weight: 600;
+  min-height: 2.5rem;
+  padding: 0 1rem;
+}
+
+.blog-type-links a:hover {
+  border-color: var(--color-ink);
+  color: var(--color-ink);
+}
+
+.blog-type-links a[aria-current='page'] {
+  background: var(--color-ink);
+  border-color: var(--color-ink);
+  color: var(--color-bg);
+}
+
+.blog-type-links a[aria-current='page'] .blog-count {
+  color: inherit;
+}
+
+.blog-tabs {
+  border-bottom: 1px solid var(--color-line);
+}
+
+.blog-tabs ul {
+  display: flex;
+  gap: 1.75rem;
+  list-style: none;
+  margin: 0;
+  overflow-x: auto;
+  padding: 0 0.25rem;
+  scrollbar-width: none;
+}
+
+.blog-tabs a {
+  align-items: center;
+  border-bottom: 2px solid transparent;
+  color: var(--color-soft);
+  display: inline-flex;
+  min-height: 2.75rem;
+  white-space: nowrap;
+}
+
+.blog-tabs a:hover {
+  color: var(--color-ink);
+}
+
+.blog-tabs a[aria-current='page'] {
+  border-bottom-color: var(--color-ink);
+  color: var(--color-ink);
+  font-weight: 600;
+}
+
+/* 가로 스크롤 탭과 글 행은 바깥 외곽선이 잘리지 않도록 안쪽에 그린다. */
+.blog-tabs a:focus-visible,
+.blog-row:focus-visible {
+  outline-offset: -2px;
+}
+
+.blog-columns {
+  display: grid;
+  gap: 4rem;
+  min-width: 0;
+}
+
+@media (min-width: 1100px) {
+  .blog-columns.has-rail {
+    grid-template-columns: minmax(0, 42.5rem) 17.5rem;
+  }
+}
+
+.blog-list {
+  display: grid;
+  min-width: 0;
+}
+
+.blog-row {
+  border-bottom: 1px solid var(--color-line);
+  border-radius: var(--radius-sm);
+  display: grid;
+  gap: 0.5rem;
+  padding: 1.5rem 0;
+}
+
+.blog-row-title {
+  color: var(--color-ink);
+  font-family: var(--font-display);
+  font-size: 1.375rem;
+  font-weight: 600;
+  line-height: 1.4;
+  margin: 0;
+  text-wrap: balance;
+  word-break: keep-all;
+}
+
+.blog-row:hover .blog-row-title {
+  color: var(--color-accent);
+}
+
+.blog-row-summary {
+  color: var(--color-soft);
+  line-height: 1.65;
+  margin: 0;
+  text-wrap: pretty;
+  word-break: keep-all;
+}
+
+.blog-row-meta,
+.blog-row-kind {
+  align-items: center;
+  color: var(--color-muted);
+  display: flex;
+  flex-wrap: wrap;
+  font-size: 0.8125rem;
+  gap: 0.5rem;
+  margin: 0;
+}
+
+.blog-row-meta > * + *::before {
+  content: '·';
+  margin-right: 0.5rem;
+}
+
+.blog-row-meta time,
+.blog-row-kind time {
+  font-family: var(--font-mono);
+}
+
+.blog-row-field {
+  color: var(--color-accent);
+  font-weight: 600;
+}
+
+.blog-row-kind span {
+  color: var(--color-warm);
+  font-weight: 600;
+}
+
+.blog-row-source {
+  color: var(--color-muted);
+  font-size: 0.8125rem;
+  margin: 0;
+}
+
+.blog-empty {
+  color: var(--color-muted);
+  padding: 1.5rem 0;
+}
+
+.blog-empty a,
+.blog-more-link {
+  color: var(--color-accent);
+  font-weight: 600;
+}
+
+.blog-rail {
+  align-content: start;
+  display: grid;
+  gap: 0.25rem;
+  min-width: 0;
+}
+
+.blog-rail-heading {
+  color: var(--color-ink);
+  font-size: 0.9375rem;
+  margin: 1.5rem 0 0.5rem;
+}
+
+.blog-rail-text {
+  color: var(--color-soft);
+  font-size: 0.875rem;
+  line-height: 1.65;
+  margin: 0;
+}
+
+.blog-series-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.blog-series-list a {
+  border-bottom: 1px solid var(--color-line);
+  display: grid;
+  gap: 0.15rem;
+  padding: 0.75rem 0;
+}
+
+.blog-series-name {
+  color: var(--color-ink);
+  display: flex;
+  font-weight: 600;
+  justify-content: space-between;
+}
+
+.blog-series-list a:hover .blog-series-name {
+  color: var(--color-accent);
+}
+
+.blog-series-latest {
+  color: var(--color-muted);
+  font-size: 0.8125rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.blog-more-link {
+  font-size: 0.875rem;
+  padding-top: 0.875rem;
+}
+
+/* ── 상세 ───────────────────────────────── */
+.note-layout {
+  display: grid;
+  gap: 4rem;
+  min-width: 0;
+  padding-bottom: var(--space-page-y);
+}
+
+@media (min-width: 1200px) {
+  .note-layout.has-toc {
+    grid-template-columns: minmax(0, 42.5rem) 13.75rem;
+  }
+}
+
+.note-article {
+  display: grid;
+  gap: 1.75rem;
+  max-width: 42.5rem;
+  min-width: 0;
+}
+
+.note-crumb {
+  display: flex;
+  font-size: 0.875rem;
+  gap: 0.5rem;
+}
+
+.note-crumb a:first-child {
+  color: var(--color-accent);
+  font-weight: 600;
+}
+
+.note-crumb a:last-child,
+.note-crumb span {
+  color: var(--color-muted);
+}
+
+.note-head {
+  display: grid;
+  gap: 1rem;
+}
+
+.note-title {
+  color: var(--color-ink);
+  font-family: var(--font-display);
+  font-size: clamp(1.75rem, 3vw, 2.5rem);
+  font-weight: 650;
+  line-height: 1.35;
+  margin: 0;
+  overflow-wrap: anywhere;
+  text-wrap: balance;
+  word-break: keep-all;
+}
+
+.note-meta {
+  color: var(--color-muted);
+  display: flex;
+  flex-wrap: wrap;
+  font-size: 0.8125rem;
+  gap: 0.5rem;
+  margin: 0;
+}
+
+.note-meta > * + *::before {
+  content: '·';
+  margin-right: 0.5rem;
+}
+
+.note-meta time {
+  font-family: var(--font-mono);
+}
+
+.note-summary {
+  color: var(--color-soft);
+  font-size: 1.125rem;
+  line-height: 1.7;
+  margin: 0;
+  text-wrap: pretty;
+  word-break: keep-all;
+}
+
+.note-series-strip {
+  align-items: center;
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-md);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  justify-content: space-between;
+  padding: 0.875rem 1rem;
+}
+
+.note-series-strip > span:first-child {
+  display: grid;
+  gap: 0.15rem;
+}
+
+.note-series-label {
+  color: var(--color-muted);
+  font-size: 0.8125rem;
+}
+
+.note-series-position {
+  color: var(--color-ink);
+  font-weight: 600;
+}
+
+.note-series-all {
+  color: var(--color-accent);
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+
+.note-series-strip:hover {
+  border-color: var(--color-accent);
+}
+
+.note-article .note-prose {
+  border-top: 1px solid var(--color-line);
+  font-size: 1.0625rem;
+  line-height: 1.8;
+  padding-top: 2rem;
+  word-break: keep-all;
+}
+
+.note-article .note-prose > * + * {
+  margin-top: 1.5rem;
+}
+
+.note-article .note-prose :is(pre, code, .katex-display) {
+  word-break: normal;
+}
+
+.note-article .note-prose :is(h1, h2, h3) {
+  font-family: var(--font-display);
+  text-wrap: balance;
+}
+
+.note-toc {
+  align-self: start;
+  position: sticky;
+  top: 2rem;
+}
+
+.note-toc h2 {
+  color: var(--color-ink);
+  font-size: 0.875rem;
+  margin: 0 0 0.625rem;
+}
+
+.note-toc ol {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.note-toc a {
+  border-left: 1px solid var(--color-line);
+  color: var(--color-muted);
+  display: block;
+  font-size: 0.8125rem;
+  line-height: 1.5;
+  padding: 0.375rem 0 0.375rem 0.75rem;
+}
+
+.note-toc a:hover {
+  border-left-color: var(--color-accent);
+  color: var(--color-accent);
+}
+
+@media (max-width: 1199px) {
+  .note-toc {
+    display: none;
+  }
+}
+
+@media (max-width: 780px) {
+  .blog-page {
+    gap: 1.25rem;
+  }
+
+  .blog-title {
+    font-size: var(--mobile-title);
+  }
+
+  .blog-row {
+    padding: 1.25rem 0;
+  }
+
+  .blog-row-title {
+    font-size: 1.1875rem;
+  }
+
+  .note-title {
+    font-size: 1.75rem;
+    line-height: 1.38;
+  }
+
+  .note-summary {
+    font-size: 1rem;
+  }
+
+  .note-article .note-prose {
+    font-size: 1rem;
+  }
+}

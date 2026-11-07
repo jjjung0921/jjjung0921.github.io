@@ -1,7 +1,12 @@
 import type { CollectionEntry } from 'astro:content';
 
 export type Lang = 'ko' | 'en';
-type RoutableCollection = 'notes' | 'projects' | 'lab';
+export type RoutableCollection = 'notes' | 'projects' | 'lab' | 'records';
+type RoutableEntry =
+  | CollectionEntry<'notes'>
+  | CollectionEntry<'projects'>
+  | CollectionEntry<'lab'>
+  | CollectionEntry<'records'>;
 
 export interface NoteSeriesNavigation {
   previous?: CollectionEntry<'notes'>;
@@ -58,7 +63,7 @@ function getLastSlugSegment(slug: string): string {
 }
 
 function getPublicSlugFromCollectionSlug(collection: RoutableCollection, slug: string): string {
-  if (collection === 'notes') {
+  if (collection === 'notes' || collection === 'records') {
     return getLastSlugSegment(slug);
   }
 
@@ -67,7 +72,7 @@ function getPublicSlugFromCollectionSlug(collection: RoutableCollection, slug: s
 
 export function getPublicEntrySlug(
   collection: RoutableCollection,
-  entry: CollectionEntry<'notes'> | CollectionEntry<'projects'> | CollectionEntry<'lab'>,
+  entry: RoutableEntry,
 ): string {
   return getPublicSlugFromCollectionSlug(collection, entry.slug);
 }
@@ -112,7 +117,7 @@ export function getLocalizedStaticPaths<TEntry extends LocalizedEntry, TPropName
 
 export function getEntryPath(
   collection: RoutableCollection,
-  entry: CollectionEntry<'notes'> | CollectionEntry<'projects'> | CollectionEntry<'lab'>,
+  entry: RoutableEntry,
 ): string {
   const slug = getPublicEntrySlug(collection, entry);
   const prefix = entry.data.lang === 'en' ? '/en' : '';
@@ -157,4 +162,24 @@ export function getNoteSeriesNavigation(
     previous: orderedSeries[currentIndex - 1],
     next: orderedSeries[currentIndex + 1],
   };
+}
+
+export interface NoteSeriesPosition {
+  index: number;
+  total: number;
+}
+
+export function getNoteSeriesPosition(
+  entries: CollectionEntry<'notes'>[],
+  currentNote: CollectionEntry<'notes'>,
+): NoteSeriesPosition | undefined {
+  const { lang, series } = currentNote.data;
+  if (!series) return undefined;
+
+  const orderedSeries = entries
+    .filter((entry) => entry.data.lang === lang && entry.data.series === series)
+    .sort(compareNotesBySeriesOrder);
+  const index = orderedSeries.findIndex((entry) => entry.slug === currentNote.slug);
+
+  return index === -1 ? undefined : { index: index + 1, total: orderedSeries.length };
 }

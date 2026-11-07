@@ -1,0 +1,14 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import RecordsIndexView from '../../components/content/RecordsIndexView.astro';
+import { filterByLang } from '../../lib/content/collections';
+import { recordsPath } from '../../lib/content/blog';
+
+const allRecords = await getCollection('records');
+const noteCount = filterByLang(await getCollection('notes'), 'ko').length;
+---
+
+<Base title="기록" page="notes" lang="ko" alternatePath={recordsPath('en')} wide>
+  <RecordsIndexView lang="ko" allRecords={allRecords} noteCount={noteCount} currentKind="all" />
+</Base>

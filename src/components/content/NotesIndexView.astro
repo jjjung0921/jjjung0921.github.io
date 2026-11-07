@@ -1,0 +1,44 @@
+---
+// 기술 노트 목록 계열 페이지(전체·분야·시리즈)의 공통 틀. 목록 내용은 slot으로 받는다.
+import type { CollectionEntry } from 'astro:content';
+import { filterByLang, type Lang } from '../../lib/content/collections';
+import type { NoteField } from '../../lib/content/fields';
+import { getFieldLinks, getSeriesSummaries, notesPath } from '../../lib/content/blog';
+import BlogTypeLinks from './BlogTypeLinks.astro';
+import TabNav from './TabNav.astro';
+import SeriesRail from './SeriesRail.astro';
+
+interface Props {
+  lang: Lang;
+  allNotes: CollectionEntry<'notes'>[];
+  recordCount: number;
+  title: string;
+  lede?: string;
+  /** 분야 탭에서 현재 위치. 시리즈 페이지처럼 분야와 무관하면 생략한다. */
+  currentField?: NoteField | 'all';
+  showRail?: boolean;
+}
+
+const { lang, allNotes, recordCount, title, lede, currentField, showRail = true } = Astro.props;
+const noteCount = filterByLang(allNotes, lang).length;
+const fieldTabs = [
+  { label: lang === 'ko' ? '전체' : 'All', href: notesPath(lang), count: noteCount, current: currentField === 'all' },
+  ...getFieldLinks(allNotes, lang).map((link) => ({ ...link, current: link.field === currentField })),
+];
+const series = getSeriesSummaries(allNotes, lang);
+---
+
+<div class="blog-page">
+  <header class="blog-head">
+    <h1 class="blog-title">{title}</h1>
+    {lede && <p class="blog-lede">{lede}</p>}
+  </header>
+  <BlogTypeLinks lang={lang} current="notes" noteCount={noteCount} recordCount={recordCount} />
+  <TabNav label={lang === 'ko' ? '분야' : 'Fields'} tabs={fieldTabs} />
+  <div class:list={['blog-columns', { 'has-rail': showRail }]}>
+    <section class="blog-list" aria-label={title}>
+      <slot />
+    </section>
+    {showRail && <SeriesRail lang={lang} series={series} />}
+  </div>
+</div>

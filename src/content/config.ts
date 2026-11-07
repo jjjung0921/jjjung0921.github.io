@@ -2,7 +2,7 @@ import { defineCollection, z } from 'astro:content';
 
 const lang = z.enum(['ko', 'en']);
 
-const noteSchema = z.object({
+export const noteSchema = z.object({
   title: z.string(),
   lang,
   translationKey: z.string(),
@@ -19,6 +19,18 @@ const noteSchema = z.object({
   coreIdea: z.string(),
   connection: z.string(),
   tags: z.array(z.string()).default([]),
+});
+
+// 공개 독후감·회고. 기술 노트의 problem·coreIdea·connection 없이 자유 서술로 쓴다.
+// 번역은 선택이다: 한국어만 있어도 된다.
+export const recordSchema = z.object({
+  title: z.string(),
+  lang,
+  translationKey: z.string(),
+  date: z.coerce.date(),
+  kind: z.enum(['book', 'retrospective']),
+  source: z.string().optional(),
+  summary: z.string(),
 });
 
 const projectSchema = z.object({
@@ -71,6 +83,7 @@ const cvSchema = z.object({
 
 export const collections = {
   notes: defineCollection({ type: 'content', schema: noteSchema }),
+  records: defineCollection({ type: 'content', schema: recordSchema }),
   projects: defineCollection({ type: 'content', schema: projectSchema }),
   lab: defineCollection({ type: 'content', schema: labSchema }),
   cv: defineCollection({ type: 'content', schema: cvSchema }),

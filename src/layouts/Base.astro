@@ -1,6 +1,7 @@
 ---
 import '../styles/global.css';
 import '../styles/shell.css';
+import '../styles/blog.css';
 import Sidebar from '../components/layout/Sidebar.astro';
 import { siteConfig } from '../siteConfig';
 
@@ -10,6 +11,8 @@ interface Props {
   page: 'home' | 'about' | 'notes' | 'projects' | 'lab' | 'cv';
   lang?: 'ko' | 'en';
   alternatePath?: string;
+  /** 목록·상세에 보조 열(시리즈 레일·목차)이 있는 페이지는 넓은 틀을 쓴다. */
+  wide?: boolean;
 }
 
 const {
@@ -18,6 +21,7 @@ const {
   page,
   lang = 'ko',
   alternatePath,
+  wide = false,
 } = Astro.props;
 
 const siteTitle = lang === 'ko' ? 'Bit City Lab' : 'Bit City Lab';
@@ -70,7 +74,7 @@ const { googleTagManagerId } = siteConfig.analytics;
     <div class="app-shell">
       <Sidebar page={page} lang={lang} alternatePath={alternatePath} />
       <main class="main">
-        <div class="content-frame">
+        <div class:list={['content-frame', { wide }]}>
           <slot />
         </div>
       </main>

@@ -1,0 +1,34 @@
+---
+import KeepHyphens from './KeepHyphens.astro';
+import type { CollectionEntry } from 'astro:content';
+import { formatDate, getRecordKindLabel, recordKindPath, recordsPath } from '../../lib/content/blog';
+
+interface Props {
+  record: CollectionEntry<'records'>;
+}
+
+const { record } = Astro.props;
+const { lang, kind, date, source } = record.data;
+const { Content } = await record.render();
+---
+
+<div class="note-layout">
+  <article class="note-article">
+    <nav class="note-crumb" aria-label={lang === 'ko' ? '위치' : 'Breadcrumb'}>
+      <a href={recordsPath(lang)}>← {lang === 'ko' ? '독후감·회고' : 'Records'}</a>
+      <span aria-hidden="true">/</span>
+      <a href={recordKindPath(kind, lang)}>{getRecordKindLabel(kind, lang)}</a>
+    </nav>
+    <header class="note-head">
+      <h1 class="note-title"><KeepHyphens text={record.data.title} /></h1>
+      <p class="note-meta">
+        <time datetime={formatDate(date)}>{formatDate(date)}</time>
+        {source && <span>{source}</span>}
+      </p>
+      <p class="note-summary"><KeepHyphens text={record.data.summary} /></p>
+    </header>
+    <div class="prose note-prose">
+      <Content />
+    </div>
+  </article>
+</div>

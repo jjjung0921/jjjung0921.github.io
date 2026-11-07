@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="robots" content="noindex" />
+    <title>글쓰기 · dev</title>
+    <style>
+/*TOKENS*/
+/*STYLE*/
+    </style>
+  </head>
+  <body data-options='__OPTIONS__'>
+    <header class="w-top">
+      <span class="w-badge">dev 전용 · 배포 안 됨</span>
+      <label class="w-select">
+        <span>파일</span>
+        <select id="file-select" aria-label="편집할 파일"></select>
+      </label>
+      <span class="w-spacer"></span>
+      <span id="save-state" class="w-state" role="status" aria-live="polite">파일을 고르세요</span>
+      <button type="button" id="new-button" class="w-button">새 글</button>
+      <button type="button" id="check-button" class="w-button primary">공개 전 검사</button>
+    </header>
+
+    <main class="w-split">
+      <section class="w-editor" aria-label="작성">
+        <form id="fields" class="w-fields" autocomplete="off"></form>
+        <details class="w-raw">
+          <summary>frontmatter 원문 (tags 등 폼에 없는 필드)</summary>
+          <textarea id="raw-frontmatter" spellcheck="false" aria-label="frontmatter 원문"></textarea>
+          <button type="button" id="raw-apply" class="w-button">원문으로 저장</button>
+        </details>
+        <label class="w-body-label" for="body">본문 (Markdown)</label>
+        <textarea id="body" class="w-body" spellcheck="false"></textarea>
+      </section>
+
+      <section class="w-preview" aria-label="미리보기">
+        <div class="w-preview-bar">
+          <code id="preview-url" class="w-url">—</code>
+          <span class="w-spacer"></span>
+          <div class="w-segment" role="group" aria-label="미리보기 폭">
+            <button type="button" data-viewport="desktop" aria-pressed="true">데스크톱</button>
+            <button type="button" data-viewport="mobile" aria-pressed="false">모바일 375</button>
+          </div>
+          <button type="button" id="theme-button" class="w-button" aria-pressed="false">다크</button>
+        </div>
+        <div class="w-frame-wrap">
+          <iframe id="preview" title="실제 페이지 미리보기"></iframe>
+        </div>
+      </section>
+    </main>
+
+    <dialog id="new-dialog" class="w-dialog">
+      <form method="dialog" id="new-form">
+        <h2>새 글</h2>
+        <label>유형
+          <select name="collection">
+            <option value="notes">기술 노트</option>
+            <option value="records">독후감·회고</option>
+          </select>
+        </label>
+        <label>언어
+          <select name="lang"><option value="ko">ko</option><option value="en">en</option></select>
+        </label>
+        <label data-notes-only>폴더 (notes/{lang}/ 아래)
+          <input name="folder" list="folder-list" placeholder="AI/research-roadmap" />
+          <datalist id="folder-list"></datalist>
+        </label>
+        <label>slug (공개 주소)
+          <input name="slug" required pattern="[a-z0-9]+(-[a-z0-9]+)*" placeholder="my-new-note" />
+        </label>
+        <label>제목 <input name="title" /></label>
+        <p id="new-error" class="w-error" role="alert"></p>
+        <div class="w-dialog-actions">
+          <button value="cancel" formnovalidate class="w-button">취소</button>
+          <button value="create" class="w-button primary">만들기</button>
+        </div>
+      </form>
+    </dialog>
+
+    <dialog id="check-dialog" class="w-dialog">
+      <form method="dialog">
+        <h2>공개 전 검사</h2>
+        <ul id="check-list" class="w-check"></ul>
+        <p class="w-hint">빌드 검사는 터미널에서: <code>npm run lint && npm run build</code>. 커밋은 commit 스킬로.</p>
+        <div class="w-dialog-actions"><button class="w-button primary">닫기</button></div>
+      </form>
+    </dialog>
+
+    <script type="module" src="/src/dev/writer/editor.ts"></script>
+
+  </body>
+</html>

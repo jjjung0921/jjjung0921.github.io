@@ -1,0 +1,23 @@
+---
+import KeepHyphens from './KeepHyphens.astro';
+import type { CollectionEntry } from 'astro:content';
+import { getEntryPath } from '../../lib/content/collections';
+import { formatDate, getRecordKindLabel } from '../../lib/content/blog';
+
+interface Props {
+  record: CollectionEntry<'records'>;
+}
+
+const { record } = Astro.props;
+const { lang, kind, date, source } = record.data;
+---
+
+<a class="blog-row" href={getEntryPath('records', record)}>
+  <p class="blog-row-kind">
+    <span>{getRecordKindLabel(kind, lang)}</span>
+    <time datetime={formatDate(date)}>{formatDate(date)}</time>
+  </p>
+  <h2 class="blog-row-title"><KeepHyphens text={record.data.title} /></h2>
+  {source && <p class="blog-row-source">{source}</p>}
+  <p class="blog-row-summary"><KeepHyphens text={record.data.summary} /></p>
+</a>

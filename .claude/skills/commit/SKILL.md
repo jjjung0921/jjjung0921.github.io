@@ -15,7 +15,7 @@ Use this skill for every commit in this repo. It exists mainly to guarantee that
    git status --short
    git diff HEAD -- src/content/
    ```
-2. List Korean entries added or changed in this commit: paths under `src/content/` containing a `/ko/` segment (or frontmatter `lang: "ko"`).
+2. List Korean entries added or changed in this commit: paths under `src/content/` containing a `/ko/` segment (or frontmatter `lang: "ko"`). **Skip `src/content/records/`** — public book notes and retrospectives may stay Korean-only; an English version is optional.
 3. For each Korean entry, check its English counterpart:
    - Path: replace the `ko/` segment with `en/` (`notes/ko/<field>/<slug>.md` → `notes/en/<field>/<slug>.md`; same pattern for `projects/`, `lab/`, `cv/`).
    - Pairing: same `translationKey`, `lang: "en"`.
@@ -35,5 +35,5 @@ Match the existing history style: `[Feat]` / `[Fix]` + concise Korean summary (e
 
 ## Scope Notes
 
-- The translation requirement applies to `src/content/` changes on the `post` branch. Non-content commits (styles, config, skills) commit normally after step 5.
+- The translation requirement applies to `src/content/` changes on the `post` branch, except `src/content/records/` (translation optional; `/en/records/` lists English records only when they exist). Non-content commits (styles, config, skills) commit normally after step 5.
 - This skill governs commits made through the agent. Commits run directly in the terminal bypass it — if a past commit slipped through, backfill the missing English entry in the next commit.

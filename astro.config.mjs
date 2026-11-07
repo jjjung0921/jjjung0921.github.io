@@ -4,9 +4,11 @@ import rehypeKatex from 'rehype-katex';
 import remarkMath from 'remark-math';
 import rehypeImageSize from './src/lib/markdown/rehype-image-size.mjs';
 import remarkImageFigure from './src/lib/markdown/remark-image-figure.mjs';
+import devWriter from './src/dev/writer/integration.mjs';
 
 export default defineConfig({
   site: 'https://jjjung0921.github.io',
+  integrations: [devWriter()],
   markdown: {
     rehypePlugins: [rehypeKatex, rehypeImageSize],
     remarkPlugins: [remarkMath, remarkCallout, remarkImageFigure],

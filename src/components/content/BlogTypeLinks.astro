@@ -1,0 +1,26 @@
+---
+import type { Lang } from '../../lib/content/collections';
+import { notesPath, recordsPath } from '../../lib/content/blog';
+
+interface Props {
+  lang: Lang;
+  current: 'notes' | 'records';
+  noteCount: number;
+  recordCount: number;
+}
+
+const { lang, current, noteCount, recordCount } = Astro.props;
+const links = [
+  { id: 'notes', label: lang === 'ko' ? '기술 노트' : 'Technical notes', href: notesPath(lang), count: noteCount },
+  { id: 'records', label: lang === 'ko' ? '독후감·회고' : 'Books & retrospectives', href: recordsPath(lang), count: recordCount },
+];
+---
+
+<nav class="blog-type-links" aria-label={lang === 'ko' ? '글 유형' : 'Post types'}>
+  {links.map((link) => (
+    <a href={link.href} aria-current={link.id === current ? 'page' : undefined}>
+      {link.label}
+      <span class="blog-count">{link.count}</span>
+    </a>
+  ))}
+</nav>

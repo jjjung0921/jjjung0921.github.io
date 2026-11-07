@@ -1,0 +1,22 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../../../layouts/Base.astro';
+import NotesIndexView from '../../../components/content/NotesIndexView.astro';
+import { filterByLang } from '../../../lib/content/collections';
+import { getSeriesSummaries, seriesIndexPath } from '../../../lib/content/blog';
+
+const allNotes = await getCollection('notes');
+const series = getSeriesSummaries(allNotes, 'ko');
+const recordCount = filterByLang(await getCollection('records'), 'ko').length;
+---
+
+<Base title="시리즈" page="notes" lang="ko" alternatePath={seriesIndexPath('en')} wide>
+  <NotesIndexView lang="ko" allNotes={allNotes} recordCount={recordCount} title="시리즈" lede="이어서 읽도록 묶은 글입니다. 최근에 글이 올라온 순서입니다." showRail={false}>
+    {series.map((item) => (
+      <a class="blog-row" href={item.href}>
+        <h2 class="blog-row-title">{item.name}</h2>
+        <p class="blog-row-meta"><span>{`${item.count}편`}</span><span>최근 · {item.latest.data.title}</span></p>
+      </a>
+    ))}
+  </NotesIndexView>
+</Base>
